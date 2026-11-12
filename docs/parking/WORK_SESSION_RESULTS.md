@@ -1570,7 +1570,7 @@ Locked plan: "Test 61" in CAUSAL_FRAMEWORK_PLAN.md, with its audit fixes. Ryan's
 - −6.6% (2–4 main) and −12.9% (2–4 D);
 - −1.6% (all main) and −8.0% (all D).
 
-The real traits do no better than shuffled ones: in 60% (2–4 main) and 35% (2–4 D) of shuffles, chance did as well or better.
+The real traits do no better than chance can explain: in 60% (2–4 main) and 35% (2–4 D) of shuffles, chance did as well or better. (Under D the real traits did a little better than the average shuffle, −10.3% against −12.9%.)
 
 **Reading: FAIL.**
 - Dose, population and city type do not predict a city's parking effect better than one plain average. Forest predictions are about 10% worse on held-out cities.
@@ -1581,4 +1581,10 @@ The real traits do no better than shuffled ones: in 60% (2–4 main) and 35% (2�
 - With dose-0 places out, the forest says nothing about dose 0.
 - D's winsorising and mix weights use the whole cell (test places included), as in Test 54.
 - Only about 4 exurb and 3 rural places sit in each cell, so those city-type columns carry little.
-- The 4-trait run carries Test 54's caveat on the rate before repeal (it shares the before-window with the effect).
+- The 4-trait run carries two caveats:
+  - Test 54's denominator caveat (ACS 2020–24 homes);
+  - the shared before-window caveat from audit fix 1. Rate before repeal shares its before-window with the effect, so any gain from it could be mechanical.
+- **Dose-scaled average against one average** (shown in the CSV): not a planned comparison, and mixed by method.
+  - Under main the dose-scaled average has lower error: 2–4 units 0.3175 against 0.3421, about 7% lower; all homes 4.731 against 4.886, about 3% lower.
+  - Under 2–4 D it has higher error: 0.5244 against 0.5142.
+  - It is not read as evidence that dose predicts. The dose test's pooled ranges include 0.
