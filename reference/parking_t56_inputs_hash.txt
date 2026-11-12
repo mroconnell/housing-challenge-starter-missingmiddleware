@@ -2,3 +2,4 @@
 2026-11-12T02:29:07Z outcome=units_2_4 commit=d8b4d338 sha256(reference/parking_acs_crowding.csv)=5bdf5fba86fef4b9f2137d97407b23bf0509781574615105a0508c6f04e53484
 2026-11-12T02:29:07Z outcome=5plus_units commit=d8b4d338 sha256(reference/parking_acs_crowding.csv)=5bdf5fba86fef4b9f2137d97407b23bf0509781574615105a0508c6f04e53484
 2026-11-12T02:29:07Z outcome=1unit_units commit=d8b4d338 sha256(reference/parking_acs_crowding.csv)=5bdf5fba86fef4b9f2137d97407b23bf0509781574615105a0508c6f04e53484
+2026-11-12T06:14:26Z outcome=units_1_4 commit=4fb1b85d sha256(reference/parking_acs_crowding.csv)=5bdf5fba86fef4b9f2137d97407b23bf0509781574615105a0508c6f04e53484
