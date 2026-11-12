@@ -1993,6 +1993,20 @@ Ryan, 01:36–01:39 UTC:
 - **NY alongside (not headline):** HPD affordable units (hg8x-zxpr). Before-years 2014–2015 only, so only lead −2 against −1 runs; no −5 to −3 leads and no −4 placebo. 2015 is a 421-a rush year, and only HPD-financed projects are covered.
 - Everything else as set above. No count has been read.
 
+**Test 57 audit code rulings (06:28 UTC, audit review of the code at 3497cecb). These override the text above. No count has been read.**
+- **Placebo dates:** −3 and −4 years (fake waves 2013 and 2012 in New York; 2005 and 2004 in San Francisco). Each placebo's after-window ends the year before the real wave.
+- **MDE:** 2.486 × the standard deviation of the main effect's 2,000 bootstrap draws (90% two-sided test, 80% power). Only the spread is reported in `--first`; no centre or percentile.
+- **SF controls:** NCD-Bayview is out, so 40 of the 41 "clean" districts are used.
+- **Manhattan Core:** lots outside the Transit Zone in Manhattan community districts 101–108 are dropped (1,033 band lots). Residential parking has not been required there since 1982, so they are already treated and cannot be controls.
+- **SF planning-areas mask:** DataSF "Planning Areas" (bkzf-eahq, public domain) is used only as a mask. Eastern Neighborhoods RH/RM lots are out of both arms, and Market–Octavia and Eastern Neighborhoods lots are out of the controls. Treatment is set from zoning, never from this layer.
+- **2026-rezoned SF lots:** there is no lot list for Ord. 244-25. The code drops them by zoning name and by requiring a control-type district in the 2009 layer. A lot moved in 2026 from an excluded district into a clean one would still pass. Labelled in the write-up.
+- **HPD:** 30.9% of new-construction buildings (1,468 of 4,755) cannot be placed on a lot. About 1,000 of these have no BBL and no point. Labelled beside the HPD results. `--first` reports the not-placed share by year for the whole city, not split by arm.
+- **DOB NOW placement:** 5.7% of DOB NOW jobs are not placed, vs 2.9% of legacy jobs. This affects only filings from 2021–2023. Labelled. The legacy-only run (after-window to 2020) is the check.
+- **Event years +4 to +7:** shown only. No reading rule uses them.
+- **Write-up notes:**
+  - New York's reference year −1 is 2015, a 421-a rush year.
+  - San Francisco counts 2009 as an after-year, including for Eastern Neighborhoods, whose own effective year is 2009.
+
 ## Test 58: 1–4 unit homes (post hoc; plan committed 2026-11-12 06:14:14 UTC, before any 1–4 count)
 
 **Ryan's ask:** "Can we run it for 1-4 units in parking reform places vs no reform places? And placebo test?" (06:13:44 UTC, cmsg_01C3Z6G8h32D4UwCcjcGMM7qSWuDRfKmUjDj16hfH641Hz)
