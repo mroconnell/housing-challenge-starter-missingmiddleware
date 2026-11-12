@@ -1821,7 +1821,7 @@ Ryan, 01:23–01:26 UTC:
 - **Already seen:** the earlier 2–4 unit result (−0.065, −0.14 to +0.03, 76 places); H2 2–4 buildings; the decomposition; 5+ homes; 2+ homes (−1.09); single-family homes; 52d's 1-unit results; Test 53's all-homes size readings.
 - **New:** 2–4 unit homes by city size (continuous 2010-population slope and the 25,000 split), on the 74-place sample.
 - **Estimand:** the ATT in both weightings, with city size as a moderator (CATE). Applying it to Wisconsin assumes ATU = ATT, and that is stated.
-- **Headline cells (4):** the 2–4 overall effect and the 2–4 size slope, each under the main method and method 2 D, with main weights, estimate columns and all places.
+- **Headline cells (4):** the 2–4 overall effect and the 2–4 size slope, each under the main method and method 2 D, with main weights, estimate columns and all places. The two overall-effect cells are a rerun on an overlapping sample, already measured on 76 places; only the two size-slope cells are new. The write-up says so (audit addendum 2).
 - **Sensitivity cells (70), counted exactly:**
 
   | Group | Cells |
