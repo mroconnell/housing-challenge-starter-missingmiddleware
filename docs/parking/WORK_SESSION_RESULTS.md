@@ -1405,3 +1405,43 @@ Units: homes per 1,000 existing homes a year, with 90% ranges. Wisconsin homes =
 - We can't tell whether removing parking minimums changed 1–4 unit building in these 74 places. Both ranges include 0, and a pre-repeal lead failed.
 - The 1–4 range is about 4 times as wide as the 2–4 range, because single-home building swings a lot from year to year.
 - The scenario line is unchanged.
+
+## Test 57: staggered waves inside cities (NY 2016 Transit Zone; SF 2008–09 case), run 2026-11-12 (outputs 1c132e15, pooled rate 0fa0bbf1)
+
+Locked at c21febf2 and later blocks; Ryan's go at 13:56 UTC. The `--first` counts and MDE were committed first (598875d7) and cleared by the audit. A one-line crash fix (1f52c54e, an array copy, no logic change) came before the full first-step rerun.
+
+Units are homes per 100 eligible lot acres a year, from difference in differences with 90% ranges (2,000 cluster draws of 500 m cells; split cells drawn together).
+
+**Headline: NY 2016, all DOB new-building units, labelled "possibly diluted toward 0".**
+- 637 treated cell parts vs 457 comparison; 888 vs 586 before-window jobs.
+- MDE 27.9. The pooled before-window rate is 41.2 (added after the lock, display only), so the MDE is about 68% of the usual level.
+
+| Run | Main effect | 90% range | Excludes 0 | Leads (−5..−2) excluding 0 | Placebo dates excluding 0 | Reading |
+|---|---|---|---|---|---|---|
+| **ny_dob (headline)** | +26.1 | +8.4 to +45.5 | Yes | −5, −4, −3 (all negative) | none | **pre-trend, not read as an effect** |
+| ny_dob_keepmih | +28.2 | +10.4 to +48.2 | Yes | −5, −4, −3 | none | pre-trend |
+| ny_dob_samezone | +19.1 | +1.1 to +38.3 | Yes | −5 | −3 (+25.7), −4 (+19.0) | pre-trend |
+| ny_dob_legacy2020 | +28.0 | +6.4 to +51.2 | Yes | −5, −4, −3 | none | pre-trend |
+| ny_hpd (alongside) | +6.6 | +1.5 to +11.7 | Yes | (−2 only: no) | cannot run | **too few to read** (14 vs 8 before-window projects; 48–69% of 2014–17 projects not placed) |
+| ny_hpd_keepmih | +7.6 | +2.3 to +13.4 | Yes | (−2 only: no) | cannot run | too few to read |
+| sf_a (case) | +79.3 | +4.7 to +149.0 | Yes | none | none | mechanically "counts", but a case only (see below) |
+
+**What the NY event study shows:**
+- Relative to 2015 (year −1), the Transit Zone side ran about 40–50 lower than the comparison side in 2010–2012 (leads −5 to −3, all excluding 0). It then rose to level by 2014–2015.
+- The after-years (0 to +5) sit near 0 relative to 2015 (−24 to +7, none excluding 0).
+- So the "effect" is a rise that happened **before** the 2016 rule and then held. It is not a jump at 2016.
+- 2015 was the 421-a rush year (year −1, the reference year), which may have lifted it.
+- Year +6 (2022, the second 421-a rush) is +39.6 (−2.8 to +91.3); year +7 is −36.7. These are shown only.
+- The same-zoning edge, the cleanest comparison, has a smaller effect (+19.1) and its placebo dates also exclude 0. A fake 2013 or 2012 "reform" shows the same rise, which again says the rise was under way before 2016.
+- The two arms also differ in level before 2016 (inside: denser, older, more R6–R10 zoning).
+
+**San Francisco (case only):**
+- +79.3 (+4.7 to +149.0). Parking and upzoning came together in the same plans, so they can't be separated.
+- Ord. 112-08 is bundled with wave A's start year, and the recession falls in the early after-years.
+- The MDE is 111.7 against a pooled rate of 11.6, nearly 10 times the usual level. So the range is wide, the year-by-year pattern swings (+175 at year −4; −61 and −56 at years +1 and +2; +273 at +9), and this is not a test.
+
+**Plain reading:**
+- **New York: we can't tell.** Building on the Transit Zone side was already rising against the other side before the 2016 rule, so the before/after gap isn't read as an effect of parking relief.
+- The affordable-units count, which matches the rule best, has too few projects before 2016 to read.
+- San Francisco is a case where parking and upzoning were bundled, and it is too noisy to test.
+- The scenario line is unchanged.
