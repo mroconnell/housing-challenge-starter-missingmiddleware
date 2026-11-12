@@ -170,6 +170,9 @@ def page_fit(k: int, page: np.ndarray, A16: np.ndarray, Acur: np.ndarray, ytop: 
     ci, rj = ((xs - BOX[0]) / STEP).astype(int), ((ytop - ys) / STEP).astype(int)
     ok, okr = (ci >= 0) & (ci < A16.shape[1]), (rj >= 0) & (rj < A16.shape[0])
     Gr, W = P == 1, P == -1
+    M = 30                                                 # score only the interior: the page box can catch title/legend rows
+    interior = np.zeros(P.shape, bool); interior[M:-M, M:-M] = True
+    Gr, W = Gr & interior, W & interior
     out = dict(fit_score=float(sc), ft_per_px=float(s), x0=float(xs[0]), x1=float(xs[-1]), y0=float(ys[-1]), y1=float(ys[0]))
     pxha = (s * FT) ** 2 / 1e4
     for nm, A in (("2016", A16), ("current", Acur)):
