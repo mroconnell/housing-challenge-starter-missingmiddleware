@@ -1765,3 +1765,30 @@ Ryan, 01:23–01:26 UTC:
 4. Ryan's go.
 5. Count.
 6. Write-up to the audit and Ryan.
+
+**Test 56 design review against *The Effect* (Huntington-Klein; chapters 2, 5–8, 10 and 18 read 2026-11-12 at Ryan's request, 01:27 UTC). Written before any count. These additions override the text above where they differ.**
+1. **Research question and estimand (ch. 2, 10):**
+   - **Question:** did repealing residential parking minimums change how many homes the repeal places permitted in 2–4 unit buildings in the 1–3 years after, compared with what they would have permitted otherwise?
+   - **Estimand:** the average effect on the places that repealed (ATT), in two forms. The homes × after-years weighted form is the tool's; the equal-weight form gives one vote per place. City size enters as a moderator: the effect by size (CATE), via the slope and the 25,000 split.
+   - **Wisconsin:** Wisconsin's places have not repealed, so carrying the result to them assumes their effect equals the repealers' (ATU = ATT). That is stated as an assumption, because places that chose to repeal may differ.
+   - **Data mining (ch. 2):** these outcomes were chosen after earlier looks at the same places. With no fresh places left (Tests 54 and 55), within-sample checks stand in for replication: the reported-only rerun, the long set, and placebo dates. The write-up says so.
+2. **Causal diagram and back doors (ch. 5–8):** the Test 52 diagram is reused, with three additions.
+   - **Plex legalization at the same time** is a confounder or bundled treatment. It is handled by the flag-and-drop runs.
+   - **Whether plexes are legal** and **city size** are moderators. They change the effect's size and are not back doors.
+   - **Market demand** stays a back door. The 52a pre-repeal rent and job growth balance is reported for the 2–4 unit sample.
+   - **Not controlled (post-treatment):** 5+ unit permits, project size, parking actually built.
+   - **Collider fix:** the "too few to read" count uses places with any 2–4 unit permits in the **before** window only. Counting after-window permits would select on the outcome.
+3. **Staggered timing (ch. 18):**
+   - Each repeal place is compared, in its own window, with never-repealing look-alikes. This is a stacked design in the spirit of Callaway and Sant'Anna with never-treated controls, not two-way fixed effects, so already-treated places never act as controls.
+   - Pools exclude reformers. The date-aware rule from 52h.1 is rerun as a check for this outcome.
+4. **Parallel trends (ch. 18):**
+   - **Event study:** years −5 to +3 for the 2–4 unit outcome, with the last pre-year (−1) as reference and 90% ranges, judged by size as well as by whether ranges include 0.
+   - **Placebo dates:** −2 and −4 years, inside the pre-period.
+5. **Functional form (ch. 18):** the main reading is in levels (rate per 1,000 existing homes). The Poisson count model gives the multiplicative reading. Parallel trends may hold in one scale and not the other, so if the two disagree in sign, the result is labelled "scale-dependent".
+6. **Regression to the mean (ch. 18):**
+   - The main pools are matched on state and size, not on pre-repeal 2–4 permit levels.
+   - Method 2 matches on pace (all homes).
+   - The write-up reports each place's pre-repeal 2–4 level against its pool's, so a low-start bounce can be seen.
+7. **Spillovers:** the out-of-metro pool check (52g) is rerun for the 2–4 unit outcome under method 2.
+8. **Inference:** place-level resampling (clustered by place) and the placebo spread, as before.
+9. **Subgroups (ch. 10):** a blank result in small or large places does not mean no effect in the other. Each size group is reported with its own range.
