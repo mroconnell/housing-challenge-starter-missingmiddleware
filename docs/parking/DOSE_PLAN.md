@@ -455,3 +455,19 @@ These go to the audit before any count.
 - If any one fails, the dose estimate stays a sensitivity row.
 
 **Ryan go (16:33:27 UTC, cmsg_01C3Z6G8h32D4UwCcjcGMM7qPm2E6o1f1WAc7nHqrxMKSp):** "when you get the okay from audit run these tests". He also wants the result explainable whatever it shows, and notes the benchmark policy could be changed (for example TOD only, or small cities only) and tested separately.
+
+## Audit fixes (16:33 UTC review of a87a1d50 / c66db18 / 3977f76). These override the text above.
+
+1. **Power of condition 1.** Before any effect, the MDE of the gap (full-only minus low-dose-only) is reported, as 2.486 × the SD of the gap's placebo draws. If that MDE is wider than the full-only estimate's 90% range, condition 1 is labelled **"passed, low power"**. That cut is a convention.
+2. **Condition 2 is near-automatic.** More places narrow a through-origin range even when the doses are wrong. The condition is kept, and the write-up says this.
+3. **Which outcome can switch.** Each outcome is judged on its own: all homes against the 74-place all-homes line, and 2–4 units against Test 56. All four conditions must hold under **both** main and D.
+4. **Condition 4 reworded.** With fallback doses dropped, the reading must be unchanged under both methods. That means the same verdict, and, where the range excludes 0, the same sign.
+5. **C10 is partly post-treatment.** For 2015–2019 reforms, 2020 blocks count homes built after the reform. Ryan's pick is kept and labelled. A check recomputes the doses from 2010 blocks for the 2015–2019 transit and district places.
+6. **Doses frozen before any effect.** The full dose table, including fallbacks and the C3 placeholder 50s, is committed with its sha256 before any effect is computed. Any dose coded later is a sensitivity only.
+7. **Identity check first.** With all 74 places at dose 100, the estimator must reproduce today's averages. This runs before the C4 increment doses are applied.
+8. **C5 label.** Leaving partial-reform places in the comparison pools lets a place be both treated and a comparison, which pulls effects toward 0. This is labelled, and the drop-from-pools run is the check.
+9. **Condition 3 defined in code before any count.** It covers:
+   - the dose-fit leads (years −5 to −2, reference −1);
+   - placebo dates −2 and −4, using the same through-origin fit on lead or shifted-date effects.
+   
+   The pre-trend label is on if any lead or placebo date excludes 0 under both methods.
