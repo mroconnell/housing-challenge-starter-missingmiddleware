@@ -20,7 +20,7 @@ import type { ChartGeom } from "./charts";
 import { dec, esc, int } from "./format";
 import { HANDBOOK_BENCHMARK, HANDBOOK_SOURCE } from "./benchmarks";
 import { HOW_WE_COUNT, type ReformKey } from "./howwecount";
-import { BAND_COLOR, CURRENT_LAW_COLOR, drawRangeChart, num, sideStyle, yearShares, type Range90, type SideLine } from "./range";
+import { BAND_COLOR, CURRENT_LAW_COLOR, drawRangeChart, num, SCENARIOS_HEADING, SCENARIOS_NOTE, sideStyle, yearShares, type Range90, type SideLine } from "./range";
 import type { ShellEnv } from "./scenarios/types";
 
 export interface WiHomes { value: number; vintage: string }
@@ -153,11 +153,17 @@ export function renderSummary(main: HTMLElement, o: SummaryInput, env: ShellEnv,
       <div class="chart-box" id="sum-chart${sfx}" data-testid="summary-chart${sfx}"></div>
       <div class="sum-pop" id="${popId}" role="tooltip" data-testid="summary-popup${sfx}" hidden></div>
     </div>
-    <ul class="legend sum-legend" aria-label="Chart key" data-testid="summary-legend${sfx}">
+    <div class="sum-key" role="group" aria-label="Chart key" data-testid="summary-legend${sfx}">
+    <ul class="legend sum-legend">
       <li><svg class="key-sw" width="36" height="14" aria-hidden="true" focusable="false"><line x1="0" x2="36" y1="7" y2="7" stroke="${CURRENT_LAW_COLOR}" stroke-width="2" stroke-dasharray="7 5"/></svg>${esc(extra ? "Current law: the zero line" : o.currentLawLabel ?? `Current law (${o.baseName}; its range shaded grey)`)}</li>
       <li><svg class="key-sw" width="36" height="14" aria-hidden="true" focusable="false"><rect x="0" y="2" width="36" height="10" fill="${BAND_COLOR}" opacity="0.28"/></svg>With the law: 90% range, ${esc(fmt(R.low))} to ${esc(fmt(R.high))} ${esc(unitShort)}${extra ? "" : " (on top of current law)"}</li>
-      ${drawn.map((s, i) => { const st = sideStyle(i); return `<li><button type="button" class="sum-side" data-side="${esc(s.id)}" aria-describedby="${popId}"><svg class="key-sw" width="36" height="14" aria-hidden="true" focusable="false"><line x1="0" x2="36" y1="7" y2="7" stroke="${st.color}" stroke-width="2" ${st.dash ? `stroke-dasharray="${st.dash}"` : ""}/></svg>${esc(s.label)}: ${esc(fmt(s.value!))}${o.sideNotes?.[s.id] ? ` ${esc(o.sideNotes[s.id])}` : ""}</button></li>`; }).join("")}
     </ul>
+    ${drawn.length ? `<div class="sum-scen-head${big ? " sum-scen-head-big" : ""}"><h3 class="sum-scen-h" data-testid="summary-scenarios-h${sfx}">${esc(SCENARIOS_HEADING)}</h3>
+    <p class="small muted sum-scen-note" data-testid="summary-scenarios-note${sfx}">${esc(SCENARIOS_NOTE)}</p></div>
+    <ul class="legend sum-legend sum-legend-scen">
+      ${drawn.map((s, i) => { const st = sideStyle(i); return `<li><button type="button" class="sum-side" data-side="${esc(s.id)}" aria-describedby="${popId}"><svg class="key-sw" width="36" height="14" aria-hidden="true" focusable="false"><line x1="0" x2="36" y1="7" y2="7" stroke="${st.color}" stroke-width="2" ${st.dash ? `stroke-dasharray="${st.dash}"` : ""}/></svg>${esc(s.label)}: ${esc(fmt(s.value!))}${o.sideNotes?.[s.id] ? ` ${esc(o.sideNotes[s.id])}` : ""}</button></li>`; }).join("")}
+    </ul>` : ""}
+    </div>
     ${o.legendNote ? `<p class="small muted sum-legend-note" data-testid="summary-legend-note${sfx}">${esc(o.legendNote)}</p>` : ""}
     <div class="sum-years" role="group" aria-label="Details for one year" data-testid="summary-years${sfx}"><span class="small muted" aria-hidden="true">Year details:</span>${YEARS.map((y) => `<button type="button" class="sum-year" data-year="${y}" aria-describedby="${popId}">${y}</button>`).join("")}</div>`;
   };
@@ -212,7 +218,7 @@ export function renderSummary(main: HTMLElement, o: SummaryInput, env: ShellEnv,
       <fieldset class="seg" data-testid="toggle-show"><legend>Chart shows</legend>${radio("sum-show", "totals", "Totals with current law", !extra)}${radio("sum-show", "extra", "Extra homes only", extra)}</fieldset>
       <fieldset class="seg" data-testid="toggle-timing" ${hasRamp ? "" : 'disabled aria-describedby="sum-noramp"'}><legend>Timing</legend>${radio("sum-timing", "measured", "Measured", !flat, !hasRamp)}${radio("sum-timing", "flat", "Flat", flat, !hasRamp)}
         ${hasRamp ? "" : `<p class="small muted sum-noramp" id="sum-noramp" data-testid="no-ramp">This reform has no measured ramp.</p>`}</fieldset>
-      ${o.sideLines.some((s) => s.value !== undefined) ? `<fieldset class="seg" data-testid="toggle-lines"><legend>Side lines</legend>${radio("sum-lines", "on", "Show", linesOn)}${radio("sum-lines", "off", "Hide", !linesOn)}</fieldset>` : ""}
+      ${o.sideLines.some((s) => s.value !== undefined) ? `<fieldset class="seg" data-testid="toggle-lines"><legend>Scenarios</legend>${radio("sum-lines", "on", "Show", linesOn)}${radio("sum-lines", "off", "Hide", !linesOn)}</fieldset>` : ""}
     </div>
     ${chartBlock(false)}
     <p><button type="button" class="linkish" id="sum-table-btn" aria-expanded="false" aria-controls="sum-table-wrap" data-testid="summary-table-toggle">Show as a table</button></p>
@@ -229,7 +235,7 @@ export function renderSummary(main: HTMLElement, o: SummaryInput, env: ShellEnv,
   <dialog class="sum-dialog" id="sum-dialog" aria-labelledby="sum-dialog-h" data-testid="summary-dialog">
     <div class="sum-dialog-head"><h2 id="sum-dialog-h">${esc(chartHeading)}</h2>
       <button type="button" class="sum-dialog-close" id="sum-dialog-close" data-testid="summary-dialog-close">Close</button></div>
-    <p class="small muted" data-testid="summary-dialog-state">${esc(`Numbers: ${per ? "per 1,000 Wisconsin homes" : "total"}. Chart shows: ${extra ? "extra homes only" : "totals with current law"}. Timing: ${flat ? "flat" : "measured"}. Side lines: ${linesOn ? "shown" : "hidden"}.`)}</p>
+    <p class="small muted" data-testid="summary-dialog-state">${esc(`Numbers: ${per ? "per 1,000 Wisconsin homes" : "total"}. Chart shows: ${extra ? "extra homes only" : "totals with current law"}. Timing: ${flat ? "flat" : "measured"}. Comparison scenarios: ${linesOn ? "shown" : "hidden"}.`)}</p>
     <div class="sum-dialog-body" id="sum-dialog-body"></div>
   </dialog>
 
@@ -247,7 +253,7 @@ export function renderSummary(main: HTMLElement, o: SummaryInput, env: ShellEnv,
     }));
   bindRadio("sum-per", "per", "total", (v) => (v === "1000" ? "Numbers per 1,000 Wisconsin homes." : "Numbers as totals."));
   bindRadio("sum-show", "show", "extra", (v) => (v === "extra" ? "Chart shows only the extra homes from the law. Current law is the zero line." : "Chart shows totals with current law."));
-  bindRadio("sum-lines", "lines", "on", (v) => (v === "off" ? "Side lines hidden. The range and current law stay." : "Side lines shown."));
+  bindRadio("sum-lines", "lines", "on", (v) => (v === "off" ? "Comparison scenarios hidden. The range and current law stay." : "Comparison scenarios shown."));
   bindRadio("sum-timing", "timing", "measured", (v) => (v === "flat" ? "Timing: flat, the five-year total spread evenly." : "Timing: measured."));
 
   const tbtn = main.querySelector<HTMLButtonElement>("#sum-table-btn")!;
@@ -348,7 +354,7 @@ export function renderSummary(main: HTMLElement, o: SummaryInput, env: ShellEnv,
       pop.dataset.kind = "side";
       pop.dataset.side = id;
       delete pop.dataset.year;
-      pop.innerHTML = `<p class="sum-pop-h"><span class="sw" style="background:${sideStyle(j).color}" aria-hidden="true"></span><strong>${esc(s.label)}</strong></p>
+      pop.innerHTML = `<p class="small muted sum-pop-kind">Comparison scenario</p><p class="sum-pop-h"><span class="sw" style="background:${sideStyle(j).color}" aria-hidden="true"></span><strong>${esc(s.label)}</strong></p>
         <p><strong data-testid="pop-side-value">${fmt(s.value!)}</strong> ${esc(unitShort)}, 2027–2031</p>
         <p class="small" data-testid="pop-side-note">${esc(s.note)}</p>`;
       cross(null);
@@ -392,7 +398,7 @@ export function renderSummary(main: HTMLElement, o: SummaryInput, env: ShellEnv,
     dlg.showModal();
     closeBtn.focus();
     // as tall as the window allows, leaving room for the heading, the key and the year buttons
-    const room = dlg.clientHeight - (dbody.offsetTop + (dbody.querySelector<HTMLElement>(".sum-legend")?.offsetHeight ?? 0) + (dbody.querySelector<HTMLElement>(".sum-years")?.offsetHeight ?? 0) + 72);
+    const room = dlg.clientHeight - (dbody.offsetTop + (dbody.querySelector<HTMLElement>(".sum-key")?.offsetHeight ?? 0) + (dbody.querySelector<HTMLElement>(".sum-years")?.offsetHeight ?? 0) + 72);
     mountChart(dbody, true, Math.max(300, Math.round(room)));
   });
   closeBtn.addEventListener("click", () => dlg.close());

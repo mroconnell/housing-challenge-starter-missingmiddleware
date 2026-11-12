@@ -382,7 +382,7 @@ function forestRows(ctx: Ctx, r: Row): string {
   }
   const lines = ctx.b.state.side_lines.filter((x) => x.where === "chart" && x.value !== undefined);
   const fiveYr = ws.year === 2031;
-  return fiveYr && lines.length ? `<dt>Side lines, at this area's share (context, not the result)</dt><dd data-testid="detail-side-lines">${lines.map((x) => `${esc(x.label)}: ${small(x.value! * share)}`).join("; ")}</dd>` : "";
+  return fiveYr && lines.length ? `<dt>Comparison scenarios, at this area's share (context, not the result)</dt><dd data-testid="detail-side-lines">${lines.map((x) => `${esc(x.label)}: ${small(x.value! * share)}`).join("; ")}</dd>` : "";
 }
 
 function districtDetail(ctx: Ctx, el: HTMLElement, r: Row): void {

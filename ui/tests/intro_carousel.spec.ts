@@ -41,7 +41,7 @@ test("three slides render from the bundle, each one link to its screen", async (
   await expect(page.locator('[data-thumb="sens"] .vs-row')).toHaveCount(cases.length);
   // links and their names
   const links: [string, string, string][] = [
-    ["range", "#/summary", "The ADU 90% range, with its side lines — open Summary"],
+    ["range", "#/summary", "The ADU 90% range, with its comparison scenarios — open Summary"],
     ["map", "#/where", "Where ADUs might go: an illustration — open Where"],
     ["sens", "#/how-sure", "What-ifs against the ADU range — open How sure"],
   ];
@@ -207,7 +207,7 @@ test("a map that cannot load leaves a short note, not an error", async ({ page }
   await expect(th).toHaveAttribute("data-ready", "note", { timeout: 20_000 });
   await expect(th).toContainText("Preview not available here");
   await expect(page.locator('[data-thumb="range"]')).toHaveAttribute("data-ready", "1");
-  await expect(page.getByTestId("intro-range-table")).toBeVisible();
+  await expect(page.getByTestId("intro-step-5")).toBeVisible();
 });
 
 test("the bundle files and the map geometry load only once the carousel is shown", async ({ page }) => {
@@ -215,7 +215,7 @@ test("the bundle files and the map geometry load only once the carousel is shown
   page.on("request", (r) => { if (/geo_|areas\.json|uncertainty\.json/.test(r.url())) geo.push(r.url()); });
   await page.setViewportSize({ width: 1280, height: 220 });   // the carousel starts below the fold
   await page.goto("#/");
-  await expect(page.getByTestId("intro-range-table")).toBeAttached();
+  await expect(page.getByTestId("intro-step-5")).toBeAttached();
   await page.waitForTimeout(800);
   expect(geo).toEqual([]);
   await page.getByTestId("intro-carousel").scrollIntoViewIfNeeded();

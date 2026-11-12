@@ -401,32 +401,21 @@ ul.vs-band, ul.tn-rows { list-style: none; padding: 0; }
 .intro-lede { max-width: none; }
 .intro-see { padding-left: 1.2em; margin: 0; }
 .intro-see li { margin: 10px 0; }
-.intro-ranges .table-wrap { margin: 0; }
-table.data.intro-range-table caption { font-size: 1.1rem; font-weight: 700; color: var(--ink); padding-bottom: 8px; }
-table.data.intro-range-table tbody th { font-weight: 650; }
-table.data.intro-range-table tbody tr:last-child > * { border-bottom: 0; }
-.intro-num { font-weight: 700; color: var(--accent-ink); font-variant-numeric: tabular-nums; white-space: nowrap; }
-.intro-ranges { border-color: var(--accent); box-shadow: inset 4px 0 0 var(--accent); }
 .intro-steps { padding-left: 1.4em; margin: 0; }
 .intro-steps > li { margin: 10px 0; }
-.intro-substeps { list-style: lower-alpha; padding-left: 1.4em; margin: 6px 0 0; }
-.intro-substeps li { margin: 4px 0; }
 .intro-state { font-weight: 600; }   /* plain text, not a control: no state picker yet */
-.intro-reform-links { display: flex; flex-wrap: wrap; gap: 8px; list-style: none; padding: 0; margin: 8px 0 0; }
-.intro-reform-links a { display: inline-flex; align-items: center; min-height: 44px; padding: 0 14px; border: 1px solid var(--accent); border-radius: 8px; background: var(--surface); font-weight: 600; text-decoration: none; }
-.intro-reform-links a:hover { background: var(--accent-soft); }
-@media (max-width: 640px) {
-  .intro-num { white-space: normal; }
-  /* the ranges table stacks: one block per reform, ends side by side, each cell labelled */
-  table.data.intro-range-table thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
-  table.data.intro-range-table, table.data.intro-range-table tbody, table.data.intro-range-table caption { display: block; }
-  table.data.intro-range-table tbody tr { display: grid; grid-template-columns: 1fr 1fr; border-bottom: 1px solid var(--line); padding: 6px 0; }
-  table.data.intro-range-table tbody tr:last-child { border-bottom: 0; }
-  table.data.intro-range-table tbody th, table.data.intro-range-table td { border-bottom: 0; padding: 4px 0; }
-  table.data.intro-range-table tbody th, table.data.intro-range-table td.intro-how { grid-column: 1 / -1; }
-  table.data.intro-range-table td.num { text-align: left !important; }
-  table.data.intro-range-table td[data-label]::before { content: attr(data-label) ": "; display: block; font-size: 0.84rem; font-weight: 650; color: var(--muted); }
-}
+.intro-reform-links { padding-left: 1.2em; margin: 6px 0 0; }
+.intro-reform-links li { margin: 2px 0; }
+.intro-reform-links a { display: inline-block; padding: 8px 0; font-weight: 600; }   /* 44 px-ish tap height with the line */
+
+/* The estimate card on each Brief tab (src/estimate.ts), moved from the Introduction's ranges table */
+.estimate-card { border-color: var(--accent); box-shadow: inset 4px 0 0 var(--accent); }
+.estimate-card h2 { margin-top: 0; }
+.estimate-ends { display: flex; flex-wrap: wrap; gap: 8px 32px; margin: 0 0 10px; }
+.estimate-end { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 6px; }
+.estimate-end-label { width: 100%; font-size: 0.84rem; font-weight: 650; color: var(--muted); }
+.estimate-num { font-size: 1.5rem; font-weight: 700; color: var(--accent-ink); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.estimate-how { margin: 0; }
 
 .intro-sub { font-size: 1.15rem; font-weight: 600; margin: 0.2rem 0 0.6rem; }
 
@@ -527,6 +516,13 @@ ul.sum-legend li > svg.key-sw { flex: 0 0 36px; margin-left: 5px; }
 .sum-legend button.sum-side svg.key-sw { flex: 0 0 36px; }
 .sum-legend button.sum-side:hover, .sum-legend button.sum-side:focus-visible { border-color: var(--accent); }
 .sum-legend-note { margin: 4px 0 8px; max-width: 70ch; }
+.sum-key ul.sum-legend { margin-bottom: 0; }
+.sum-scen-h { font-size: 0.95rem; margin: 12px 0 2px; }   /* "Comparison scenarios" (owner, 2026-11-12) */
+.sum-scen-note { margin: 0 0 4px; max-width: 70ch; }
+.sum-pop-kind { margin: 0 0 2px; }
+/* in the enlarged chart the heading and its note share one line, so the chart keeps its height */
+.sum-scen-head-big { margin: 8px 0 2px; }
+.sum-scen-head-big .sum-scen-h, .sum-scen-head-big .sum-scen-note { display: inline; margin: 0 8px 0 0; }
 .sum-years { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin: 6px 0; }
 .sum-years button { font: inherit; font-size: 0.88rem; min-height: 32px; padding: 2px 10px; border: 1px solid var(--line); border-radius: 6px; background: var(--surface); cursor: pointer; }
 .sum-years button:hover, .sum-years button:focus-visible { border-color: var(--accent); }

@@ -2,6 +2,7 @@
 // sorts and formats. Plain language first: each screen opens with what the reader is looking at.
 import { legendHTML, xyChart } from "../../charts";
 import { dec, esc, int, pill, small } from "../../format";
+import { estimateCardHTML } from "../../estimate";
 import { num, rangeCardHTML, sideLinesHTML, sideValue } from "../../range";
 import { howSureChartsHTML, type InputRow, type OtherRow } from "../../tornado";
 import { flatRange, type SummaryInput, type WiHomes } from "../../summary";
@@ -242,8 +243,8 @@ function todDetails(b: TodBundle): string {
   <h2 class="section-h" id="h-details" data-testid="details">Details</h2>
   <div class="note-box" role="note" data-testid="timing-caveat"><p><strong>About timing.</strong> ${esc(s.timing_caveat)}</p></div>
   ${todRangeCard(b, 3)}
-  <section class="card" aria-labelledby="h-tod-side"><h3 id="h-tod-side">Side lines</h3>
-    ${sideLinesHTML(s.side_lines.filter((x) => x.where === "chart"), TOD_SCOPE_UNIT, "side-lines", "Drawn on the Summary chart. Lines can sit outside the range; they do not change it.")}
+  <section class="card" aria-labelledby="h-tod-side"><h3 id="h-tod-side">Comparison scenarios</h3>
+    ${sideLinesHTML(s.side_lines.filter((x) => x.where === "chart"), TOD_SCOPE_UNIT, "side-lines", "Drawn on the Summary chart. Scenarios can sit outside the range; they do not change it.")}
     ${s.side_lines.some((x) => x.where !== "chart") ? sideLinesHTML(s.side_lines.filter((x) => x.where !== "chart"), TOD_SCOPE_UNIT, "howsure-side-lines", "Shown here only. None changes the 90% range.") : ""}</section>
   ${recordNote(b)}
   <section class="card" aria-labelledby="h-tod-years"><h3 id="h-tod-years">Homes permitted near stops each year</h3>
@@ -402,7 +403,7 @@ export function howSure(b: TodBundle, env: ShellEnv, main: HTMLElement): void {
     inputsNote: "Inputs about timing, stop rules and current law are listed under the bars: they leave the five-year total unchanged." });
   main.innerHTML = `
   <h1>How sure are we?</h1>
-  <p class="lede">The law's extra homes are one 90% range, ${num(s.range90.low)} to ${num(s.range90.high)} over 2027–2031. This page shows which model inputs move the estimate and how other ways to estimate it compare with that range, whether the results are believable for Milwaukee and Madison, and which parts rest on data and which on judgment. The tables further down still list the three former lines (lower, central, upper), which are now side lines. The range card, the side lines and the yearly table are under Details at the end.</p>
+  <p class="lede">The law's extra homes are one 90% range, ${num(s.range90.low)} to ${num(s.range90.high)} over 2027–2031. This page shows which model inputs move the estimate and how other ways to estimate it compare with that range, whether the results are believable for Milwaukee and Madison, and which parts rest on data and which on judgment. The tables further down still list the three former lines (lower, central, upper), which are now comparison scenarios. The range card, the comparison scenarios and the yearly table are under Details at the end.</p>
   ${tornadoCard}
   ${H.groups.map(groupTable).join("")}
   <section class="card"><h2>A sizing method that was tested and set aside</h2>
@@ -592,8 +593,9 @@ export function brief(b: TodBundle, main: HTMLElement): void {
     <header class="brief-head">
       <p class="eyebrow">Policy brief · Wisconsin · transit-oriented density</p>
       <h1 id="tod-brief-h" data-testid="brief-headline">A statewide transit-oriented density law could add ${num(s.range90.low)} to ${num(s.range90.high)} homes permitted near major transit stops over 2027–2031 (90% range)</h1>
-      <p class="brief-sub">On top of about ${int(s.baseline.total)} expected there without the law. Lines across the range: ${s.side_lines.map((x) => `${esc(lcFirst(x.label))}, ${sideValue(x)}`).join("; ")}. ${esc(s.range90.coverage)}</p>
+      <p class="brief-sub">On top of about ${int(s.baseline.total)} expected there without the law. Comparison scenarios: ${s.side_lines.map((x) => `${esc(lcFirst(x.label))}, ${sideValue(x)}`).join("; ")}. ${esc(s.range90.coverage)}</p>
     </header>
+    ${estimateCardHTML("tod", s.range90, "extra homes permitted near transit")}
     <h2>What the law does</h2>
     <p>${esc(s.district.text)} Results are counted near major transit stops, which hold ${int(s.stock_homes)} of Wisconsin's ${int(s.state_homes)} homes in the 2020 census (${sharePct(s.stock_homes / s.state_homes)}), ${sharePct(s.homes_two_cities.share)} of them in the cities of Milwaukee and Madison. Parking rules and affordability requirements are unchanged.</p>
     <h2>The numbers</h2>
@@ -601,7 +603,7 @@ export function brief(b: TodBundle, main: HTMLElement): void {
       <thead><tr><th scope="col">Item</th><th scope="col">What it is</th><th scope="col" class="num">Homes, 2027–2031</th></tr></thead>
       <tbody><tr><th scope="row">Current law</th><td>Each place's 2023–2025 permits, share near stops</td><td class="num">${int(s.baseline.total)}</td></tr>
       <tr><th scope="row">Extra with the law: 90% range</th><td>${esc(s.range90.method)}</td><td class="num">${num(s.range90.low)} to ${num(s.range90.high)}</td></tr>
-      ${s.side_lines.map((x) => `<tr><th scope="row">Side line: ${esc(x.label)}</th><td>${esc(x.note)}</td><td class="num">${sideValue(x)}</td></tr>`).join("")}</tbody></table></div>
+      ${s.side_lines.map((x) => `<tr><th scope="row">Comparison scenario: ${esc(x.label)}</th><td>${esc(x.note)}</td><td class="num">${sideValue(x)}</td></tr>`).join("")}</tbody></table></div>
     <p class="small">The 90% range by year, 2027–2031: ${s.range90.years.map((y) => `${int(y.low)} to ${int(y.high)}`).join("; ")}. ${esc(s.range90.coverage)} These are homes in issued permits, not completed homes.</p>
     <p class="small" data-testid="brief-shared">${sharedLine(b)} Reforms overlap, so their extra homes are never added together.</p>
     <h2>Where</h2>

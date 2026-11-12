@@ -1,6 +1,7 @@
 import { LAW_TEXT, type Ctx } from "../app";
 import { PATHS, sum, type District } from "../data";
 import { dec, esc, int, pct } from "../format";
+import { estimateCardHTML } from "../estimate";
 import { num, sideValue } from "../range";
 
 export function renderBrief(ctx: Ctx, main: HTMLElement): void {
@@ -21,8 +22,9 @@ export function renderBrief(ctx: Ctx, main: HTMLElement): void {
     <header class="brief-head">
       <p class="eyebrow">Policy brief · Wisconsin · accessory dwelling units</p>
       <h1 id="brief-h" data-testid="brief-headline">A statewide ADU law could add ${num(s.range90.low)} to ${num(s.range90.high)} second-home (ADU) permits over 2027–2031 (90% range)</h1>
-      <p class="brief-sub">On top of about ${int(s.baseline.total)} without statewide reform. Lines across the range: ${s.side_lines.filter((x) => x.where === "chart").map((x) => `${esc(x.label.charAt(0).toLowerCase() + x.label.slice(1))}, ${sideValue(x)}`).join("; ")}. ${esc(s.range90.caveat ?? "")}</p>
+      <p class="brief-sub">On top of about ${int(s.baseline.total)} without statewide reform. Comparison scenarios: ${s.side_lines.filter((x) => x.where === "chart").map((x) => `${esc(x.label.charAt(0).toLowerCase() + x.label.slice(1))}, ${sideValue(x)}`).join("; ")}. ${esc(s.range90.caveat ?? "")}</p>
     </header>
+    ${estimateCardHTML("adu", s.range90, "extra ADU permits")}
 
     <h2>What the law changes</h2>
     <p>${LAW_TEXT} Today most Wisconsin places restrict or prohibit ADUs, or have rules that have not been coded. The model estimates permits, not completed homes, for areas, never for individual lots.</p>

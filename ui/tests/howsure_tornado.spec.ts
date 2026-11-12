@@ -95,7 +95,7 @@ test("ADU How sure: review placements, counts and the side lines in Other ways",
   const bars = await ids(page, "adu-inputs", ".tn-row"), flat = await ids(page, "adu-inputs", ".tn-flat [data-whatif]"), other = await ids(page, "adu-other", "[data-whatif]");
   // the lower scenario is tested and leaves the total alone; it only moves the OR & RI side line
   expect(flat).toContain("lower-scenario-at-the-10th-percentile-of");
-  await expect(page.getByTestId("adu-inputs").locator(".tn-flat")).toContainText("changes only the OR & RI side line (6,321 → 5,401)");
+  await expect(page.getByTestId("adu-inputs").locator(".tn-flat")).toContainText("changes only the OR & RI scenario (6,321 → 5,401)");
   // Gate 4's three data settings are one bar at 8,402
   expect(bars).toContain("comparison-state-counts-and-coding-as-at");
   const g4 = page.getByTestId("adu-inputs").locator('.tn-row[data-whatif="comparison-state-counts-and-coding-as-at"]');

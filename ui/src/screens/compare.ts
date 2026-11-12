@@ -54,8 +54,8 @@ export function aduDetailsHTML(ctx: Ctx): string {
   ${aduRangeCard(ctx, 3)}
 
   <section class="card" aria-labelledby="h-side">
-    <h3 id="h-side">Side lines</h3>
-    ${sideLinesHTML(chartLines, "ADU permits over 2027–2031", "side-lines", "Drawn on the Summary chart. Lines can sit outside the range; they do not change it.")}
+    <h3 id="h-side">Comparison scenarios</h3>
+    ${sideLinesHTML(chartLines, "ADU permits over 2027–2031", "side-lines", "Drawn on the Summary chart. Scenarios can sit outside the range; they do not change it.")}
     ${offSummary.length ? sideLinesHTML(offSummary, "ADU permits over 2027–2031", "summary-hidden-lines", "Listed here, not drawn on the Summary chart (owner, 2026-11-11). The 90% range is built around typical adoption.") : ""}
     ${sideLinesHTML(s.side_lines.filter((x) => x.where === "howsure"), "ADU permits over 2027–2031", "howsure-side-lines", "Shown here only, not on the chart. None changes the 90% range.")}
     ${rangeCaveatHTML(R)}
@@ -70,12 +70,12 @@ export function aduDetailsHTML(ctx: Ctx): string {
       <tbody>${YEARS.map((y, i) => `<tr><th scope="row">${y}</th><td class="num">${int(base.by_year[i])}</td><td class="num">${int(base.low_by_year[i])}</td><td class="num">${int(base.high_by_year[i])}</td><td class="num">${int(R.years[i].low)}</td><td class="num">${int(R.years[i].high)}</td></tr>`).join("")}</tbody>
       <tfoot><tr><th scope="row">2027–2031</th><td class="num">${int(base.total)}</td><td class="num">${int(base.low_total)}</td><td class="num">${int(base.high_total)}</td><td class="num" data-testid="table-range-low">${num(R.low)}</td><td class="num" data-testid="table-range-high">${num(R.high)}</td></tr></tfoot>
     </table></div>
-    <p class="small muted">Yearly ends are the five-year ends times each year's fixed share; they are not added to current law's own range. The band and the side lines are spread over the years by one fixed yearly profile, so each year's share of the five-year total is the same for all of them. 2026 is a bridge year without reform (${int(base.bridge_2026.central)} permits, ${int(base.bridge_2026.low)}–${int(base.bridge_2026.high)}). The 1 January 2027 start date is stylized. Rows may not add exactly because of rounding.</p>
+    <p class="small muted">Yearly ends are the five-year ends times each year's fixed share; they are not added to current law's own range. The band and the comparison scenarios are spread over the years by one fixed yearly profile, so each year's share of the five-year total is the same for all of them. 2026 is a bridge year without reform (${int(base.bridge_2026.central)} permits, ${int(base.bridge_2026.low)}–${int(base.bridge_2026.high)}). The 1 January 2027 start date is stylized. Rows may not add exactly because of rounding.</p>
     ${details("Statewide rates (permits per 1,000 single-family homes per year)", `
       <div class="table-wrap"><table class="data"><caption>Permits in the year ÷ ${dec(homesK, 3)} thousand single-family homes</caption>
       <thead><tr><th scope="col">Year</th><th scope="col" class="num">${esc(L.baseline)}</th><th scope="col" class="num">Extra with the law: low end</th><th scope="col" class="num">Extra with the law: high end</th></tr></thead>
       <tbody>${YEARS.map((y, i) => `<tr><th scope="row">${y}</th><td class="num">${dec(base.by_year[i] / homesK)}</td><td class="num">${dec(R.years[i].low / homesK)}</td><td class="num">${dec(R.years[i].high / homesK)}</td></tr>`).join("")}</tbody></table></div>`)}
-    ${details("How the range and the lines are made", `<ul class="plain small" data-testid="scenario-method">
+    ${details("How the range and the comparison scenarios are made", `<ul class="plain small" data-testid="scenario-method">
       <li><strong>The 90% range.</strong> ${esc(R.method)} ${esc(R.coverage)}</li>
       ${s.side_lines.filter((x) => x.where === "chart").map((x) => `<li><strong>${esc(x.label)}.</strong> ${esc(x.note)}</li>`).join("")}
       <li><strong>The law never subtracts.</strong> ${esc(ctx.b.manifest.terms.never_subtracts ?? "")}</li>

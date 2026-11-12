@@ -1,4 +1,4 @@
-// The "How we count" line for each reform: one source for the Introduction's ranges table and every reform's Summary
+// The "How we count" line for each reform: one source for each reform's Brief estimate card (src/estimate.ts) and Summary
 // tab, so the two can never drift apart. Owner-approved copy (Claude Doc rev 180, audit-cleared); the order is fixed:
 // ADUs, Middle housing, TOD, Parking.
 export type ReformKey = "adu" | "middle" | "tod" | "parking";

@@ -2,6 +2,7 @@
 // The browser only selects, sums and formats bundle values.
 import { ALL_HOUSING_BASELINE_2027_2031, num, rangeCardHTML, sideLinesHTML, type Range90, type SideLine } from "../../range";
 import { esc, int } from "../../format";
+import { estimateCardHTML } from "../../estimate";
 import { loadWiHomes, renderSummary, type SummaryInput, type WiHomes } from "../../summary";
 import { inOutCardHTML } from "../../inout";
 import { howSureChartsHTML, type InputRow, type OtherRow } from "../../tornado";
@@ -47,12 +48,14 @@ async function load(entry: ReformEntry): Promise<MiddleBundle> {
 
 // ---- helpers ----------------------------------------------------------------------------------
 
-// The same tabs, in the same order, for every reform (owner, 2026-11-11); middle housing has no pilots or brief yet.
+// The same tabs, in the same order, for every reform (owner, 2026-11-11); middle housing has no pilots yet. Its Brief
+// holds the estimate card (owner, 2026-11-12), moved there from the Introduction's ranges table.
 const ROUTES: Route[] = [
   { path: "/summary", label: "Summary", n: 1 },
   { path: "/where", label: "Where", n: 2 },
   { path: "/how-sure", label: "How sure", n: 3 },
   { path: "/why", label: "Why", n: 4 },
+  { path: "/brief", label: "Brief", n: 5 },
 ];
 
 // ---- screens --------------------------------------------------------------------------------
@@ -116,7 +119,7 @@ function details(b: MiddleBundle): string {
       <tbody>${R.years.map((y, i) => `<tr><th scope="row">${y.year}</th>${row(y)}${row(F.years[i])}</tr>`).join("")}
       <tr><th scope="row">2027–2031</th><td class="num" data-testid="table-range-low">${num(R.low)}</td><td class="num" data-testid="table-range-high">${num(R.high)}</td><td class="num">${num(F.low)}</td><td class="num">${num(F.high)}</td></tr></tbody></table></div>
     <p class="small muted">${esc(R.years_method ?? "")} Yearly rows may not add exactly to the totals because of rounding.</p></section>
-  <section class="card" aria-labelledby="h-mid-side"><h3 id="h-mid-side">Side lines</h3>${sideLinesHTML(chartLines, "extra homes, 2027–2031", "side-lines", "All but the last are drawn on the Summary chart; the all-building-sizes line is far above its scale. None changes the 90% range.")}</section>`;
+  <section class="card" aria-labelledby="h-mid-side"><h3 id="h-mid-side">Comparison scenarios</h3>${sideLinesHTML(chartLines, "extra homes, 2027–2031", "side-lines", "All but the last are drawn on the Summary chart; the all-building-sizes scenario is far above its scale. None changes the 90% range.")}</section>`;
 }
 
 function where(b: MiddleBundle, main: HTMLElement): void {
@@ -181,6 +184,17 @@ function why(b: MiddleBundle, main: HTMLElement): void {
   <section class="card"><h2>Evidence</h2><ul class="plain">${b.why.evidence.map((d) => `<li><a href="${esc(d.url)}" target="_blank" rel="noopener">${esc(d.label)}<span class="sr-only"> (opens GitHub in a new tab)</span> ↗</a></li>`).join("")}</ul></section>`;
 }
 
+/** The Brief: the estimate card. The range is the bundle's core (lower, upper), homes in 2–4 unit buildings; its unit
+ *  is core.label without "(predicted range)". */
+function brief(b: MiddleBundle, main: HTMLElement): void {
+  const c = b.statewide.core;
+  const unit = `extra ${c.label.replace(/\s*\(.*?\)\s*$/, "").replace(/^./, (x) => x.toLowerCase())}`;
+  main.innerHTML = `
+  <h1>Brief: a statewide middle housing law for Wisconsin</h1>
+  ${estimateCardHTML("middle", { low: c.lower, high: c.upper }, unit)}
+  <p class="small muted">Run ${esc(b.manifest.run_id)}.</p>`;
+}
+
 // ---- module -----------------------------------------------------------------------------------
 function mount(env: ShellEnv, data: unknown): MountedReform {
   const b = data as MiddleBundle;
@@ -199,6 +213,7 @@ function mount(env: ShellEnv, data: unknown): MountedReform {
       if (path.startsWith("/where")) where(b, main);
       else if (path.startsWith("/how-sure")) howSure(b, main);
       else if (path.startsWith("/why")) why(b, main);
+      else if (path.startsWith("/brief")) brief(b, main);
       else renderSummary(main, summaryInput(b, env), env, params);
     },
   };

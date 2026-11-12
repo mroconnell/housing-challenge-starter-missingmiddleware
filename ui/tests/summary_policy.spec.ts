@@ -318,7 +318,7 @@ const HEADING: Record<string, string> = {
 };
 
 for (const id of ["adu", "middle", "tod", "parking"]) {
-  test(`${id} Summary: "Our estimate is between:", the chart heading, and side lines show / hide`, async ({ page }) => {
+  test(`${id} Summary: "Our estimate is between:", the chart heading, and comparison scenarios show / hide`, async ({ page }) => {
     await page.goto(`#${PRE[id]}/summary?show=totals`);
     const card = page.getByTestId("summary-range");
     await expect(card.getByRole("heading")).toHaveCount(0);
@@ -332,9 +332,15 @@ for (const id of ["adu", "middle", "tod", "parking"]) {
     const svg = page.locator("#sum-chart svg");
     const lines = page.getByTestId("toggle-lines");
     await expect(lines.getByLabel("Show")).toBeChecked();
+    // owner 2026-11-12: visible name "comparison scenarios" (Terner Center, Brookings, AEI, Pew); the toggle is "Scenarios: Show / Hide"
+    await expect(lines.locator("legend")).toHaveText("Scenarios");
+    await expect(page.getByTestId("summary-scenarios-h")).toHaveText("Comparison scenarios");
+    await expect(page.getByTestId("summary-scenarios-note")).toHaveText("Real cases and other estimates, shown for comparison. None of them is the estimate; they do not change the 90% range.");
+    await expect(page.locator("main")).not.toContainText(/side lines?|lines across the range/i);
     expect(await svg.locator('path[data-series^="side-"]').count()).toBeGreaterThan(0);
     await lines.getByLabel("Hide").check();
     await expect(page).toHaveURL(/lines=off/);
+    await expect(page.getByTestId("summary-scenarios-h")).toHaveCount(0);
     await expect(svg.locator('path[data-series^="side-"]')).toHaveCount(0);
     await expect(svg.locator(".sum-hit-side")).toHaveCount(0);
     await expect(svg.locator('path[data-band="range90"]')).toHaveCount(1);
@@ -383,7 +389,7 @@ test("ADU Summary legend: the owner's labels, numbers from the bundle, no Typica
 for (const id of ["adu", "middle", "tod", "parking"]) {
   test(`${id} Summary: chart key has one item per row and its labels line up, page and enlarged, 1280 and 375 px`, async ({ page }) => {
     const measure = (tid: string) => page.evaluate((t) => {
-      const items = [...document.querySelectorAll(`[data-testid=${t}] > li`)];
+      const items = [...document.querySelectorAll(`[data-testid=${t}] li`)];
       return items.map((li) => {
         const sw = li.querySelector("svg")!;
         const txt = sw.nextSibling!;

@@ -83,7 +83,7 @@ test("every reform has the same tabs in the same order; a reform without one omi
   }
   await page.goto("#/middle/summary");
   await expect(page.getByTestId("summary")).toHaveAttribute("data-reform", "middle");
-  expect((await page.locator("nav.tabs a").allTextContents()).map((t) => t.replace(/^\s*\d+\s*/, "").trim())).toEqual(["Summary", "Where", "How sure", "Why"]);
+  expect((await page.locator("nav.tabs a").allTextContents()).map((t) => t.replace(/^\s*\d+\s*/, "").trim())).toEqual(["Summary", "Where", "How sure", "Why", "Brief"]);   // no pilots; Brief holds the estimate card (owner 2026-11-12)
 });
 
 test("old addresses keep working: /compare opens Summary, /today opens the reform's part of Wisconsin today", async ({ page }) => {

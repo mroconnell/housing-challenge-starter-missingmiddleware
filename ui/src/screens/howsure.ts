@@ -28,7 +28,7 @@ const ADU_INPUT_LABEL: Record<string, string> = { "comparison-state-counts-and-c
 const ADU_INPUT_SETTING: Record<string, string> = { "comparison-state-counts-and-coding-as-at": "as at Gate 4" };
 const ADU_INPUT_NOTE: Record<string, string> = {
   "comparison-state-counts-and-coding-as-at": "no scale-up for non-reporting towns, Washington from enactment, Massachusetts at 11/12",
-  "lower-scenario-at-the-10th-percentile-of": "changes only the OR & RI side line (6,321 → 5,401)",
+  "lower-scenario-at-the-10th-percentile-of": "changes only the OR & RI scenario (6,321 → 5,401)",
 };
 /** Other ways: notes. */
 const ADU_OTHER_NOTE: Record<string, string> = {

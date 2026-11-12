@@ -6,6 +6,7 @@ import { howSureChartsHTML, type InputRow, type OtherRow } from "../../tornado";
 import { loadWiHomes, renderSummary, type SummaryInput, type WiHomes } from "../../summary";
 import { createMap, RAMP, WATER, type GeoKind, type MapHandle } from "../../map";
 import { dec, esc, int, pill, YEARS } from "../../format";
+import { estimateCardHTML } from "../../estimate";
 import type { MountedReform, ReformEntry, ReformModule, Route, ShellEnv } from "../types";
 
 // ---- bundle types --------------------------------------------------------------------------
@@ -214,8 +215,8 @@ function details(b: ParkingBundle, env: ShellEnv): string {
   return `
   <h2 class="section-h" id="h-details" data-testid="details">Details</h2>
   ${rangeCardHTML({ title: "Extra homes from the law: the 90% range", range: R, baselineTotal: s.baseline_total, testid: "range-card", headingLevel: 3 })}
-  <section class="card" aria-labelledby="h-pk-side"><h3 id="h-pk-side">Side lines</h3>
-    ${sideLinesHTML(s.side_lines.filter((x) => x.where === "chart"), PK_UNIT, "side-lines", "Drawn on the Summary chart. Lines can sit outside the range; they do not change it.")}
+  <section class="card" aria-labelledby="h-pk-side"><h3 id="h-pk-side">Comparison scenarios</h3>
+    ${sideLinesHTML(s.side_lines.filter((x) => x.where === "chart"), PK_UNIT, "side-lines", "Drawn on the Summary chart. Scenarios can sit outside the range; they do not change it.")}
     ${sideLinesHTML(s.side_lines.filter((x) => x.where !== "chart"), PK_UNIT, "howsure-side-lines", "Shown here only. None changes the 90% range.")}</section>
   <section class="card" aria-labelledby="h-pk-years"><h3 id="h-pk-years">New homes permitted each year</h3>
     <div class="table-wrap"><table class="data" data-testid="compare-table"><caption>Homes permitted in Wisconsin: current law, and the law's extra homes as a 90% range</caption>
@@ -225,7 +226,7 @@ function details(b: ParkingBundle, env: ShellEnv): string {
     <p class="small muted">Homes in issued building permits, all building sizes. Current law holds each place at its 2023–2025 average; its range (${int(s.baseline_low_total)} to ${int(s.baseline_high_total)} homes over five years) comes from Wisconsin's own five-year swings and is not added to the law's range. The law's range is the same each year, one fifth of the five-year range. Observed years are on <a href="#/wisconsin-today?section=parking">Wisconsin today</a>. Yearly rows may not add exactly to the totals because of rounding.</p></section>
   <section class="card" aria-labelledby="h-pk-big"><h3 id="h-pk-big">How big is that?</h3>
     <p data-testid="compare-size">About ${num(R.years[0].low)} to ${num(R.years[0].high)} extra homes permitted a year, against about ${int(fy[0].baseline)} homes a year Wisconsin is expected to permit under current law (all homes, all places). These are homes in issued building permits, not completed homes.</p></section>
-  <p class="small"><a href="${env.link("/summary")}">The range and its side lines on the chart →</a></p>`;
+  <p class="small"><a href="${env.link("/summary")}">The range and its comparison scenarios on the chart →</a></p>`;
 }
 
 // ---- map (shared geography from the ADU bundle: county, municipality and district outlines) ----
@@ -370,7 +371,7 @@ function howSure(b: ParkingBundle, env: ShellEnv, main: HTMLElement): void {
   const groups = [...new Set(cases.map((x) => x.moves))];
   main.innerHTML = `
   <h1>How sure are we?</h1>
-  <p class="lede">The law's extra homes are one 90% range, ${num(R.low)} to ${num(R.high)} over 2027–2031, and it includes zero: the evidence found no measurable effect. This page shows which model inputs move the estimate and how other ways to estimate it compare with that range, how stable the finding is, and which parts rest on data and which on judgment. The range card, the side lines and the yearly table are under Details at the end.</p>
+  <p class="lede">The law's extra homes are one 90% range, ${num(R.low)} to ${num(R.high)} over 2027–2031, and it includes zero: the evidence found no measurable effect. This page shows which model inputs move the estimate and how other ways to estimate it compare with that range, how stable the finding is, and which parts rest on data and which on judgment. The range card, the comparison scenarios and the yearly table are under Details at the end.</p>
   ${(() => { const w = parkingWhatIfs(b); return howSureChartsHTML({ prefix: "pk", unit: "Extra homes permitted in Wisconsin, 2027–2031", range: R,
     pivot: w.pivot, pivotName: "as used", pivotLabel: `The number the 90% range is built on: ${num(w.pivot)} (the measured average of the 74 repeal places)`,
     inputs: w.inputs, others: w.others,
@@ -452,10 +453,11 @@ function brief(b: ParkingBundle, main: HTMLElement): void {
   const s = b.statewide, R = s.range90, W = b.why.average.all;
   main.innerHTML = `
   <h1>Brief: a statewide parking law for Wisconsin</h1>
+  ${estimateCardHTML("parking", R, "extra homes permitted")}
   <section class="card" data-testid="brief">
     <p><strong>The question.</strong> If Wisconsin removed minimum parking requirements for all housing from 1 January 2027, how many more homes would be permitted over 2027–2031?</p>
     <p data-testid="brief-headline"><strong>The answer.</strong> ${num(R.low)} to ${num(R.high)} extra homes permitted in Wisconsin over 2027–2031 (90% range), on top of the ${int(s.baseline_total)} homes expected under current law. The range includes zero: the data can't tell whether removing parking minimums alone adds or removes homes. US places that removed their minimums did not permit measurably more homes in the three years after than similar places that kept them (${signed(W.effect)} permits per 1,000 existing homes per year; likely range ${signed(W.p05)} to ${signed(W.p95)}).</p>
-    <p><strong>Lines across the range.</strong> ${s.side_lines.map((x) => `${esc(x.label)}: ${sideValue(x)} ${PK_UNIT}.`).join(" ")} None of them is "the" estimate.</p>
+    <p><strong>Comparison scenarios.</strong> ${s.side_lines.map((x) => `${esc(x.label)}: ${sideValue(x)} ${PK_UNIT}.`).join(" ")} None of them is "the" estimate.</p>
     <p class="small"><strong>How the range is built.</strong> ${esc(R.method)} ${esc(R.coverage)} By year, 2027–2031: ${R.years.map((y) => `${num(y.low)} to ${num(y.high)}`).join("; ")} extra homes permitted.${R.caveat ? ` ${esc(R.caveat)}` : ""}</p>
     <p><strong>Why so small.</strong> Developers keep building parking that renters, buyers and lenders want. In Buffalo, major projects built 79% of the old minimum after it was repealed. In Los Angeles projects that could cut parking, the typical one still built 0.81 spaces per home. Family-size buildings kept nearly all their parking, while studio and one-bedroom buildings dropped about half.</p>
     <p><strong>What it cannot tell you.</strong> Effects beyond three years, effects in places where minimums bind hard, and what a repeal does to rents or parking supply. These are homes in issued building permits, not completed homes.</p>

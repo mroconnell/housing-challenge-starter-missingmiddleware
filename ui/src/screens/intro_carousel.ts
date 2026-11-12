@@ -24,7 +24,7 @@ const ADVANCE_MS = 6000;
 
 interface Slide { id: string; caption: string; screen: string; href: string }
 const SLIDES: Slide[] = [
-  { id: "range", caption: "The ADU 90% range, with its side lines", screen: "Summary", href: "#/summary" },
+  { id: "range", caption: "The ADU 90% range, with its comparison scenarios", screen: "Summary", href: "#/summary" },
   { id: "map", caption: "Where ADUs might go: an illustration", screen: "Where", href: "#/where" },
   { id: "sens", caption: "What-ifs against the ADU range", screen: "How sure", href: "#/how-sure" },
 ];

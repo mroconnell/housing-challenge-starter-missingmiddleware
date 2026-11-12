@@ -34,6 +34,10 @@ export function share1(v: number): string {
 export function num(v: number): string {
   return v < 0 ? `−${int(-v)}` : int(v);
 }
+/** Visible names for the side lines (owner, 2026-11-12, after Terner Center, Brookings, AEI and Pew): "comparison
+ *  scenarios". Internal ids, field names (side_lines) and CSS classes keep the old name. */
+export const SCENARIOS_HEADING = "Comparison scenarios";
+export const SCENARIOS_NOTE = "Real cases and other estimates, shown for comparison. None of them is the estimate; they do not change the 90% range.";
 /** A side line's number: one value, or its own low to high. */
 export function sideValue(s: SideLine): string {
   return s.value !== undefined ? num(s.value) : `${num(s.low!)} to ${num(s.high!)}`;
@@ -112,7 +116,7 @@ export function drawRangeChart(container: HTMLElement, o: {
     title: o.title,
     desc: `${extra ? `Current law is the zero line. ` : `Current law: ${int(sum(o.base.central))} ${o.noun} over 2027–2031 (range ${int(sum(o.base.low))} to ${int(sum(o.base.high))}), shaded grey. `}`
       + `The law's 90% range, shaded green: ${num(R.low)} to ${num(R.high)} extra ${o.noun} over 2027–2031${extra ? "" : ", on top of current law"}. `
-      + `Side lines over 2027–2031: ${o.sideLines.filter((s) => s.value !== undefined).map((s) => `${s.label} ${num(s.value!)}`).join("; ")}. No centre line is drawn. The table below has the yearly values.`,
+      + `Comparison scenarios over 2027–2031: ${o.sideLines.filter((s) => s.value !== undefined).map((s) => `${s.label} ${num(s.value!)}`).join("; ")}. No centre line is drawn. The table below has the yearly values.`,
     yLabel: o.yLabel, xTicks: o.xTicks ?? yrs, xPad: 0.4, yFormat: o.yFormat, vline: o.vline, height: o.height, onDraw: o.onDraw,
     bands, series,
   });

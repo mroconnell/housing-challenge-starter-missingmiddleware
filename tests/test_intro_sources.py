@@ -1,6 +1,7 @@
-"""The Introduction (ui/src/screens/intro.ts): its numbers come from the bundles and shared reference files, and those
-sources give exactly the owner-approved copy's numbers. ui/tests/intro.spec.ts checks the rendered page against the
-same sources."""
+"""The Introduction (ui/src/screens/intro.ts) and the Brief estimate cards (ui/src/estimate.ts): the numbers come from
+the bundles and shared reference files, and those sources give exactly the owner-approved copy's numbers. Since the
+owner's change of 2026-11-12 the four ranges sit on each reform's Brief tab, not on the Introduction.
+ui/tests/intro.spec.ts and ui/tests/brief_estimate.spec.ts check the rendered pages against the same sources."""
 import json
 import re
 import unittest
@@ -46,16 +47,33 @@ class TestIntroSources(unittest.TestCase):
         self.assertEqual((round(core["lower"]), round(core["upper"])), (-482, 4515))
         self.assertEqual(core["label"], "Homes in 2–4 unit buildings (predicted range)")
 
-    def test_table_rows(self):
+    def test_no_ranges_table_on_intro(self):
         src = INTRO.read_text()
-        names = re.findall(r'rangeRow\("(\w+)", "([^"]+)"', src)
-        self.assertEqual(names, [("adu", "ADUs by right"), ("middle", "Missing Middle"), ("tod", "TOD Upzoning"),
-                                 ("parking", "Parking Minimum Repeal")])
-        self.assertIn('<caption id="intro-ranges-cap">Wisconsin, extra permits 2027–2031, 90% range</caption>', src)
-        for h in ("Reform", "Low end", "High end", "How we count"):
-            self.assertIn(f">{h}</th>", src)
-        self.assertNotIn("(in development)", src)
+        self.assertNotIn("<table", src)
+        self.assertNotIn("Wisconsin, extra permits 2027–2031, 90% range", src)
+        self.assertNotIn("HOW_WE_COUNT", src)
+        self.assertNotIn("Measure the effect where it really happened", src)
+        self.assertNotIn("Test the method", src)
         self.assertNotIn("stronger", src.lower())
+
+    def test_estimate_card_on_every_brief(self):
+        est = (ROOT / "ui" / "src" / "estimate.ts").read_text()
+        self.assertIn('ESTIMATE_TITLE = "The estimate, 2027–2031 (90% range)"', est)
+        self.assertIn("HOW_WE_COUNT[id]", est)
+        S = ROOT / "ui" / "src"
+        calls = {
+            "adu": (S / "screens" / "brief.ts", 'estimateCardHTML("adu", s.range90,'),
+            "middle": (S / "scenarios" / "middle" / "index.ts", 'estimateCardHTML("middle", { low: c.lower, high: c.upper }, unit)'),
+            "tod": (S / "scenarios" / "tod" / "screens.ts", 'estimateCardHTML("tod", s.range90,'),
+            "parking": (S / "scenarios" / "parking" / "index.ts", 'estimateCardHTML("parking", R,'),
+        }
+        for k, (f, call) in calls.items():
+            src = f.read_text()
+            self.assertIn(call, src, k)
+            for n in ("8,055", "13,666", "3,922", "16,335", "46,268", "19,649", "4,515"):
+                self.assertNotIn(f"estimateCardHTML(\"{k}\", {{ low: {n}", src)
+        self.assertIsNone(re.search(r"\b(8055|13666|3922|16335|46268|19649|482|4515)\b", est))
+        self.assertIn('{ path: "/brief", label: "Brief"', (S / "scenarios" / "middle" / "index.ts").read_text())
 
     def test_baseline(self):
         y = pd.read_csv(REF / "housing_baseline_statewide_by_year.csv")
@@ -71,10 +89,6 @@ class TestIntroSources(unittest.TestCase):
         src = INTRO.read_text()
         for f in ("housing_baseline_band.csv", "housing_baseline_statewide_by_year.csv"):
             self.assertIn(f"reference/{f}?raw", src)
-        # parking's range is read from the bundle's range90, not recomputed from a CSV
-        self.assertNotRegex(src, r"import .*parking_(uniform_range|placebo_full_summary)")
-        self.assertIn("${pkBase}statewide.json", src)
-        self.assertIn("${midBase}statewide.json", src)
         for n in ("8,055", "13,666", "3,922", "16,335", "46,268", "19,649", "124,000", "56,500", "218,865", "4,515"):
             self.assertFalse(n in src, f"{n} is typed into intro.ts")   # numbers are never typed into the page
         self.assertIsNone(re.search(r"\b(8055|13666|3922|16335|46268|19649|124000|56500|218865|482|4515)\b", src))
@@ -85,7 +99,7 @@ if __name__ == "__main__":
 
 
 class TestSharedSummarySources(unittest.TestCase):
-    """The Summary tab (ui/src/summary.ts) and the Introduction read the "How we count" lines from one module, and the
+    """The Summary tab (ui/src/summary.ts) and the Brief estimate card (ui/src/estimate.ts) read the "How we count" lines from one module, and the
     per-1,000 base is the ACS home count the tool already stores (ADU state.json acs_total_units)."""
 
     def test_how_we_count_has_one_source(self):
@@ -93,11 +107,12 @@ class TestSharedSummarySources(unittest.TestCase):
         for k in ("adu", "middle", "tod", "parking"):
             self.assertRegex(hwc, rf"\n  {k}: \"")
         self.assertIn('REFORM_ORDER: ReformKey[] = ["adu", "middle", "tod", "parking"]', hwc)
-        intro, summary = INTRO.read_text(), (ROOT / "ui" / "src" / "summary.ts").read_text()
-        self.assertIn('from "../howwecount"', intro)
+        est, summary = (ROOT / "ui" / "src" / "estimate.ts").read_text(), (ROOT / "ui" / "src" / "summary.ts").read_text()
+        self.assertIn('from "./howwecount"', est)
         self.assertIn('from "./howwecount"', summary)
         self.assertIn("HOW_WE_COUNT[o.id]", summary)
-        self.assertNotIn("We hid 7 of the states", intro)   # the copy lives in howwecount.ts only
+        for f in (INTRO, ROOT / "ui" / "src" / "estimate.ts"):
+            self.assertNotIn("We hid 7 of the states", f.read_text())   # the copy lives in howwecount.ts only
         # TOD's line is the owner's text of 2026-11-11 20:33 as changed at 20:37, word for word
         self.assertIn("tod: \"Extra homes permitted near transit. We compared permits within ¼ mile of rail and rapid-bus stops in 11 places that adopted upzoning near transit. In each place, we found some stops with an upzoned apartment district nearby, and other similar stops in the same transit network that weren't rezoned. We looked at permits before and after the reforms, across both kinds of stops. The whole range is above zero, so the evidence points to extra homes permitted.\"", hwc)
 
