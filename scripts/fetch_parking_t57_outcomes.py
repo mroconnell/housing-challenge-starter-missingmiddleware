@@ -23,6 +23,10 @@ San Francisco (DataSF):
   - sf_sud.geojson: Zoning Map - Special Use Districts (5yf5-ms5f), licence field "Public Domain U.S. Government".
     Needed to leave out the Telegraph Hill-North Beach Residential, North of Market, Washington-Broadway, Bernal
     Heights and Visitacion Valley/Schlage SUD lots named in the feasibility check and the rules block.
+  - sf_planning_areas_datasf.geojson: DataSF "Planning Areas" (bkzf-eahq), licence field "Public Domain U.S.
+    Government". The DataSF copy of the plan-area layer (the feasibility step found only the SF Planning ArcGIS copy,
+    which has no stated licence and is not used). Used only as a mask: Eastern Neighborhoods RH/RM lots out of both
+    arms, and Market-Octavia / Eastern Neighborhoods lots out of the controls. Never used to set treatment.
 """
 from __future__ import annotations
 
@@ -72,6 +76,10 @@ FILES = {
         base="https://data.sf.gov/resource/5yf5-ms5f.geojson", params={}, geojson=True,
         licence=USGOV, publisher="City and County of San Francisco (Planning)",
         note="Zoning Map - Special Use Districts (5yf5-ms5f), current"),
+    "sf_planning_areas_datasf.geojson": dict(
+        base="https://data.sf.gov/resource/bkzf-eahq.geojson", params={}, geojson=True,
+        licence=USGOV, publisher="City and County of San Francisco (Planning)",
+        note="Planning Areas (bkzf-eahq), current; mask only"),
 }
 
 
