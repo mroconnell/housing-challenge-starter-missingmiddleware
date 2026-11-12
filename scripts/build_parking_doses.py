@@ -30,6 +30,8 @@ Schema of input.json:
    "zoning_check": {"layer", "field", "apt_regex", "spacing_m": 25, "clip_to_place": true},
    "blocks_2010": true,                                          # audit fix 5
    "dose_source": "computable"|"partly"|"fallback", "fallback_class": "...", "use_fallback": false,
+   "dose_units_2_4": null,         # 2-4 unit outcome dose for use-type reforms (default = dose)
+   "sensitivity": {"areas": [...], "prior": [...]},   # optional second scoring -> dose_sensitivity_mapped
    "dose_override": null,          # a number only for doses that are pure arithmetic of the ordinance (e.g. a citywide
                                    # cut 1.5 -> 1 = 33.3), never for mapped areas
    "eligibility": "...", "sources": [...], "licences": [...], "notes": "..."}
@@ -189,7 +191,10 @@ def _path(p: str, base: Path) -> Path:
 
 def _layer(path: Path) -> G.Layer:
     if path not in _LAYERS:
-        _LAYERS[path] = G.read_any(path).to_crs(5070)
+        L = G.read_any(path)
+        if L.kind != "point":  # drop features with empty geometry (e.g. INCOG Tulsa OBJECTID 18758)
+            L = L.subset(np.array([bool(f) and all(len(part) for part in f) for f in L.polys]))
+        _LAYERS[path] = L.to_crs(5070)
     return _LAYERS[path]
 
 
@@ -200,7 +205,8 @@ def _near_targets(spec: dict, base: Path):
     if p.suffix.lower() == ".zip":  # GTFS
         with zipfile.ZipFile(p) as z:
             name = next(n for n in z.namelist() if n.endswith("stops.txt"))
-            s = pd.read_csv(z.open(name), dtype=str)
+            s = pd.read_csv(z.open(name), dtype=str, skipinitialspace=True)
+        s.columns = [c.strip() for c in s.columns]
         if "location_type" in flt and "location_type" in s.columns:
             s = s[s["location_type"].fillna("0").replace("", "0").astype(int).isin(flt["location_type"])]
         if "stop_id_regex" in flt:
@@ -279,7 +285,8 @@ def score(inp: dict, base: Path, year: int) -> dict:
     cov = hu[inc > 0].sum() / tot
     rem = (hu * inc).sum() / hu[inc > 0].sum() if cov > 0 else 0.0
     return {"homes": float(tot), "coverage": float(cov), "removal": float(rem), "dose": float(100 * (hu * inc).sum() / tot),
-            "prior_exempt_share": float(hu[old > 0].sum() / tot) if inp.get("prior") else None}
+            "prior_exempt_share": float(hu[old > 0].sum() / tot) if inp.get("prior") else None,
+            "prior_removal_mean": float((hu * old).sum() / tot) if inp.get("prior") else None}
 
 
 def zoned_land_check(inp: dict, base: Path):
@@ -307,7 +314,8 @@ def zoned_land_check(inp: dict, base: Path):
 # ------------------------------------------------------------------------------------------------ assembly
 COLS = ["reform_id", "place", "state", "event_year", "type", "event_used", "eligibility", "coverage_homes_share",
         "coverage_homes_share_2010", "coverage_zoned_land_share", "removal_share", "dose", "dose_source",
-        "fallback_class", "prior_exempt_homes_share", "homes_2020", "sources", "licences", "notes"]
+        "dose_units_2_4", "dose_sensitivity_mapped", "fallback_class", "prior_exempt_homes_share",
+        "prior_removal_homes_mean", "homes_2020", "sources", "licences", "notes"]
 
 
 def default_row(u: dict) -> dict:
@@ -346,6 +354,9 @@ def build_row(u: dict, inp: dict, base: Path) -> dict:
              dose=round(s["dose"], 2), homes_2020=int(s["homes"]))
     if s["prior_exempt_share"] is not None:
         r["prior_exempt_homes_share"] = round(s["prior_exempt_share"], 4)
+        r["prior_removal_homes_mean"] = round(s["prior_removal_mean"], 4)
+    if inp.get("sensitivity"):  # e.g. mapped carve-out for near-benchmark places (main dose per plan)
+        r["dose_sensitivity_mapped"] = round(score(inp["sensitivity"] | {"geo": inp["geo"]}, base, 2020)["dose"], 2)
     if inp.get("blocks_2010"):
         try:
             r["coverage_homes_share_2010"] = round(score(inp, base, 2010)["coverage"], 4)
@@ -362,6 +373,8 @@ def build_row(u: dict, inp: dict, base: Path) -> dict:
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--only")
+    ap.add_argument("--spokane-event", choices=["2023", "2024", "pending"], default="pending",
+                    help="which Spokane step is the event (C9 says 2023; coordinator asked Ryan 2026-11-12)")
     a = ap.parse_args()
     uni = list(csv.DictReader(open(UNIVERSE)))
     rows, inputs = [], {}
@@ -379,7 +392,13 @@ def main():
             r = build_row(u, inp, base)
         else:
             r = default_row(u)
-        r["event_used"] = r.get("event_used") or (inputs.get(u["reform_id"], {}).get("event_used", "yes"))
+        r["event_used"] = inputs.get(u["reform_id"], {}).get("event_used", "yes")
+        if u["reform_id"] in ("oth_spokane_2023", "oth_spokane_2024"):  # staged; choice pending (coordinator 2026-11-12)
+            yr = u["reform_id"][-4:]
+            r["event_used"] = ("pending (Spokane event year not yet chosen)" if a.spokane_event == "pending"
+                               else ("yes" if yr == a.spokane_event else f"no (Spokane event = {a.spokane_event})"))
+        d24 = inputs.get(u["reform_id"], {}).get("dose_units_2_4")
+        r["dose_units_2_4"] = r["dose"] if d24 is None else d24
         rows.append(r)
         print(u["reform_id"], r["dose"], r["dose_source"], r["coverage_homes_share"], r["removal_share"], flush=True)
     if a.only:
