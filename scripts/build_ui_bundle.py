@@ -558,6 +558,19 @@ def build_state(p: dict) -> dict:
             {"name": "Bozeman", "kind": "place", "reason": "applications, not permits, and partial years"},
         ],
         "source": "docs/gate3/POOLED_MODEL.md (decisions 5, 9 and 13); docs/gate3/STATEWIDE_STATES.md §1–2",
+        "citations": [
+            {"id": "mercatus_2025", "short": "Mercatus Center, 2025",
+             "text": "Hamilton and Peterson, \"A Taxonomy of State Accessory Dwelling Unit Laws 2025\" (Mercatus Center, August 2025): 18 states with statewide ADU laws, 10 strong and 8 weaker. The model's state list.",
+             "url": "https://www.mercatus.org/research/policy-briefs/taxonomy-state-accessory-dwelling-unit-laws-2025"},
+            {"id": "pew_2026", "short": "Pew Charitable Trusts, 2026",
+             "text": ("Horowitz, Staveski and Rodnyansky, \"Accessory Dwelling Units Can Meaningfully Boost Housing Supply\" "
+                      "(The Pew Charitable Trusts, October 2026). Same 18 states by April 2026 (10 strong, 8 weak); Idaho, "
+                      "North Carolina, Virginia and West Virginia passed laws later in 2026, too recent to measure. Across "
+                      "the 346 US cities of 100,000+ people, those with permissive ADU rules issued 81 ADU permits per "
+                      "100,000 residents in 2025, more than 11 times the rate of restrictive cities; outside California, "
+                      "26 per 100,000, more than 3 times. Owner-occupancy and parking rules are associated with fewer permits."),
+             "url": "https://www.pew.org/en/research-and-analysis/reports/2026/10/accessory-dwelling-units-can-meaningfully-boost-housing-supply"},
+        ],
     }
     ctx = pd.read_csv(REF / "adu_model_by_context.csv")
     contrast = pd.read_csv(REF / "gate5_context_contrast.csv").set_index("context")
