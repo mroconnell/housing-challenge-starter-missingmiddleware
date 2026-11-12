@@ -52,7 +52,7 @@ def synth_doses(rng) -> pd.DataFrame:
                 dose = float(rng.uniform(15, 60))
                 rem = 1.0
                 cz, c10 = round(dose / 100 * 1.3, 4), round(dose / 100 * 0.8, 4)
-        used = "no" if r.reform_id in ("oth_spokane_2023", "oth_pomona_2024") else "yes"
+        used = "no" if r.reform_id in ("oth_spokane_2023", "oth_pomona_2024", "oth_fremont_2015") else "yes"
         rows.append(dict(reform_id=r.reform_id, place=r.place, state=r.state, event_year=r.year, type=r.type, event_used=used,
                          eligibility=r.could_join, coverage_homes_share=dose / 100 if src != "fallback" else "",
                          coverage_homes_share_2010=c10, coverage_zoned_land_share=cz, removal_share=rem if src != "fallback" else "",
@@ -230,10 +230,10 @@ class Freeze(Base):
         with self.assertRaises(SystemExit):
             self.run_mode("identity")
 
-    def test_pooled_set_is_24_plus_central_falls(self):
+    def test_pooled_set_is_23_plus_central_falls(self):
         t = dc.load_doses(self.dpath)
         dc.check_pooled(t)
-        self.assertEqual(int((t["role"] == "pooled").sum()), 25)
+        self.assertEqual(int((t["role"] == "pooled").sum()), 24)
         self.assertEqual(int((t["role"] == "74").sum()), 74)
         self.assertEqual(set(t.loc[t["role"] == "alone", "reform_id"]), {"oth_seabrook_2019", "oth_brainerd_2023"})
 
@@ -261,7 +261,7 @@ class FirstAndAll(Base):
         self.run_mode("first")
         M1 = pd.read_csv(self.outd / "parking_dose_mde.csv")
         C1 = pd.read_csv(self.outd / "parking_dose_counts.csv")
-        self.assertEqual(int(C1[(C1["role"] == "pooled")].groupby("outcome")["places"].sum().iloc[0]), 25)
+        self.assertEqual(int(C1[(C1["role"] == "pooled")].groupby("outcome")["places"].sum().iloc[0]), 24)
         # change every new place's effect: --first must not move
         for o in dc.OUTCOMES:
             p = self.work / f"{o}_ref" / "dose_places.csv"

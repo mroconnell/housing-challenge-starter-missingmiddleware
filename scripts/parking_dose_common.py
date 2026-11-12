@@ -59,10 +59,10 @@ STAGED = {("Spokane", "Washington"), ("Pomona", "California")}  # C9: event_used
 # the 24 "clearly eligible" new places of plan section 5 (C9 decides Spokane 2023 vs 2024 and Pomona 2019 vs 2024)
 PLAN_24 = {"oth_chicago_2015", "oth_san_diego_2019", "oth_albuquerque_2018", "oth_penndel_2020", "oth_somerville_2019",
            "oth_madison_2023", "oth_denver_2018", "oth_bakersfield_2024", "oth_covington_2020", "oth_columbia_2021",
-           "oth_fremont_2015", "oth_camden_2021", "oth_waukegan_2024", "oth_watertown_2023", "oth_bloomsburg_2024",
+           "oth_camden_2021", "oth_waukegan_2024", "oth_watertown_2023", "oth_bloomsburg_2024",
            "oth_lewisburg_2023", "oth_boise_2023", "oth_tulsa_2024", "oth_maumee_2020", "oth_dover_2015",
-           "oth_jackson_2021", "oth_norman_2021"}  # + one Spokane row + one Pomona row = 24
-N_NEW_POOLED = 25  # 24 + Central Falls (C8)
+           "oth_jackson_2021", "oth_norman_2021"}  # + one Spokane row + one Pomona row = 23 (Fremont removed 2026-11-12: 2014 event)
+N_NEW_POOLED = 24  # 23 + Central Falls (C8); Fremont out: its event is 2014 (Ord. 28-2014), outside 2015-2024
 C6_PLACES = {("Canandaigua", "New York"), ("Plainfield", "Indiana"), ("Cambridge", "Maryland"), ("Branson", "Missouri"),
              ("Trenton", "New Jersey"), ("Duluth", "Minnesota")}
 MAPPED_TYPES = ("TOD/transit area", "district", "commercial-only")  # audit fix 5 (2010 blocks): mapped reforms
@@ -105,7 +105,9 @@ def require_frozen_doses(doses: Path = DOSES, doc: Path = DOSES_DOC, check_git: 
 
 # ------------------------------------------------------------------ dose table ---------------------------------------
 def _yes(v) -> bool:
-    return str(v).strip().lower() in ("yes", "true", "1", "y")
+    """yes/true/1/y, or a "yes (note)" cell as the dose builder writes for staged events."""
+    x = str(v).strip().lower()
+    return x in ("yes", "true", "1", "y") or x.startswith("yes (")
 
 
 def _num(v) -> float:
