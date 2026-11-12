@@ -567,8 +567,8 @@ def build_state(p: dict) -> dict:
                       "(The Pew Charitable Trusts, October 2026). Same 18 states by April 2026 (10 strong, 8 weak); Idaho, "
                       "North Carolina, Virginia and West Virginia passed laws later in 2026, too recent to measure. Across "
                       "the 346 US cities of 100,000+ people, those with permissive ADU rules issued 81 ADU permits per "
-                      "100,000 residents in 2025, more than 11 times restrictive cities (26 per 100,000 and more than 3 "
-                      "times outside California). Owner-occupancy and parking rules are associated with fewer permits."),
+                      "100,000 residents in 2025, more than 11 times the rate of restrictive cities; outside California, "
+                      "26 per 100,000, more than 3 times. Owner-occupancy and parking rules are associated with fewer permits."),
              "url": "https://www.pew.org/en/research-and-analysis/reports/2026/10/accessory-dwelling-units-can-meaningfully-boost-housing-supply"},
         ],
     }
