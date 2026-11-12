@@ -88,3 +88,5 @@ Written 2026-11-12 by a parking-thread helper. Data research only: no permit out
 - **Keyser and Hill City:** re-check when amlegal is reachable.
 - **Leoti:** re-check when Municode is reachable.
 - **Prompton:** the new weaker rating could also be applied to the main check file. Not done here.
+
+**Correction (2026-11-12 16:10 UTC, after Ryan questioned it):** "never had minimums" overstated what was checked. 8 places have no zoning at all, as the city itself states: Lincoln, Paden City, Crossville, Monticello, New Florence, Patagonia, Bucklin and Prompton. Even there, county or subdivision rules can require parking: Crossville's subdivision rules require 2 per lot, and Wayne County requires 1.5 per home in Prompton. The other 14 are **unverified**. Only the current zoning text was read. Older versions, planned-district (PUD) and overlay rules, subdivision rules and county rules were not checked. The `no_event` column now says which.
