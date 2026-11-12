@@ -1713,3 +1713,55 @@ These override the three groups above.
    - **Housing Accelerator Fund:** most large cities have parking or zoning commitments (coded in `reference/parking_t55_excluded_places.csv`).
    - **Repeal dates** (`reference/parking_t55_repeal_dates.csv`): Toronto by-law 89-2022, enacted 2022-02-03; Edmonton Charter Bylaw 19275, in effect 2020-07-02.
    - Canada has cut parking widely since 2020, which leaves almost no comparable non-reforming large cities.
+
+## Test 56: small projects (2–4 unit and 1-unit homes), with city size as a continuous variable (DRAFT PLAN 2026-11-12, before any count; Ryan 01:23–01:26 UTC)
+
+Ryan, 01:23–01:26 UTC:
+- "Have we tried to measure the effect of parking reform on small projects in small towns? Only looking at 1 unit or 2-4 unit in census data before and after parking reform?"
+- "should we do small towns and large cities in the same test? to normalize?"
+- "instead of categories of population size, can we use size as a continuous variable?"
+- "okay, develop a draft of that plan"
+
+**Running count: 56.** Evidence only. No tool change without Ryan's own OK.
+- **Expectation:** none. The plan states no expected direction.
+- **Origin:** post hoc. It was prompted by the Sightline and Pew ADU evidence that parking mandates block small projects on tight lots, and by earlier looks at the same 74 places (all homes, 2+ units, and 1-unit homes in 52d).
+
+**Sample and estimators.** The fixed 74-place batch sample, with the same windows, pools, placebo and weights as the batch. Both the main (tool) method and method 2 D (target-state mix) are run.
+
+**Outcomes** (Census BPS estimate columns; permits per 1,000 existing homes a year):
+- **Primary:** homes in 2–4 unit buildings (`units_2_4` = 2-unit + 3–4 unit).
+- **Secondary:** homes in 1-unit buildings (`1unit_units`), and homes in 5+ unit buildings (`5plus_units`), so the three columns add up to the total and shifting between building sizes is visible.
+- **Reported-only rerun:** the same outcomes from the `_rep` columns, which drop Census's estimates for months a place didn't report.
+
+**City size.**
+- **Main reading:** size as a continuous variable. The weighted least-squares slope of each place's effect on log10 of its 2010 census population (as in Test 53), per 10× population, with a 90% place-bootstrap range (2,000 draws, seed 20261105).
+- **Companion reading:** places under vs over 25,000 people (2010 census), fixed now. It shows each group's average and the gap.
+- **Agreement:** the two are read together. Neither "counts" alone if they disagree in sign.
+
+**Confounds and guards.**
+1. **Middle-housing legalization at the same time:**
+   - Flag repeal places with a plex legalization within ±3 years of repeal. Sources: the Test 52b events table (`middle-housing upzoning`, `TOD upzoning`, `state housing law` rows), Oregon's HB 2001 (cities of 10,000+), and the reform-type coding.
+   - The list is committed before any count.
+   - Results are reported with and without flagged places, and with and without all Oregon places (state parking rule and HB 2001 together).
+2. **Whether plexes are legal:** plex legality before repeal is coded only for the 15 long-set places (reform-type coding), so it can't be a split. The limit is stated, and the 15 are listed as cases (plexes legal by right / by review / not allowed).
+3. **Shifting between building sizes:** 1-unit, 2–4 and 5+ are reported side by side with their own ranges.
+4. **Mostly-zero data:**
+   - **Count check:** a Poisson count model (homes counted, existing homes as exposure, as in Tests 38–39) is run as a check.
+   - **Thin cut-off:** set now. A group or slope resting on fewer than 10 places with any 2–4 unit permits in their windows is labelled "too few to read".
+5. **Weighting:** homes × after-years (as in the tool) and equal weight per place, both shown.
+6. **Timing:** the main windows are 1–3 years after repeal. Two checks are added: the long set (5+ years after, Test 49 style) and pre-repeal leads (years −3 to −1).
+7. **Power:** before any count, the minimum detectable effect is computed from the placebo spread of the 2–4 unit outcome. It is stated beside every result, so a blank result is not read as "no effect" when the test could only catch large effects.
+
+**Reading** (the same bar for both signs):
+- **Overall:** for each outcome, the effect "counts" only if its 90% range excludes 0 under both the main method and method 2.
+- **Size:** the size slope "counts" only if its range excludes 0 under both methods and the under/over-25,000 gap agrees in sign.
+- **Chance:** there are about 12 comparisons in all, so 1 or 2 ranges excluding 0 by chance is plausible, and the write-up says so.
+- **Wisconsin translation:** any use in Wisconsin needs Ryan's OK and the 25% rule. Plex legality in Wisconsin ties to the middle-housing scenario.
+
+**Run order:**
+1. The flag list and the minimum-detectable-effect calculation, committed before any count.
+2. The code, committed.
+3. Audit.
+4. Ryan's go.
+5. Count.
+6. Write-up to the audit and Ryan.
