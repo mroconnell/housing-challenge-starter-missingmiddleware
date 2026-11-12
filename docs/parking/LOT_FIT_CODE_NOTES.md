@@ -12,7 +12,7 @@ Plan: [LOT_FIT_PLAN.md](LOT_FIT_PLAN.md). Its Choices and Audit fixes blocks ove
 | `reference/parking_lotfit_rules.csv` | Hand-coded rules: one row per rule, with source, status and use |
 | `scripts/run_parking_lotfit.py` | Runs the fit test, variants, aggregates and the Milwaukee sanity check |
 | `scripts/run_parking_lotfit.sh` | Runner: fetch if missing, tests, licence check, then a synthetic smoke run (or `--go`) |
-| `tests/test_parking_lotfit.py` | 29 unittest cases on synthetic lots |
+| `tests/test_parking_lotfit.py` | 29 unittest cases on synthetic lots (all pass) |
 
 **Rules table columns.**
 - `use` values:
@@ -154,10 +154,16 @@ Plan: [LOT_FIT_PLAN.md](LOT_FIT_PLAN.md). Its Choices and Audit fixes blocks ove
 24. **Milwaukee sanity check.**
     - It covers existing buildings with MPROP `NR_UNITS` of 2–4.
     - Each gets the model building (units × 1,000 sq ft) on its own district's rules. Where the district is not coded, RT4 applies.
-    - Required stalls = the recorded `PARKING_SPACES`, with no garages.
+    - **Blocker found:** `PARKING_SPACES` and `CORNER_LOT` are empty in every row of the MPROP file on disk (`data/raw/milwaukee_mprop/mprop.csv`, assessment year 2026). The other check columns are filled: `NR_UNITS`, `ZONING`, `LOT_AREA`.
+    - So the check runs on two bases, each reported separately:
+      - **Modelled rules.** This is audit fix 5 as written, and it sets the label. Stalls are what the modelled rules require.
+      - **Recorded spaces.** Stalls are `PARKING_SPACES`, with no garages. On the file on disk this reads "not computable", because no building has a value.
+    - Because 2-unit Milwaukee buildings need 0 stalls, the modelled-rules check mostly tests step 1 for them.
     - "Could not fit" means failing step 1 or step 2. Both parts are reported.
-    - The label "rule model may be too strict" is set when more than 50% of the 2–4 unit total could not fit. Each unit count is labelled too.
+    - The label "rule model may be too strict" is set when more than 50% could not fit. It is applied per unit count and to the 2–4 unit total.
     - Step-1 failures (non-conforming old lots) may dominate. This is reported, not retuned.
+    - For audit: should the check refetch MPROP or use another source for recorded spaces? Not done; it needs an OK.
+    - With `CORNER_LOT` empty, no Milwaukee lot gets the corner-lot rules (coverage 85% and so on). This leans toward overstating blocking.
 25. **"Tested places" row.**
     - Lot-weighted sums: lots where parking blocks ÷ lots that fit without parking.
     - A variant that can't apply in a place leaves that place at its central value.
@@ -178,3 +184,13 @@ Plan: [LOT_FIT_PLAN.md](LOT_FIT_PLAN.md). Its Choices and Audit fixes blocks ove
   - Oshkosh's parking rules are in §30-175, not §30-75 as the plan says.
 - Madison: Municode returned HTTP 403. The rules come from adopted ordinances on Legistar: ORD-25-00066, ORD-23-00013 and ORD-25-00094.
 - No new dependencies. The licence check passed.
+
+## Input checks (counts only; no fit test run on real lots)
+
+| Place | Residential lots (PROPCLASS exactly 1) | Rectangle fill at least 80% | TIGER alley flag | Zoning joined | In a coded district | Madison TOD overlay |
+|---|---|---|---|---|---|---|
+| Germantown | 7,311 | 4,420 | 0 | — | — | — |
+| Madison | 74,497 | 54,460 | 0 | 74,420 of 74,497 parcel IDs match | 40,898 | 16,430 |
+| Milwaukee | 142,308 | 132,180 | 4 | 142,182 | 71,862 | — |
+
+The other 8 places were fetched but not loaded.

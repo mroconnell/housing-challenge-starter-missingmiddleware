@@ -524,7 +524,9 @@ def load_place_lots(place: str, rules: Rules) -> pd.DataFrame:
 def madison_base_district(zoning_all, coded: set) -> str:
     """Base district from Madison's ZoningAll (e.g. 'WP-27, TR-V1, HIS-UH'; Zoning1 is empty in the file on disk):
     the first coded district listed, else the first entry that is not a wellhead (WP-) or historic (HIS-) overlay."""
-    toks = [t.strip() for t in str(zoning_all or "").split(",") if t.strip()]
+    if not isinstance(zoning_all, str):
+        return ""
+    toks = [t.strip() for t in zoning_all.split(",") if t.strip()]
     for t in toks:
         if t in coded:
             return t
@@ -659,39 +661,49 @@ def spans(shares: pd.DataFrame) -> pd.DataFrame:
 
 
 def sanity_milwaukee(lots: pd.DataFrame, R: Rules) -> pd.DataFrame:
-    """Audit fix 5: apply the model to Milwaukee's existing 2-4 unit buildings (MPROP NR_UNITS) with their recorded
-    PARKING_SPACES as the stall count; label 'rule model may be too strict' when over 50% could not fit."""
+    """Audit fix 5: apply the model to Milwaukee's existing 2-4 unit buildings (MPROP NR_UNITS); label 'rule model
+    may be too strict' when over 50% could not fit. Two stall counts, each its own rows:
+    - 'modelled rules' (the label rule): the stalls the modelled rules require on the lot's district (RT4 where the
+      district is not coded);
+    - 'recorded spaces': MPROP PARKING_SPACES. Buildings with no recorded value are left out; when none has one
+      (the MPROP file on disk leaves the field empty) the rows say 'not computable'."""
     cut = float(R.get("*", "*", "sanity_too_strict_share", 2) or 0.5)
+    rule_txt = f"label when share_could_not_fit > {cut:.0%} (convention, audit fix 5); no retuning"
     m = lots.copy()
     m["nu"] = pd.to_numeric(m.NR_UNITS, errors="coerce")
-    m["ps"] = pd.to_numeric(m.PARKING_SPACES, errors="coerce").fillna(0)
+    m["ps"] = pd.to_numeric(m.PARKING_SPACES, errors="coerce")
     m = m[m.nu.isin([2, 3, 4]) & np.isfinite(m.width_ft) & (m.width_ft > 0)]
     coded = R.districts("Milwaukee")
-    rows = []
-    for n in UNITS:
-        s = m[m.nu == n]
-        res = []
-        for row in s.itertuples(index=False):
-            d = row.district if row.district in coded else R.as_if_district("Milwaukee", n)
-            conds = conds_of(row, "Milwaukee")
-            p = replace(resolve(R, "Milwaukee", d, n, conds), stalls=int(row.ps), enclosed=0)
-            res.append(fit_lot(Lot(row.area_sqft, row.width_ft, row.depth_ft, bool(row.alley), bool(row.corner)), p)[0])
-        res = pd.Series(res, dtype=str)
-        k = len(res)
-        no_fit = int((res != FITS).sum())
-        share = no_fit / k if k else np.nan
-        rows.append({"units": n, "existing_buildings": k, "could_not_fit": no_fit,
-                     "of_which_other_rules": int((res == OTHER).sum()), "of_which_parking": int((res == PARKING).sum()),
-                     "share_could_not_fit": share, "recorded_spaces_total": int(s.ps.sum()),
-                     "label": SANITY_LABEL if (k and share > cut) else "",
-                     "rule": f"label when share_could_not_fit > {cut:.0%} (convention, audit fix 5); no retuning"})
-    a = pd.DataFrame(rows)
-    tot = a[["existing_buildings", "could_not_fit", "of_which_other_rules", "of_which_parking", "recorded_spaces_total"]].sum()
-    share = tot.could_not_fit / tot.existing_buildings if tot.existing_buildings else np.nan
-    a["units"] = a.units.astype(str)
-    total = {"units": "2-4", **{k: int(v) for k, v in tot.items()}, "share_could_not_fit": share,
-             "label": SANITY_LABEL if share > cut else "", "rule": a.rule.iloc[0]}
-    return pd.concat([a, pd.DataFrame([total])], ignore_index=True)
+    out = []
+    for basis in ("modelled rules", "recorded spaces"):
+        rows = []
+        for n in UNITS:
+            s = m[m.nu == n]
+            if basis == "recorded spaces":
+                s = s[s.ps.notna()]
+            res = []
+            for row in s.itertuples(index=False):
+                d = row.district if row.district in coded else R.as_if_district("Milwaukee", n)
+                p = resolve(R, "Milwaukee", d, n, conds_of(row, "Milwaukee"))
+                if basis == "recorded spaces":
+                    p = replace(p, stalls=int(row.ps), enclosed=0)
+                res.append(fit_lot(Lot(row.area_sqft, row.width_ft, row.depth_ft, bool(row.alley), bool(row.corner)), p)[0])
+            res = pd.Series(res, dtype=str)
+            rows.append({"basis": basis, "units": str(n), "existing_buildings": len(res),
+                         "could_not_fit": int((res != FITS).sum()), "of_which_other_rules": int((res == OTHER).sum()),
+                         "of_which_parking": int((res == PARKING).sum())})
+        a = pd.DataFrame(rows)
+        tot = a[["existing_buildings", "could_not_fit", "of_which_other_rules", "of_which_parking"]].sum()
+        a = pd.concat([a, pd.DataFrame([{"basis": basis, "units": "2-4", **{k: int(v) for k, v in tot.items()}}])],
+                      ignore_index=True)
+        a["share_could_not_fit"] = np.where(a.existing_buildings > 0,
+                                            a.could_not_fit / a.existing_buildings.where(a.existing_buildings > 0), np.nan)
+        a["label"] = np.where(a.share_could_not_fit > cut, SANITY_LABEL, "")
+        if basis == "recorded spaces" and tot.existing_buildings == 0:
+            a["label"] = "not computable: PARKING_SPACES empty in the MPROP file"
+        a["rule"] = rule_txt
+        out.append(a)
+    return pd.concat(out, ignore_index=True)
 
 
 # ============================================================================================== synthetic

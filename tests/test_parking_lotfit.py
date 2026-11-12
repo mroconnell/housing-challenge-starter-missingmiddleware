@@ -176,6 +176,7 @@ class Zoning(unittest.TestCase):
         self.assertEqual(LF.madison_base_district("HIS-TL, TR-V1", coded), "TR-V1")
         self.assertEqual(LF.madison_base_district("WP-27, PD", coded), "PD")
         self.assertEqual(LF.madison_base_district(None, coded), "")
+        self.assertEqual(LF.madison_base_district(float("nan"), coded), "")
 
 
 class Geometry(unittest.TestCase):
@@ -220,12 +221,16 @@ class Pipeline(unittest.TestCase):
         lots["NR_UNITS"] = "2"
         lots["PARKING_SPACES"] = "40"                                          # absurd: nothing can fit 40 stalls
         s = LF.sanity_milwaukee(lots, R)
-        tot = s[s.units == "2-4"].iloc[0]
-        self.assertGreater(tot.share_could_not_fit, 0.5)
-        self.assertEqual(tot.label, LF.SANITY_LABEL)
-        lots["PARKING_SPACES"] = "0"
+        rec = s[(s.basis == "recorded spaces") & (s.units == "2-4")].iloc[0]
+        self.assertGreater(rec.share_could_not_fit, 0.5)
+        self.assertEqual(rec.label, LF.SANITY_LABEL)
+        rule = s[(s.basis == "modelled rules") & (s.units == "2-4")].iloc[0]
+        self.assertEqual(int(rule.of_which_parking), 0)                        # 2 units: no minimum in Milwaukee
+        lots["PARKING_SPACES"] = np.nan                                        # as in the MPROP file on disk
         s = LF.sanity_milwaukee(lots, R)
-        self.assertEqual(int(s[s.units == "2-4"].iloc[0].of_which_parking), 0)
+        rec = s[(s.basis == "recorded spaces") & (s.units == "2-4")].iloc[0]
+        self.assertEqual(int(rec.existing_buildings), 0)
+        self.assertTrue(rec.label.startswith("not computable"))
 
     def test_pooled_is_lot_weighted(self):
         rows = []
