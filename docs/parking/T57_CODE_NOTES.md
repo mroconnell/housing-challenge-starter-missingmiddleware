@@ -14,7 +14,7 @@ Date: 2026-11-12 (UTC). Plan: `docs/parking/CAUSAL_FRAMEWORK_PLAN.md`, Test 57 u
 | `scripts/build_parking_t57_sf_panel.py` | SF wave A panel (1 run) |
 | `scripts/summarise_parking_t57.py` | `--first` (no effect) and `--all` (95 cells, reading) |
 | `scripts/run_parking_t57.sh` | `check`, `first`, `all` |
-| `tests/test_parking_t57.py` | 13 checks on made-up data |
+| `tests/test_parking_t57.py` | 14 checks on made-up data |
 
 Run order: `bash scripts/run_parking_t57.sh first` (after Ryan's go), report counts and MDE, then `bash scripts/run_parking_t57.sh all`.
 
@@ -113,7 +113,14 @@ Windows:
 26. SF outcome: new-construction permits (types 1, 2), not cancelled, gross proposed units, by issue year. As Test 50's main.
 27. SF clusters: 500 m grid (EPSG:3310); a cell with both arms is one cluster.
 
-## Things that don't match the lock (need a ruling)
+## Things that didn't match the lock
+
+All ruled on in the plan's "Test 57 audit code rulings (06:28 UTC)" block. Since then:
+- `--first` also writes `reference/parking_t57_hpd_placement.csv` (HPD not-placed share by year, whole city, not by arm).
+- The balance table leaves out the Manhattan Core outside lots.
+- The SF 2009 zoning licence source is recorded (DataSF Terms of Use, Section IX: PDDL by default).
+
+Original list:
 
 1. **Placebo dates.** Plan: one date "3 years earlier". Addendum 2: "the −4 placebo". Lock: "both placebo dates". Code runs −3 and −4. Test 56 used −2 and −4.
 2. **SF controls: 41 vs Bayview.** The 41 clean rows include NCD-Bayview. The rules block says Bayview is out. Code uses 40.
@@ -162,7 +169,7 @@ Record placement (whole file; records with ≥1 unit and a date):
 - Licences: NYC Open Data terms (licence field blank); SF special use districts and planning areas are "Public Domain U.S. Government".
 - No request was refused. Own user agent; no workaround.
 
-## Synthetic smoke tests (`tests/test_parking_t57.py`, 13 checks, all pass)
+## Synthetic smoke tests (`tests/test_parking_t57.py`, 14 checks, all pass)
 
 - A planted effect (1.5) is recovered exactly; leads, year 0 and the placebo are exactly 0.
 - A planted pre-trend makes lead −5 exclude 0.
@@ -174,3 +181,4 @@ Record placement (whole file; records with ≥1 unit and a date):
 - Summariser `--first` then `--all` end to end on 7 made-up panels: 95 rows; the planted headline effect reads "counts"; labels present.
 - Reading rules: lead overrides counts; too-few overrides all; lags never set the pre-trend label.
 - NY build pieces: MIH pro-rating, MIH record drop, keep-MIH, BBL vs point placement.
+- HPD not-placed share by year: whole city, no arm column; passed through by `--first`.
