@@ -116,7 +116,12 @@ class EndToEnd(unittest.TestCase):
                 eff, noise = (2.0, 0.0) if k == "ny_dob" else (0.0, 0.3)   # ny_dob: exact, so leads are exactly 0
                 synth(r, C.FIRST_YEAR[r.city] if not k.startswith("ny_hpd") else 2014, effect=eff, noise=noise,
                       seed=j).to_csv(td / f"panel_{k}.csv", index=False)
+            pd.DataFrame({"year": [2014, 2015], "records": [10, 20], "not_placed": [3, 4],
+                          "not_placed_share": [0.3, 0.2]}).to_csv(td / "hpd_placement_by_year.csv", index=False)
             S.main(["--first", "--panels", str(td), "--out", str(td), "--tag", "_synthetic"])
+            hp = pd.read_csv(td / "parking_t57_hpd_placement_synthetic.csv")
+            self.assertEqual(hp.not_placed.tolist(), [3, 4])
+            self.assertNotIn("arm", hp.columns)
             cnt = pd.read_csv(td / "parking_t57_counts_synthetic.csv")
             self.assertEqual(len(cnt), 7)
             self.assertNotIn("estimate", pd.read_csv(td / "parking_t57_mde_synthetic.csv").columns)
@@ -175,6 +180,16 @@ class NYBuildPieces(unittest.TestCase):
         i, d = self.B.place(rec, lots)
         self.assertEqual(i.tolist(), [0, 2, 1, -1, -1])   # bbl; bbl too far -> point (lot 2); point; nothing; nothing
         self.assertEqual(d["bbl_rejected_far"], 1)
+
+    def test_hpd_placement_by_year(self):
+        rec = pd.DataFrame({"date": pd.to_datetime(["2014-02-01", "2014-09-01", "2015-01-05", "2016-03-01", "2016-04-01"]),
+                            "lot": [3, -1, 5, -1, -1]})
+        g = self.B.placement_by_year(rec)
+        self.assertEqual(g.year.tolist(), [2014, 2015, 2016])
+        self.assertEqual(g.records.tolist(), [2, 1, 2])
+        self.assertEqual(g.not_placed.tolist(), [1, 0, 2])
+        self.assertEqual(g.not_placed_share.tolist(), [0.5, 0.0, 1.0])
+        self.assertEqual(set(g.columns), {"year", "records", "not_placed", "not_placed_share"})   # no arm column
 
     def test_panel_mih_drop(self):
         lots = pd.DataFrame({"cluster": [1, 1, 2], "arm": ["T", "C", "C"], "acres": [1.0, 2.0, 4.0],

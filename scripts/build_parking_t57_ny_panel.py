@@ -40,7 +40,8 @@ Same-zoning edge (pre-set sensitivity 1): each land-line sample is classed as in
 ZoneDist1 of lot centroids within 300 ft on each side, more than 20 ft off the line); a lot is kept when its nearest
 land-line sample has lots on both sides with the same modal district.
 Runs (scripts/parking_t57_common.RUNS): ny_dob, ny_dob_keepmih, ny_dob_samezone, ny_dob_legacy2020, ny_hpd,
-ny_hpd_keepmih. Output: <out>/panel_<run>.csv (cluster, arm, year, units, jobs, acres), <out>/build_ny_diag.json.
+ny_hpd_keepmih. Output: <out>/panel_<run>.csv (cluster, arm, year, units, jobs, acres), <out>/build_ny_diag.json,
+<out>/hpd_placement_by_year.csv (HPD records and not-placed share by project start year, whole city, not by arm).
 """
 from __future__ import annotations
 
@@ -209,6 +210,15 @@ def place(rec: pd.DataFrame, lots: pd.DataFrame) -> tuple[pd.Series, dict]:
                                                 unplaced=int((i < 0).sum()))
 
 
+def placement_by_year(rec: pd.DataFrame) -> pd.DataFrame:
+    """Whole-city records and not-placed share by year (never split by arm): rec needs date and lot (-1 = not placed)."""
+    d = rec.assign(year=rec.date.dt.year, unplaced=(rec.lot < 0).astype(int))
+    g = d.groupby("year").agg(records=("unplaced", "size"), not_placed=("unplaced", "sum")).reset_index()
+    g["not_placed_share"] = (g.not_placed / g.records).round(4)
+    g["year"] = g.year.astype(int)
+    return g
+
+
 # ------------------------------------------------------------------------------------------------ panels
 def year_share_before(mih: pd.Series, year: int) -> np.ndarray:
     """Share of `year` before each lot's MIH adoption date (1 when no date)."""
@@ -269,6 +279,8 @@ def main(argv: list[str] | None = None) -> None:
         r = r[(r.units > 0) & r.date.notna()].copy()
         r["lot"], pdg = place(r, lots)
         diag[f"placement_{name} (records with units > 0 and a date, whole file)"] = pdg
+        if name == "hpd":   # audit code rulings 06:28 UTC: HPD not-placed share by year, whole city, for --first
+            placement_by_year(r).to_csv(out / "hpd_placement_by_year.csv", index=False)
         recs[name] = r[r.lot >= 0]
     dob = pd.concat([recs["legacy"], recs["dobnow"]], ignore_index=True)
     same = lots.same_zone.to_numpy()

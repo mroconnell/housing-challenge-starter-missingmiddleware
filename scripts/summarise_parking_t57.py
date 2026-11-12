@@ -8,7 +8,8 @@ build_parking_t57_sf_panel.py and applies parking_t57_common.
 
 --first computes no treated-vs-control effect: only cell parts, clusters, before-window jobs and acres per arm, the
 too-few flag, and the MDE (2.486 x the SD of the main effect's bootstrap draws; no centre or percentile is computed).
-Writes parking_t57_counts.csv and parking_t57_mde.csv.
+Writes parking_t57_counts.csv, parking_t57_mde.csv and parking_t57_hpd_placement.csv (HPD not-placed share by
+year, whole city, not split by arm; audit code rulings 06:28 UTC).
 --all writes parking_t57_cells.csv (exactly parking_t57_common.N_CELLS rows, asserted), parking_t57_reading.csv (the
 lock's rules applied mechanically, with the diluted-outcome, balance and bundling labels beside each run). Event-study
 rows are cells. The only headline cell is NY 2016, all DOB new-building units (ny_dob:main).
@@ -63,6 +64,19 @@ def first(panels: Path, out: Path, tag: str) -> None:
     pd.set_option("display.width", 250)
     print(cnt.drop(columns=["rule", "outcome"]).to_string(index=False))
     print(mde[["run", "bootstrap_sd", "mde", "draws_used", "unit"]].to_string(index=False))
+    hp = hpd_placement(panels)
+    hp.to_csv(out / f"parking_t57_hpd_placement{tag}.csv", index=False)
+    print(hp.to_string(index=False))
+
+
+def hpd_placement(panels: Path) -> pd.DataFrame:
+    """HPD new-construction buildings not placed on a lot, by project start year, whole city (not split by arm)."""
+    f = panels / "hpd_placement_by_year.csv"
+    assert f.exists(), f"{f} missing: run build_parking_t57_ny_panel.py"
+    h = pd.read_csv(f)
+    assert set(h.columns) == {"year", "records", "not_placed", "not_placed_share"} and h.year.is_unique
+    h["scope"] = "whole city, not split by arm; HPD new construction with >= 1 income-restricted unit, by project start year"
+    return h
 
 
 def all_cells(panels: Path, out: Path, tag: str) -> None:
