@@ -23,10 +23,11 @@ FT = 0.3048
 
 
 def rid(place, district, prov, value):
+    """The variant group holding this span-variant row."""
     d = R.df
     m = (d.place == place) & (d.district == district) & (d.provision == prov) & (d.value == value) & (d.use == "span_variant")
     assert m.sum() == 1, (place, district, prov, value, int(m.sum()))
-    return int(d.rid[m].iloc[0])
+    return LF.variant_group(next(d[m].itertuples(index=False)))
 
 
 class RulesTable(unittest.TestCase):
@@ -196,7 +197,7 @@ class Pipeline(unittest.TestCase):
         lots = LF.synthetic_lots("Milwaukee", n=120, seed=3)
         rows = pd.DataFrame(LF.run_place("Milwaukee", lots, R))
         self.assertEqual(set(rows.version), {"main", "as_if"})
-        c = rows[(rows.variant_rid == -1) & (rows.split == "regular lots")]
+        c = rows[(rows.variant == "central") & (rows.split == "regular lots")]
         self.assertTrue(((c.parking_blocks <= c.fit_without_parking) & (c.fit_without_parking <= c.lots)).all())
         two = c[c.units == 2]
         self.assertTrue((two.parking_blocks == 0).all())                       # no minimum for 2 units
@@ -221,7 +222,7 @@ class Pipeline(unittest.TestCase):
         rows = []
         for place, (blocks, fit) in {"A": (1, 10), "B": (9, 30)}.items():
             rows.append({"place": place, "version": "as_if", "units": 2, "split": "regular lots", "variant": "central",
-                         "variant_rid": -1, "lots": fit + 5, "other_rules_block": 5, "fit_without_parking": fit,
+                         "lots": fit + 5, "other_rules_block": 5, "fit_without_parking": fit,
                          "parking_blocks": blocks, "share_parking_blocks": blocks / fit, "share_other_rules_block": 0})
         p = LF.pooled(pd.DataFrame(rows))
         self.assertAlmostEqual(float(p.share_parking_blocks.iloc[0]), 10 / 40)

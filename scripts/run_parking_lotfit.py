@@ -76,6 +76,13 @@ def _units_ok(cell: str, n: int) -> bool:
     return cell == "" or str(n) in cell.split(";")
 
 
+def variant_group(r) -> str:
+    """A span variant's name: the CSV's variant_group when set (rows applied together, e.g. a stall's width and
+    depth), else provision=value with the place."""
+    g = getattr(r, "variant_group", "") or ""
+    return g if g else f"{r.provision}={r.value} [{r.place}]"
+
+
 def _score(row) -> int:
     """Specificity: a condition row (alley, corner, TOD overlay, small lot) is a deliberate override and beats
     everything; then place, district, unit count."""
@@ -94,9 +101,12 @@ class Rules:
         for r in df[df.use == "central"].itertuples(index=False):
             self._by_prov.setdefault(r.provision, []).append(r)
         self._row = {int(r.rid): r for r in df.itertuples(index=False)}
+        self._groups: dict = {}
+        for r in df[df.use == "span_variant"].itertuples(index=False):
+            self._groups.setdefault(variant_group(r), []).append(r)
         self._memo: dict = {}
 
-    def get(self, place, district, prov, n, conds=frozenset(), variant: int | None = None):
+    def get(self, place, district, prov, n, conds=frozenset(), variant: str | None = None):
         """Value of a provision (string), or None when no row applies."""
         key = (place, district, prov, n, frozenset(conds), variant)
         if key not in self._memo:
@@ -118,20 +128,23 @@ class Rules:
                 raise ValueError(f"conflicting rows for {place}/{district}/{prov}/n={n}/{sorted(conds)}: {vals}")
             best = (top, vals.pop())
         if variant is not None:
-            v = self._row[int(variant)]
-            if v.provision == prov and self._match(v, place, district, n, conds):
+            hits = [v for v in self._groups[variant] if v.provision == prov and self._match(v, place, district, n, conds)]
+            if hits:
+                v = max(hits, key=_score)
                 forced = (v.provision, v.value) in FORCE_ALL
                 if best is None or forced or _score(v) >= best[0]:
                     return v.value
         return None if best is None else best[1]
 
+    def group(self, variant: str) -> list:
+        return self._groups[variant]
+
     def row(self, rid: int):
         return self._row[int(rid)]
 
-    def variants(self, place: str) -> list[int]:
-        """Span-variant rows that can apply in a place."""
-        v = self.df[(self.df.use == "span_variant") & self.df.place.isin([place, "*"])]
-        return list(v.rid)
+    def variants(self, place: str) -> list[str]:
+        """Span-variant groups that can apply in a place (rows of one group are applied together)."""
+        return [k for k, rows in self._groups.items() if any(r.place in (place, "*") for r in rows)]
 
     def as_if_district(self, place: str, n: int) -> str:
         d = self.get(place, "*", "as_if_district", n)
@@ -194,7 +207,7 @@ def counted(value: str | None, silent_counts: bool) -> bool:
     return silent_counts
 
 
-def resolve(R: Rules, place: str, district: str, n: int, conds=frozenset(), variant: int | None = None) -> Params:
+def resolve(R: Rules, place: str, district: str, n: int, conds=frozenset(), variant: str | None = None) -> Params:
     g = lambda prov: R.get(place, district, prov, n, conds, variant)  # noqa: E731
     side = _f(g("side_setback_ft"), 0.0)
     other = _f(g("side_setback_other_ft"), side)
@@ -206,8 +219,7 @@ def resolve(R: Rules, place: str, district: str, n: int, conds=frozenset(), vari
     tandem = counted(g("tandem_counts"), True)
     drive_counts = counted(g("driveway_counts"), True) if tandem else False   # the 'no tandem' variant drops both
     if variant is not None:
-        v = R.row(variant)
-        if (v.provision, v.value) == ("tandem_counts", "no"):
+        if any((v.provision, v.value) == ("tandem_counts", "no") for v in R.group(variant)):
             tandem, drive_counts = False, False
     rear_park = g("setback_parking_rear")
     side_park = g("setback_parking_side")
@@ -532,7 +544,7 @@ def lot_keys(lots: pd.DataFrame, place: str) -> tuple[pd.Series, pd.Series]:
     return pd.Series(ok, index=lots.index), conds
 
 
-def classify(lots: pd.DataFrame, R: Rules, place: str, version: str, n: int, variant: int | None,
+def classify(lots: pd.DataFrame, R: Rules, place: str, version: str, n: int, variant: str | None,
              keys: tuple | None = None, central: pd.Series | None = None) -> pd.Series:
     """Class per lot ('' where the lot is out of this version: main needs its district to allow n units). With
     `central` given, groups of lots whose parameters equal the central ones reuse the central class."""
@@ -579,15 +591,6 @@ def summarise(lots: pd.DataFrame, cls: pd.Series, keys: dict, fill_min: float) -
     return rows
 
 
-def variant_label(R: Rules, rid: int | None) -> str:
-    if rid is None:
-        return "central"
-    v = R.row(rid)
-    scope = v.place if v.district == "*" else f"{v.place} {v.district}"
-    u = f" (units {v.units})" if v.units else ""
-    return f"{v.provision}={v.value} [{scope}{u}]"
-
-
 def run_place(place: str, lots: pd.DataFrame, R: Rules) -> list[dict]:
     fill_min = float(R.get("*", "*", "rect_fill_min", 2) or 0.8)
     out = []
@@ -600,8 +603,7 @@ def run_place(place: str, lots: pd.DataFrame, R: Rules) -> list[dict]:
                 cls = classify(lots, R, place, version, n, rid, lk, central)
                 if rid is None:
                     central = cls
-                keys = {"place": place, "version": version, "units": n, "variant": variant_label(R, rid),
-                        "variant_rid": -1 if rid is None else rid}
+                keys = {"place": place, "version": version, "units": n, "variant": rid or "central"}
                 out += summarise(lots, cls, keys, fill_min)
     return out
 
@@ -611,14 +613,14 @@ def pooled(rows: pd.DataFrame) -> pd.DataFrame:
     split, central and each variant (a variant that cannot apply in a place leaves that place at its central)."""
     out = []
     for (version, n, split), g in rows.groupby(["version", "units", "split"]):
-        central = g[g.variant_rid == -1].set_index("place")
-        for rid in sorted(g.variant_rid.unique()):
-            v = g[g.variant_rid == rid].set_index("place")
+        central = g[g.variant == "central"].set_index("place")
+        for rid in sorted(g.variant.unique()):
+            v = g[g.variant == rid].set_index("place")
             use = central.copy()
             use.loc[v.index] = v
             s = use[["lots", "other_rules_block", "fit_without_parking", "parking_blocks"]].sum()
             out.append({"place": "tested places (lot-weighted)", "version": version, "units": n, "split": split,
-                        "variant": "central" if rid == -1 else v.variant.iloc[0], "variant_rid": rid,
+                        "variant": rid,
                         **s.to_dict(),
                         "share_parking_blocks": s.parking_blocks / s.fit_without_parking if s.fit_without_parking else np.nan,
                         "share_other_rules_block": s.other_rules_block / s.lots if s.lots else np.nan})
@@ -629,7 +631,7 @@ def spans(shares: pd.DataFrame) -> pd.DataFrame:
     """Central share with the low / high across variants (each variant alone), labelled as a span of assumptions."""
     out = []
     for (place, version, n, split), g in shares.groupby(["place", "version", "units", "split"]):
-        c = g[g.variant_rid == -1].share_parking_blocks
+        c = g[g.variant == "central"].share_parking_blocks
         allv = g.share_parking_blocks.dropna()
         lo = g.loc[allv.idxmin()] if len(allv) else None
         hi = g.loc[allv.idxmax()] if len(allv) else None
