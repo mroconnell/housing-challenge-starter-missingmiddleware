@@ -8,7 +8,10 @@ export default defineConfig({
   timeout: 60_000,
   retries: 0,
   reporter: [["list"]],
-  use: { baseURL: "http://127.0.0.1:4317/", trace: "off" },
+  // The content tests open unfinished pages too: "mm-show-unfinished" shows every page as finished (ui/src/finished.ts).
+  // tests/finished.spec.ts clears it to check the greyed tabs, the "coming soon" note and that nothing links to them.
+  use: { baseURL: "http://127.0.0.1:4317/", trace: "off",
+    storageState: { cookies: [], origins: [{ origin: "http://127.0.0.1:4317", localStorage: [{ name: "mm-show-unfinished", value: "1" }] }] } },
   projects: [
     { name: "desktop", use: { ...devices["Desktop Chrome"], viewport: { width: 1280, height: 900 } } },
     { name: "mobile", use: { ...devices["Pixel 7"], browserName: "chromium" } },

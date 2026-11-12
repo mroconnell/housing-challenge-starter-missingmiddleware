@@ -54,6 +54,12 @@ h3 { font-size: 1.05rem; margin: 18px 0 6px; }
 .tabs a[aria-current="page"] { color: var(--accent-ink); border-bottom-color: var(--accent); font-weight: 650; }
 .tab-n { display: inline-grid; place-items: center; width: 20px; height: 20px; border-radius: 50%; background: #e7eae6; font-size: 0.75rem; color: var(--ink); }
 .tabs a[aria-current="page"] .tab-n { background: var(--accent); color: #fff; }
+/* unfinished pages (ui/src/finished.ts): dimmed, labelled "coming soon", not links */
+.tab-soon, .tabs a.tab-soon, .tabs a.tab-soon:hover { color: #8a918d; cursor: default; }
+.tabs a.tab-soon .tab-n { background: #eef0ed; color: #8a918d; }
+.soon-label { font-size: 0.72rem; font-weight: 500; font-style: italic; color: #6f7672; }
+.head-today.tab-soon, .head-today.tab-soon:hover { color: #8a918d; border-color: var(--line); cursor: default; }
+.coming-soon { padding: 24px 0; }
 
 /* footer */
 .site-foot { margin-top: 40px; border-top: 1px solid var(--line); background: var(--surface); font-size: 0.9rem; padding: 14px 0 24px; }

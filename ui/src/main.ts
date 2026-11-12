@@ -18,6 +18,7 @@
 import "./style.css";
 import "./scenarios/shell.css";
 import { labelScrollers } from "./app";
+import { COMING_SOON, comingSoonHTML, isFinished, watchUnfinishedLinks, wisconsinTodayFinished } from "./finished";
 import { esc } from "./format";
 import { aduReform } from "./scenarios/adu";
 import { introLoading, loadIntro, renderIntro } from "./screens/intro";
@@ -25,7 +26,7 @@ import { renderWisconsinToday, type TodayData } from "./screens/wisconsin_today"
 import { middleReform } from "./scenarios/middle";
 import { placeholderReform } from "./scenarios/placeholder";
 import { todReform } from "./scenarios/tod/index";
-import { REGISTRY, reformEntry, type MountedReform, type ReformEntry, type ReformModule, type ShellEnv } from "./scenarios/types";
+import { REGISTRY, reformEntry, type MountedReform, type ReformEntry, type ReformModule, type Route, type ShellEnv } from "./scenarios/types";
 
 /** Code for each reform id; a reform without its own module (or not yet "ready") gets the holding page. */
 const MODULES: Record<string, ReformModule> = { adu: aduReform, middle: middleReform, tod: todReform };
@@ -99,11 +100,21 @@ function pickerList(href: (r: ReformEntry) => string, current?: ReformEntry): st
 
 /** The small "Wisconsin today" link in the header (the shared page), marked current on that page. */
 function todayLink(current = false): string {
+  if (!wisconsinTodayFinished()) return `<a class="head-today tab-soon" role="link" aria-disabled="true" tabindex="0" data-testid="head-today"${current ? ' aria-current="page"' : ""}>Wisconsin today <span class="soon-label">${COMING_SOON}</span></a>`;
   return `<a class="head-today" href="#/wisconsin-today" data-testid="head-today"${current ? ' aria-current="page"' : ""}>Wisconsin today</a>`;
 }
 
 function picker(current: ReformEntry): string {
   return pickerList((r) => `#${prefixOf(r.id)}/`, current);
+}
+
+/** One screen tab. An unfinished page (ui/src/finished.ts) stays in the row, dimmed and labelled "coming soon", but is
+ *  not a link: no href, aria-disabled, and reachable by keyboard so its label is heard. */
+function tabHTML(e: ReformEntry, pre: string, r: Route): string {
+  const route = r.match ?? r.path;
+  const n = `<span class="tab-n" aria-hidden="true">${r.n}</span>`;
+  if (isFinished(e.id, route)) return `<li><a href="#${pre}${r.path}" data-route="${route}">${n} ${esc(r.label)}</a></li>`;
+  return `<li><a class="tab-soon" role="link" aria-disabled="true" tabindex="0" data-route="${route}" data-testid="tab-soon">${n} ${esc(r.label)} <span class="soon-label">${COMING_SOON}</span></a></li>`;
 }
 
 function shell(e: ReformEntry, m: MountedReform): void {
@@ -117,7 +128,7 @@ function shell(e: ReformEntry, m: MountedReform): void {
       ${todayLink()}
     </div>
     <div class="wrap">${picker(e)}</div>
-    <nav class="tabs" aria-label="Screens"><div class="wrap"><ol>${m.routes.map((r) => `<li><a href="#${pre}${r.path}" data-route="${r.match ?? r.path}"><span class="tab-n" aria-hidden="true">${r.n}</span> ${esc(r.label)}</a></li>`).join("")}</ol></div></nav>
+    <nav class="tabs" aria-label="Screens"><div class="wrap"><ol>${m.routes.map((r) => tabHTML(e, pre, r)).join("")}</ol></div></nav>
   </header>
   <div class="status-strip no-print" role="note" aria-label="Model run status">
     <div class="wrap">${isPreview(e) ? '<span class="preview-flag" data-testid="preview-flag"><strong>Preview</strong>: not yet reviewed; numbers may change</span>' : ""}${m.statusStrip}</div>
@@ -227,6 +238,15 @@ async function wisconsinToday(keepFocus: boolean): Promise<void> {
     document.getElementById("main")!.innerHTML = `<h1>Wisconsin today</h1><p class="muted" data-testid="wt-loading">Loading…</p>`;
   }
   document.title = "Wisconsin today · Missing Middleware";
+  if (!wisconsinTodayFinished()) {
+    if (wasHere) return;
+    document.getElementById("main")!.innerHTML = comingSoonHTML("#/summary", "the Wisconsin today page");
+    document.title = "Coming soon · Wisconsin today · Missing Middleware";
+    window.scrollTo(0, 0);
+    if (lastKey) document.getElementById("main")!.focus({ preventScroll: true });
+    lastKey = "wisconsin-today";
+    return;
+  }
   const load = async (id: string): Promise<unknown> => {
     const e = reformEntry(id);
     if (!e || e.status !== "ready" || !MODULES[id]) return null;
@@ -300,20 +320,25 @@ async function route(keepFocus = false): Promise<void> {
   const focused = document.activeElement as HTMLElement | null;
   const activeSel = !switched && focused && main.contains(focused) ? selectorFor(focused) : null;
   const y = window.scrollY;
-  m.render(path, params, main);
+  const label0 = m.routes.find((r) => path.startsWith(r.match ?? r.path))?.label ?? m.routes[0].label;
+  const done = isFinished(entry.id, path);
+  if (done) m.render(path, params, main);
+  else main.innerHTML = comingSoonHTML(`#${prefixOf(entry.id)}/summary`, `the ${label0} page for ${entry.label.toLowerCase()}`);
   labelScrollers(main);
   document.querySelectorAll<HTMLAnchorElement>("nav.tabs a").forEach((a) => {
     if (path.startsWith(a.dataset.route!)) a.setAttribute("aria-current", "page"); else a.removeAttribute("aria-current");
   });
   // the picker opens the same screen in another reform when that reform has it (unknown paths fall back to its first screen)
-  document.querySelectorAll<HTMLAnchorElement>(".reform-nav a").forEach((a) => { a.href = `#${prefixOf(a.dataset.reform!)}${path}`; });
+  document.querySelectorAll<HTMLAnchorElement>(".reform-nav a").forEach((a) => {
+    const id = a.dataset.reform!;
+    a.href = `#${prefixOf(id)}${isFinished(id, path) ? path : "/summary"}`;   // an unfinished screen opens that reform's Summary
+  });
   // on narrow screens the tab row scrolls sideways: bring the current tab into view (horizontal only)
   const ol = document.querySelector<HTMLElement>("nav.tabs ol");
   const cur = document.querySelector<HTMLElement>('nav.tabs a[aria-current="page"]')?.parentElement;
   if (ol && cur && ol.scrollWidth > ol.clientWidth) ol.scrollLeft = Math.max(0, cur.offsetLeft - (ol.clientWidth - cur.offsetWidth) / 2);
   ol?.classList.toggle("at-end", !!ol && ol.scrollLeft + ol.clientWidth >= ol.scrollWidth - 2);
-  const label = m.routes.find((r) => path.startsWith(r.match ?? r.path))?.label ?? m.routes[0].label;
-  document.title = `${label} · ${m.titleSuffix} · Missing Middleware`;
+  document.title = `${done ? "" : "Coming soon · "}${label0} · ${m.titleSuffix} · Missing Middleware`;
   const key = `${entry.id}${path}`;
   if (keepFocus) {
     window.scrollTo(0, y);
@@ -348,5 +373,6 @@ function fail(e: Error): void {
   document.body.innerHTML = `<main class="wrap"><h1>The tool could not load its data</h1><p>${esc(e.message)}</p><p>Run <code>bash scripts/run_tool.sh</code> from the repository root.</p></main>`;
 }
 
+watchUnfinishedLinks();
 window.addEventListener("hashchange", () => { route().catch(fail); });
 route().catch(fail);
