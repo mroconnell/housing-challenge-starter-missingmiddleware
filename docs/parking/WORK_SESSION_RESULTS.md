@@ -1487,4 +1487,4 @@ Both tests are post hoc. They reuse Test 56's saved results, so they cross-check
   - The false-alarm rate is about 10% by construction, so it checks the code, not the method.
   - The test assumes no bias. Test 56's pre-trend label is about bias, and this test cannot see it.
   - The two sides differ because the fake-group spread is lopsided: its middle is +0.026, with its 5th and 95th percentiles 0.227 below and 0.244 above.
-- **Method 2 D** has no fake groups. Its range shifts one-for-one with δ, so a fake effect is caught if it exceeds +0.237 (above) or −0.383 (below): the distance from D's estimate to the far end of its range.
+- **Method 2 D** has no fake groups. Its range shifts one-for-one with δ, so a fake effect is caught if it exceeds +0.230 (3,065 homes; above) or −0.376 (5,016 homes; below): the distance from D's range ends to 0.
