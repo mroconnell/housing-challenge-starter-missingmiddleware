@@ -250,8 +250,9 @@ def poisson_theta(stacks: list[list[dict]]):
     for s, cells in enumerate(stacks):
         if not cells:
             continue
-        tot = {g: sum(x["count"] for x in cells if x["group"] == g) for g in ("place", "pool")}
-        if min(tot.values()) <= 0:
+        # A stack with any zero cell (place or pool, before or after) has no finite Poisson estimate (separation),
+        # so it is left out; the number of stacks used is reported beside the result (audit note, 2026-11-12).
+        if min(x["count"] for x in cells) <= 0:
             continue
         for x in cells:
             rows.append(dict(stack=s, unit=f"{s}|{x['group']}", after=float(x["period"] == "after"),
@@ -262,7 +263,10 @@ def poisson_theta(stacks: list[list[dict]]):
     stacks_used = sorted(d["stack"].unique())
     X = np.column_stack([((d["stack"] == s) & (d["after"] == 1)).values.astype(float) for s in stacks_used] + [d["treat"].values])
     unit, _ = pd.factorize(d["unit"])
-    b, _, _ = t3839.fit(d["y"].values, d["off"].values, unit, X, 0.0)
+    try:
+        b, _, _ = t3839.fit(d["y"].values, d["off"].values, unit, X, 0.0)
+    except np.linalg.LinAlgError:  # a bootstrap draw that does not converge counts as unused (draws_used is reported)
+        return np.nan, len(stacks_used)
     return float(b[-1]), len(stacks_used)
 
 
