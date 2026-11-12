@@ -280,6 +280,7 @@ def run_jobs(jobs, n):
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--jobs", type=int, default=6)
+    ap.add_argument("--first", action="store_true", help="places and per-cell counts only (no fit, no effect read); commit before the full run")
     a = ap.parse_args()
     h = dc.require_frozen_doses()
     assert h.startswith(FROZEN_PREFIX), f"dose table sha256 {h} is not the frozen 39a33135... named in the plan"
@@ -288,6 +289,10 @@ def main() -> None:
     places.to_csv(OUT / "parking_t61_places.csv", index=False)
     for k, c in cells.items():
         print(k, "places used", len(c["y"]), flush=True)
+    if a.first:
+        pd.DataFrame([dict(cell=str(k), places_used=len(c["y"])) for k, c in cells.items()]).to_csv(OUT / "parking_t61_counts.csv", index=False)
+        print("--first: wrote parking_t61_places.csv and parking_t61_counts.csv; no fit run", flush=True)
+        return
     G["cells"] = cells
     jobs = [("cv", o, meth, t, r) for o in dc.OUTCOMES for meth in dc.METHODS for t in TRAIT_SETS for r in range(REPEATS)]
     jobs += [("shuffle", o, meth, "3 traits (judged)", s) for o in dc.OUTCOMES for meth in dc.METHODS for s in range(SHUFFLES)]
