@@ -229,3 +229,83 @@ Plan: [LOT_FIT_PLAN.md](LOT_FIT_PLAN.md). Its Choices and Audit fixes blocks ove
 | Milwaukee | 142,308 | 132,180 | 4 | 142,182 | 71,862 | — |
 
 The other 8 places were fetched but not loaded.
+
+## Results (run 2026-11-12, after the audit and Ryan's go at 16:33 UTC)
+
+**What the share is.**
+- Share of regular lots where parking blocks the building: lots where parking blocks ÷ lots where the building fits without parking.
+- Lots are residential (PROPCLASS exactly 1) with rectangle fill of at least 80%.
+- The rules are each place's central rules.
+- "main" = lots whose current zoning allows the building (Milwaukee and Madison only). "as_if" = all residential lots under the named district.
+
+**How to read the columns.**
+- The two alley columns are **preset bounds, not a range**:
+  - **upper bound:** no lot has an alley;
+  - **lower bound:** every lot has an alley.
+- "Span" is the lowest and highest share across rule variants, each tried alone. It is a **span of assumptions, not a statistical range**.
+- Waivers are ignored, so blocking may be overstated.
+- Kenosha's 70 ft accessory front yard is not modelled, so Kenosha blocking is understated.
+
+| Place | Version | Units | Upper bound (no alleys): blocked / fit = share | Span | Lower bound (all alleys): blocked / fit = share | Span |
+|---|---|---|---|---|---|---|
+| Milwaukee | main | 2 | 0 / 54,960 = 0.0% | 0.0%–0.0% | 0 / 54,960 = 0.0% | 0.0%–0.0% |
+| Milwaukee | main | 3 | 7,529 / 22,704 = 33.2% | 3.6%–34.4% | 0 / 22,704 = 0.0% | 0.0%–0.5% |
+| Milwaukee | main | 4 | 2,034 / 10,181 = 20.0% | 1.5%–33.7% | 165 / 10,181 = 1.6% | 1.3%–3.2% |
+| Milwaukee | as_if | 2 | 0 / 129,749 = 0.0% | 0.0%–0.0% | 0 / 129,749 = 0.0% | 0.0%–0.0% |
+| Milwaukee | as_if | 3 | 11,526 / 117,743 = 9.8% | 0.9%–10.1% | 0 / 117,743 = 0.0% | 0.0%–0.2% |
+| Milwaukee | as_if | 4 | 22,224 / 86,727 = 25.6% | 0.2%–38.0% | 136 / 86,727 = 0.2% | 0.1%–0.8% |
+| Madison | main | 2 | 24 / 31,815 = 0.1% | 0.0%–0.1% | 0 / 31,815 = 0.0% | 0.0%–0.0% |
+| Madison | main | 3 | 61 / 10,460 = 0.6% | 0.0%–3.7% | 0 / 10,460 = 0.0% | 0.0%–2.6% |
+| Madison | main | 4 | 99 / 8,233 = 1.2% | 0.1%–2.0% | 0 / 8,233 = 0.0% | 0.0%–1.3% |
+| Madison | as_if | 2 | 481 / 52,870 = 0.9% | 0.4%–1.4% | 4 / 52,870 = 0.0% | 0.0%–0.4% |
+| Madison | as_if | 3 | 495 / 52,870 = 0.9% | 0.4%–3.3% | 4 / 52,870 = 0.0% | 0.0%–2.1% |
+| Madison | as_if | 4 | 1,438 / 48,859 = 2.9% | 1.2%–9.3% | 101 / 48,859 = 0.2% | 0.0%–6.8% |
+| Appleton | as_if | 2 | 0 / 7,499 = 0.0% | 0.0%–0.0% | 0 / 7,499 = 0.0% | 0.0%–0.0% |
+| Appleton | as_if | 3 | 0 / 5,090 = 0.0% | 0.0%–10.8% | 0 / 5,090 = 0.0% | 0.0%–0.8% |
+| Appleton | as_if | 4 | 0 / 4,749 = 0.0% | 0.0%–35.9% | 0 / 4,749 = 0.0% | 0.0%–19.4% |
+| Waukesha | as_if | 2 | 0 / 12,179 = 0.0% | 0.0%–0.1% | 0 / 14,169 = 0.0% | 0.0%–0.2% |
+| Waukesha | as_if | 3 | 0 / 10,804 = 0.0% | 0.0%–0.4% | 0 / 12,179 = 0.0% | 0.0%–0.1% |
+| Waukesha | as_if | 4 | 0 / 10,804 = 0.0% | 0.0%–1.9% | 0 / 12,179 = 0.0% | 0.0%–1.9% |
+| Eau Claire | as_if | 2 | 52 / 16,426 = 0.3% | 0.0%–2.3% | 0 / 17,482 = 0.0% | 0.0%–1.2% |
+| Eau Claire | as_if | 3 | 0 / 13,869 = 0.0% | 0.0%–0.3% | 0 / 13,869 = 0.0% | 0.0%–0.0% |
+| Eau Claire | as_if | 4 | 0 / 13,144 = 0.0% | 0.0%–2.5% | 0 / 13,144 = 0.0% | 0.0%–4.5% |
+| Oshkosh | as_if | 2 | 61 / 10,132 = 0.6% | 0.6%–1.3% | 8 / 10,132 = 0.1% | 0.1%–0.5% |
+| Oshkosh | as_if | 3 | 101 / 10,132 = 1.0% | 0.9%–2.5% | 51 / 10,132 = 0.5% | 0.4%–1.3% |
+| Oshkosh | as_if | 4 | 4,386 / 10,132 = 43.3% | 20.6%–51.0% | 2,266 / 10,132 = 22.4% | 12.9%–28.3% |
+| Germantown | as_if | 2 | 0 / 3,198 = 0.0% | 0.0%–0.0% | 0 / 3,198 = 0.0% | 0.0%–0.0% |
+| Germantown | as_if | 3 | 0 / 1,423 = 0.0% | 0.0%–0.1% | 0 / 1,423 = 0.0% | 0.0%–0.0% |
+| Germantown | as_if | 4 | 0 / 1,163 = 0.0% | 0.0%–0.0% | 0 / 1,163 = 0.0% | 0.0%–0.0% |
+| Green Bay | as_if | 2 | 0 / 17,054 = 0.0% | 0.0%–1.1% | 0 / 17,054 = 0.0% | 0.0%–0.0% |
+| Green Bay | as_if | 3 | 4,515 / 17,054 = 26.5% | 13.3%–39.8% | 0 / 17,054 = 0.0% | 0.0%–0.0% |
+| Green Bay | as_if | 4 | 8,081 / 15,031 = 53.8% | 38.1%–62.8% | 585 / 15,031 = 3.9% | 0.0%–32.3% |
+| Kenosha | as_if | 2 | 0 / 18,059 = 0.0% | 0.0%–0.0% | 0 / 18,059 = 0.0% | 0.0%–0.0% |
+| Kenosha | as_if | 3 | 0 / 6,910 = 0.0% | 0.0%–0.0% | 0 / 6,910 = 0.0% | 0.0%–0.0% |
+| Kenosha | as_if | 4 | 2 / 3,536 = 0.1% | 0.0%–0.1% | 2 / 3,536 = 0.1% | 0.0%–0.1% |
+| Racine | as_if | 2 | 0 / 8,477 = 0.0% | 0.0%–10.9% | 0 / 8,477 = 0.0% | 0.0%–10.6% |
+| Racine | as_if | 3 | 19 / 8,410 = 0.2% | 0.0%–61.9% | 0 / 8,410 = 0.0% | 0.0%–26.4% |
+| Racine | as_if | 4 | 317 / 7,445 = 4.3% | 0.0%–70.0% | 0 / 7,445 = 0.0% | 0.0%–48.7% |
+| Janesville | as_if | 2 | 0 / 10,376 = 0.0% | 0.0%–0.0% | 0 / 10,376 = 0.0% | 0.0%–0.0% |
+| Janesville | as_if | 3 | 0 / 10,376 = 0.0% | 0.0%–0.1% | 0 / 10,376 = 0.0% | 0.0%–0.0% |
+| Janesville | as_if | 4 | 0 / 10,376 = 0.0% | 0.0%–3.7% | 0 / 10,376 = 0.0% | 0.0%–0.0% |
+| tested places (lot-weighted) | as_if | 2 | 594 / 286,019 = 0.2% | 0.1%–0.6% | 12 / 289,065 = 0.0% | 0.0%–0.5% |
+| tested places (lot-weighted) | as_if | 3 | 16,656 / 254,681 = 6.5% | 2.1%–9.4% | 55 / 256,056 = 0.0% | 0.0%–1.4% |
+| tested places (lot-weighted) | as_if | 4 | 36,448 / 211,966 = 17.2% | 4.9%–27.0% | 3,090 / 213,341 = 1.4% | 1.0%–5.5% |
+| tested places (lot-weighted) | main | 2 | 24 / 86,775 = 0.0% | 0.0%–0.1% | 0 / 86,775 = 0.0% | 0.0%–0.0% |
+| tested places (lot-weighted) | main | 3 | 7,590 / 33,164 = 22.9% | 2.5%–24.7% | 0 / 33,164 = 0.0% | 0.0%–1.2% |
+| tested places (lot-weighted) | main | 4 | 2,133 / 18,414 = 11.6% | 0.9%–19.3% | 165 / 18,414 = 0.9% | 0.8%–2.4% |
+
+**Milwaukee sanity check** (modelled rules only; MPROP's parking and corner fields are empty).
+
+| Alley bound | Units | Existing buildings | Could not fit (share) | Of which: other rules | Of which: parking | Label |
+|---|---|---|---|---|---|---|
+| Upper (no alleys) | 2 | 32,544 | 5,893 (18.1%) | 5,893 | 0 | — |
+| Upper (no alleys) | 3 | 2,202 | 1,168 (53.0%) | 689 | 479 | rule model may be too strict |
+| Upper (no alleys) | 4 | 2,647 | 1,336 (50.5%) | 1,186 | 150 | rule model may be too strict |
+| Upper (no alleys) | 2–4 | 37,393 | 8,397 (22.5%) | 7,768 | 629 | — |
+| Lower (all alleys) | 2–4 | 37,393 | 7,807 (20.9%) | 7,768 | 39 | — |
+| Lower (all alleys) | 3 | 2,202 | 689 (31.3%) | 689 | 0 | — |
+| Lower (all alleys) | 4 | 2,647 | 1,225 (46.3%) | 1,186 | 39 | — |
+
+- The audit's 50% rule is set on the 2–4 unit total. That total is not labelled under either bound.
+- The 3-unit and 4-unit rows are labelled under the upper bound.
+- Most "could not fit" cases fail step 1 (lot minimums and the building box), not parking.
