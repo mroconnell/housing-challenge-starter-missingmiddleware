@@ -1488,3 +1488,52 @@ Both tests are post hoc. They reuse Test 56's saved results, so they cross-check
   - The test assumes no bias. Test 56's pre-trend label is about bias, and this test cannot see it.
   - The two sides differ because the fake-group spread is lopsided: its middle is +0.026, with its 5th and 95th percentiles 0.227 below and 0.244 above.
 - **Method 2 D** has no fake groups. Its range shifts one-for-one with δ, so a fake effect is caught if it exceeds +0.230 (3,065 homes; above) or −0.376 (5,016 homes; below): the distance from D's range ends to 0.
+
+## Dose test: full and partial reforms pooled by dose (run 2026-11-12; frozen doses 2d14cd45, sha256 39a33135…; outputs fbcc6498)
+
+Plan: docs/parking/DOSE_PLAN.md (audited; Ryan's choices C1–C11 plus his 18:44 and 18:47 UTC calls). Doses: reference/parking_doses.csv, frozen before any effect. Identity check: 90 of 90 pass, so the 74 at dose 100 reproduce today's numbers. The `--first` step was committed first (1927b1e6) and cleared by the audit.
+
+Units: homes per 1,000 existing homes a year, per 100 dose points (a full repeal). 90% ranges. Wisconsin homes over 2027–2031 = rate × 13,343.385 (display only).
+
+**Which places:** 98, the 74 plus 24 new partial-reform places (97 for 2–4 units, because Milwaukie's 2–4 dose is 0). After the C4 increments and state-law priors, only 30 of the 74 sit at dose 100.
+
+| Outcome | Method | Dose-pooled estimate | 90% range | Wisconsin homes | Today's 74-place line |
+|---|---|---|---|---|---|
+| All homes | main | −1.000 | −4.059 to +2.098 | −13,342 (−54,166 to +27,988) | −15,380 (−46,268 to +19,649) |
+| All homes | D | −1.504 | −3.242 to +0.053 | −20,063 (−43,258 to +709) | |
+| 2–4 units | main | −0.082 | −0.336 to +0.186 | −1,090 (−4,485 to +2,479) | −899 (−3,930 to +2,360) |
+| 2–4 units | D | +0.066 | −0.216 to +0.415 | +885 (−2,884 to +5,538) | |
+
+**Headline-switch conditions (set before any count):**
+- **All homes:**
+  - Condition 1 passes, low power.
+  - **Condition 2 fails under main:** the range is 6.16 wide against 4.94 for the 74. It passes under D (3.30 against 3.70).
+  - Conditions 3 and 4 pass.
+  - So it **stays a sensitivity row**.
+- **2–4 units:**
+  - Condition 2 fails under both methods (main 0.52 against 0.47; D 0.63 against 0.61).
+  - Condition 3 fails: lead −4 excludes 0 under both methods, the same pre-trend Test 56 found.
+  - **Stays a sensitivity row.**
+- **Correction to the plan's note on condition 2:** the plan called it "near-automatic" (more places narrow a through-origin range). That was wrong here. Only 30 of the 74 are at dose 100, and the low-dose places' noise is scaled up when the fit asks what a full repeal does. The reading file still prints the old label; this paragraph replaces it.
+
+**Do full repeals and partial reforms agree?**
+- Full-repeal-only versus low-dose-only gaps include 0 under both methods and for both outcomes. That is only weak evidence they agree, because the gap's MDE (all homes 7.64; 2–4 0.69) is wider than the full-only range.
+- Main and D point opposite ways on the gap. That fits noise.
+- **Checks:**
+  - Dropping, halving or doubling the fallback doses moves nothing.
+  - The 2010-block and zoned-land doses agree. The one exception is the D zoned-land dose for all homes, at −1.645 (−3.350 to −0.180). It excludes 0, but it is a single check among many and is not read.
+  - Dropping partial-reform places from the comparison pools gives main all homes −1.899 (−4.772 to +1.068) and 2–4 −0.025.
+  - Fits with an intercept: the intercepts include 0. D's all-homes slope with intercept is −2.149 (−5.366 to −0.176). It is not read, because the plan reads the through-origin fit.
+  - The dose-0 places alone (Seabrook, Brainerd, and Milwaukie for 2–4) are 2–3 places and are not interpreted.
+- **Labels:**
+  - Spokane's 2023 transit step had a dose of 91.48, so its 2024 increment (8.52) adds little.
+  - C5: leaving partial-reform places in the pools pulls effects toward 0. The drop-from-pools run is the check.
+  - C10: 2020 blocks are partly post-treatment for 2015–2019 reforms. The 2010-block doses are the check.
+  - Pooled new places' comparison pools leave out the 74, while the 74's pools keep partial-reform places (the C5 note).
+  - D's winsorising clip points move once new places join.
+  - 7 pooled places have assumed or fallback doses.
+
+**Plain reading:**
+- Pooling partial reforms by dose gives the same answer as the 74 full repeals: **we can't tell**, and the middle sits slightly below 0 for all homes.
+- It does **not** narrow the range. The main range is wider, because many partial reforms cover few homes and their noise is magnified.
+- It stays a side row, and the scenario line is unchanged.
