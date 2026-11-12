@@ -19,7 +19,8 @@ Parts (each writes into MM_REFERENCE_DIR):
           effect = mean over after-years 1..5 of the yearly gap minus the before-window gap. main: recorded pool and
           5-year before window, weights homes x 5; D: run_parking_t49_event_time.case_years (fixed long pool), mean
           of years 1..5, target-state mix (base = homes x 5). Same bootstrap. -> parking_t56_long_set.csv
-- poisson Poisson count check (Tests 38-39 estimator run_parking_t3839.fit, alpha 0). One stack per repeal place:
+- poisson Poisson count check (Tests 38-39 estimator run_parking_t3839.fit, alpha 0), labelled in its output as
+          "stacked two-period per place (changed from Tests 38–39 panel)". One stack per repeal place:
           the place and its comparison pool (main: recorded pool, main windows, ACS homes; D: the batch D pool, D's
           windows, pre-event homes), permits summed over the before and after windows, exposure = homes x years.
           log(mean) = log(exposure) + group-in-stack effect + stack-after effect + theta x (place, after).
@@ -28,7 +29,8 @@ Parts (each writes into MM_REFERENCE_DIR):
           group drops out. -> parking_t56_poisson.csv
 - placebo_dates  run_parking_t52_placebos.py --variant timing4 with its SHIFT set to 2 and then 4 (repeal moved 2 or
           4 years early; main with its full stand-in spread, D with place bootstrap), outputs redirected to
-          MM_REFERENCE_DIR/t56_placebo_shift{2,4}/.
+          MM_REFERENCE_DIR/t56_placebo_shift{2,4}/ as parking_t56_placebo_shift{2,4}_{summary,places}.csv, with the D
+          label set to "repeals moved 2 (or 4) years early" (the script itself always says 4).
 - pools   run_parking_t52_pool_rules.py variants g_outmetro (52g spillover) and h1_dated (52h.1 date-aware pools),
           with its base check pointed at this working copy's D effects; outputs to MM_REFERENCE_DIR/t56_pool_rules/.
 """
@@ -59,6 +61,7 @@ REF_K = -1
 LONG_K = 5
 SEED, DRAWS = c56.SEED, c56.DRAWS
 MIX = "target-state mix"
+POISSON_DESIGN = "stacked two-period per place (changed from Tests 38–39 panel)"
 
 
 # ------------------------------------------------------------------ data ----------------------------------------------
@@ -279,7 +282,7 @@ def part_poisson(D, cases):
         bt = np.array(bt, float)
         bt = bt[np.isfinite(bt)]
         lo, hi = np.percentile(bt, [5, 95])
-        out.append(dict(check="Poisson count model", method=meth, stacks_used=n, stacks=len(stacks), theta=th, theta_p05=lo,
+        out.append(dict(check="Poisson count model", design=POISSON_DESIGN, method=meth, stacks_used=n, stacks=len(stacks), theta=th, theta_p05=lo,
                         theta_p95=hi, multiplicative_effect=np.expm1(th), mult_p05=np.expm1(lo), mult_p95=np.expm1(hi),
                         excludes_0=bool(lo > 0 or hi < 0), draws_used=len(bt)))
     pd.DataFrame(out).round(6).to_csv(REFERENCE / "parking_t56_poisson.csv", index=False)
@@ -297,12 +300,26 @@ def part_placebo_dates():
         pl.OUT = REFERENCE / f"t56_placebo_shift{shift}"
         pl.PROC = pl.OUT / "standins"
         pl.OUT.mkdir(parents=True, exist_ok=True)
+        # run_parking_t52_placebos.py hard-codes "moved 4 years early" in its D label and "timing4" in its file names;
+        # relabel for this shift (its own behaviour for other tests is unchanged: nothing is patched outside this call)
+        orig_ds = pl.d_summary
+
+        def d_summary(D, y, ev, wi, label, seeds=(pl.SEED_D,), _s=shift):
+            return orig_ds(D, y, ev, wi, label.replace("moved 4 years early", f"moved {_s} years early"), seeds=seeds)
+        pl.d_summary = d_summary
         argv = sys.argv
         sys.argv = [argv[0], "--variant", "timing4"]
         try:
             pl.main()
         finally:
             sys.argv = argv
+            pl.d_summary = orig_ds
+        for kind in ("summary", "places"):
+            src = pl.OUT / f"parking_t52_d_timing4_{kind}.csv"
+            src.rename(pl.OUT / f"parking_t56_placebo_shift{shift}_{kind}.csv")
+        S = pd.read_csv(pl.OUT / f"parking_t56_placebo_shift{shift}_summary.csv")
+        d = S[S["estimator"].str.startswith("method 2, D (repeals moved")]
+        assert len(d) and (d["estimator"] == f"method 2, D (repeals moved {shift} years early)").all(), d["estimator"].unique()
     pl.cmp.complete = pl._orig_complete
 
 

@@ -30,7 +30,14 @@ Conventions (as Test 53 unless said):
   averages (or of the stand-in set slopes / gaps, computed with the real places' 2010 populations and weights). Main
   method only; D has no stand-in spread, so the main figure is shown beside D cells and labelled so.
 - "Too few to read": fewer than 10 places with any 2-4 unit permits in the main before window (rate_before > 0 in the
-  units_2_4 run), in the cell's sample (overall; for a gap, either size group).
+  units_2_4 run), "overall or in a size group" (lock): every cell checks its sample overall; every size-slope and
+  25,000-gap cell is also labelled "too few to read" when either size group (25,000+ / under 25,000) in its sample has
+  fewer than 10. parking_t56_reading.csv shows the label beside each "counts" rule.
+- Poisson cells are labelled "stacked two-period per place (changed from Tests 38–39 panel)".
+
+--dryrun reads data/processed/t56/dryrun_allhomes_ref/ (scripts/run_parking_t56.sh all ..., MM_BPS_OUTCOME unset, the
+already-seen all-homes outcome) for every outcome slot and writes to data/processed/t56/dryrun_allhomes_summary/ with
+a _dryrun_allhomes suffix; nothing in reference/ is written. It checks that the chain runs, not any result.
 """
 from __future__ import annotations
 
@@ -51,7 +58,10 @@ if os.environ.get("MM_REFERENCE_DIR"):
 
 import parking_t56_common as c56  # noqa: E402
 
-REF = ROOT / "reference"
+REF = ROOT / "reference"  # inputs (flag list); outputs too unless --dryrun
+OUT = REF
+SUFFIX = ""
+DRYRUN = False
 T56 = ROOT / "data" / "processed" / "t56"
 SEED, DRAWS = c56.SEED, c56.DRAWS
 PL_SEED, PL_SETS = 20261027 + 1, 20_000  # run_parking_placebo.py: set draws use SEED + 1, 20,000 sets with --full
@@ -63,7 +73,15 @@ OUT_LABEL = {"units_2_4": "2-4 unit homes", "1unit_units": "1-unit homes", "5plu
 
 
 def work(o: str) -> Path:
-    return T56 / f"{o}_ref"
+    return T56 / ("dryrun_allhomes_ref" if DRYRUN else f"{o}_ref")
+
+
+def out(name: str) -> Path:
+    """Output path: reference/parking_t56_<name>.csv, or the dry-run folder with the _dryrun_allhomes suffix."""
+    return OUT / f"parking_t56_{name}{SUFFIX}.csv"
+
+
+POISSON_DESIGN = "stacked two-period per place (changed from Tests 38–39 panel)"
 
 
 def flags() -> pd.DataFrame:
@@ -132,10 +150,10 @@ def first() -> None:
         n = int(has[sel].sum())
         rows.append(dict(sample=lab, places=int(sel.sum()), places_with_any_2_4_before=n,
                          too_few_to_read=bool(n < THIN), rule=f"fewer than {THIN} places with any 2-4 unit permits in the before window"))
-    pd.DataFrame(rows).to_csv(REF / "parking_t56_counts.csv", index=False)
+    pd.DataFrame(rows).to_csv(out("counts"), index=False)
     print(pd.DataFrame(rows).to_string(index=False))
-    pd.DataFrame(mde_rows()).round(6).to_csv(REF / "parking_t56_mde.csv", index=False)
-    print(pd.read_csv(REF / "parking_t56_mde.csv").to_string(index=False))
+    pd.DataFrame(mde_rows()).round(6).to_csv(out("mde"), index=False)
+    print(pd.read_csv(out("mde")).to_string(index=False))
 
 
 def mde_rows() -> list[dict]:
@@ -285,16 +303,19 @@ def all_cells() -> None:
 
     def add(cid, group, outcome, method, weighting, stat, est, lo, hi, sample="all 74 places", sel=all74, headline=False, **kw):
         n_any = int(C.has[sel].sum())
+        n_big, n_small = int(C.has[sel & C.big].sum()), int(C.has[sel & ~C.big].sum())
         thin = n_any < THIN
-        if stat == "25,000 gap":
-            thin = thin or int(C.has[sel & C.big].sum()) < THIN or int(C.has[sel & ~C.big].sum()) < THIN
+        if stat in ("size slope", "25,000 gap"):  # lock: "overall or in a size group"
+            thin = thin or n_big < THIN or n_small < THIN
         mm = mde[(mde["outcome"] == (outcome if outcome in c56.OUTCOMES else "units_2_4")) &
                  (mde["statistic"] == {"25,000 gap": "25,000 gap", "size slope": "size slope"}.get(stat, "overall effect")) &
                  (mde["weighting"] == ("equal weight" if weighting == "equal" else "main weights"))]
         cells.append(dict(cell=cid, headline=headline, group=group, outcome=OUT_LABEL.get(outcome, outcome), method=method,
                           weighting=weighting, statistic=stat, sample=sample, estimate=est, p05=lo, p95=hi,
                           excludes_0=bool(np.isfinite(lo) and np.isfinite(hi) and (lo > 0 or hi < 0)),
-                          places_with_any_2_4_before=n_any, too_few_to_read=bool(thin),
+                          places_with_any_2_4_before=n_any, places_with_any_2_4_before_25000_plus=n_big,
+                          places_with_any_2_4_before_under_25000=n_small, too_few_to_read=bool(thin),
+                          reading_label="too few to read" if thin else "",
                           mde_main_placebo=float(mm["mde"].iloc[0]) if len(mm) and stat in ("overall effect", "size slope", "25,000 gap") else np.nan,
                           **kw))
 
@@ -355,8 +376,8 @@ def all_cells() -> None:
     W = work("units_2_4")
     P = pd.read_csv(W / "parking_t56_poisson.csv")
     for r in P.itertuples():
-        add(f"P-{r.method}", "Poisson count check", o, r.method, "counts (Poisson)", "log rate ratio (theta)", r.theta, r.theta_p05,
-            r.theta_p95, multiplicative_effect=r.multiplicative_effect, mult_p05=r.mult_p05, mult_p95=r.mult_p95, places_used=r.stacks_used)
+        add(f"P-{r.method}", f"Poisson count check ({POISSON_DESIGN})", o, r.method, "counts (Poisson)", "log rate ratio (theta)", r.theta, r.theta_p05,
+            r.theta_p95, design=POISSON_DESIGN, multiplicative_effect=r.multiplicative_effect, mult_p05=r.mult_p05, mult_p95=r.mult_p95, places_used=r.stacks_used)
     L = pd.read_csv(W / "parking_t56_long_set.csv")
     for r in L.itertuples():
         add(f"L-{r.method}", "long set", o, r.method, r.weights, "long-set effect (after-years 1-5)", r.estimate, r.p05, r.p95,
@@ -366,11 +387,11 @@ def all_cells() -> None:
         add(f"E-{r.method}-{r.year:+d}", "event study (reference year -1)", o, r.method, r.weights, f"year {r.year:+d}",
             r.estimate, r.p05, r.p95, places_used=r.places)
     for shift in (2, 4):
-        S = pd.read_csv(W / f"t56_placebo_shift{shift}" / "parking_t52_d_timing4_summary.csv")
+        S = pd.read_csv(W / f"t56_placebo_shift{shift}" / f"parking_t56_placebo_shift{shift}_summary.csv")
         r = S[S["estimator"] == "main (real average, placebo spread)"].iloc[0]
         add(f"PD-main-{shift}", "placebo date", o, "main", "homes x after-years", f"repeal moved {shift} years early",
             r["estimate"], r["p05"], r["p95"], places_used=r["places"])
-        r = S[S["estimator"].str.startswith("method 2, D (repeals moved") & (S["weights"] == MIX)].iloc[0]
+        r = S[(S["estimator"] == f"method 2, D (repeals moved {shift} years early)") & (S["weights"] == MIX)].iloc[0]
         add(f"PD-D-{shift}", "placebo date", o, "D", MIX, f"repeal moved {shift} years early", r["estimate"], r["p05"], r["p95"],
             places_used=r["places"])
     G = pd.read_csv(W / "t56_pool_rules" / "parking_t52_g_summary.csv")
@@ -386,16 +407,16 @@ def all_cells() -> None:
     assert len(Cdf) == 74 and int(Cdf["headline"].sum()) == 4, (len(Cdf), int(Cdf["headline"].sum()))
     Cdf["unit"] = ["log of the rate ratio" if "theta" in st else "homes permitted per 1,000 existing homes a year" +
                    (" per 10x population (2010)" if st == "size slope" else "") for st in Cdf["statistic"]]
-    Cdf.round(6).to_csv(REF / "parking_t56_cells.csv", index=False)
+    Cdf.round(6).to_csv(out("cells"), index=False)
     # per-place effects and the regression-to-the-mean report (main: place vs its pool before the repeal)
     PL = C.F[["i", "place", "state", "event_year", "pop2010", "size_group", "oregon", "flag_plex"]].copy()
     PL["any_2_4_before"] = C.has
     for o, (yM, yD) in places.items():
         PL[f"main_{o}"], PL[f"D_{o}"] = yM, yD
-    PL.round(6).to_csv(REF / "parking_t56_places.csv", index=False)
+    PL.round(6).to_csv(out("places"), index=False)
     rt = real_frame("units_2_4", ["place", "rate_before", "ctrl_before"])
     rt["place_minus_pool_before"] = rt["rate_before"] - rt["ctrl_before"]
-    rt[["place", "rate_before", "ctrl_before", "place_minus_pool_before"]].round(6).to_csv(REF / "parking_t56_rtm.csv", index=False)
+    rt[["place", "rate_before", "ctrl_before", "place_minus_pool_before"]].round(6).to_csv(out("rtm"), index=False)
     reading(Cdf)
     pd.set_option("display.width", 250)
     print(Cdf[["cell", "group", "outcome", "method", "weighting", "statistic", "sample", "estimate", "p05", "p95",
@@ -435,17 +456,26 @@ def reading(Cdf: pd.DataFrame) -> None:
         else:
             scale[meth] = "no scale flag"
     too_few = bool(hm["too_few_to_read"])
+    thin_lab = lambda *rs: "too few to read" if any(bool(r["too_few_to_read"]) for r in rs) else ""  # noqa: E731
+    n_groups = f"25,000+: {int(sm['places_with_any_2_4_before_25000_plus'])}; under 25,000: {int(sm['places_with_any_2_4_before_under_25000'])}"
     rows = [
-        dict(rule="overall 2-4 effect counts (both headline ranges exclude 0, same sign)", result=bool(eff_counts)),
-        dict(rule="size slope counts (both slope ranges exclude 0, same sign, and both 25,000 gaps agree in sign)", result=bool(slope_counts)),
-        dict(rule="25,000 gap agrees in sign with the slope (main gap vs main slope, D gap vs D slope)", result=bool(gap_agrees)),
+        dict(rule="overall 2-4 effect counts (both headline ranges exclude 0, same sign)", result=bool(eff_counts),
+             too_few_to_read=thin_lab(hm, hd)),
+        dict(rule="size slope counts (both slope ranges exclude 0, same sign, and both 25,000 gaps agree in sign)", result=bool(slope_counts),
+             too_few_to_read=thin_lab(sm, sd, gm, gd), detail=f"places with any 2-4 permits before, {n_groups}"),
+        dict(rule="25,000 gap agrees in sign with the slope (main gap vs main slope, D gap vs D slope)", result=bool(gap_agrees),
+             too_few_to_read=thin_lab(gm, gd)),
         dict(rule="pre-trend label (a lead -5..-2 or a placebo date excludes 0 under both methods)", result=pretrend,
              detail=f"leads {lead}; placebo dates {pdates}"),
         dict(rule="scale rule, main", result=scale["main"]), dict(rule="scale rule, D", result=scale["D"]),
-        dict(rule=f"too few to read (fewer than {THIN} places with any 2-4 permits before)", result=too_few),
+        dict(rule=f"too few to read overall (fewer than {THIN} of the 74 places with any 2-4 permits before)", result=too_few,
+             detail=f"{int(hm['places_with_any_2_4_before'])} places"),
+        dict(rule=f"too few to read in a size group (fewer than {THIN} places with any 2-4 permits before in 25,000+ or under 25,000)",
+             result=bool(min(int(sm["places_with_any_2_4_before_25000_plus"]), int(sm["places_with_any_2_4_before_under_25000"])) < THIN),
+             detail=n_groups),
         dict(rule="headline cells excluding 0 (of 4; one by chance is plausible)", result=int(Cdf[Cdf["headline"]]["excludes_0"].sum())),
     ]
-    pd.DataFrame(rows).to_csv(REF / "parking_t56_reading.csv", index=False)
+    pd.DataFrame(rows).to_csv(out("reading"), index=False)
     print(pd.DataFrame(rows).to_string(index=False))
 
 
@@ -454,7 +484,15 @@ def main() -> None:
     g = ap.add_mutually_exclusive_group(required=True)
     g.add_argument("--first", action="store_true", help="before-window counts and MDE only (no repeal-place effect)")
     g.add_argument("--all", action="store_true", help="every cell")
+    ap.add_argument("--dryrun", action="store_true", help="read the all-homes dry run; write to data/processed/t56/dryrun_allhomes_summary/")
     a = ap.parse_args()
+    if a.dryrun:
+        global OUT, SUFFIX, DRYRUN
+        DRYRUN, SUFFIX = True, "_dryrun_allhomes"
+        OUT = T56 / "dryrun_allhomes_summary"
+        OUT.mkdir(parents=True, exist_ok=True)
+        for k in OUT_LABEL:
+            OUT_LABEL[k] = f"all homes (dry run, in the {k} slot)"
     first() if a.first else all_cells()
 
 
