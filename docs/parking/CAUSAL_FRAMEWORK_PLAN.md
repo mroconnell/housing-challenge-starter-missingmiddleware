@@ -1953,3 +1953,4 @@ Ryan, 01:36–01:39 UTC:
    - The minimum detectable effect is reported first, before any effect, as in Test 56.
 9. **Placebo:** the placebo date uses the same not-yet-treated rule. With one wave per city, no pooling weight is needed.
 - **GIS files** stay out of git.
+- **Test 57 audit addition (01:42 UTC):** when a 500 m cell is split at the line, both parts are resampled together as one cluster in every bootstrap and placebo draw, so shared local shocks stay together.
