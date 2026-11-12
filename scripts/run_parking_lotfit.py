@@ -511,14 +511,27 @@ def load_place_lots(place: str, rules: Rules) -> pd.DataFrame:
         lots["district"] = lots.ZONING.fillna("").str.strip()
         lots["corner"] = lots.CORNER_LOT.fillna("").str.upper().eq("Y")
     elif place == "Madison":
-        mp = G.read_geojson(RAW / "madison_parcels" / "tax_parcels.geojson", columns=["Parcel", "Zoning1"])
+        mp = G.read_geojson(RAW / "madison_parcels" / "tax_parcels.geojson", columns=["Parcel", "ZoningAll"])
         z = mp.attrs.drop_duplicates("Parcel")
         lots = lots.merge(z, left_on="PARCELID", right_on="Parcel", how="left")
-        lots["district"] = lots.Zoning1.fillna("").str.strip()
+        lots["district"] = lots.ZoningAll.map(lambda v: madison_base_district(v, rules.districts("Madison")))
         tod = G.read_geojson(RAW / "madison_tod" / "tod_boundary.geojson").to_crs(CRS_M)
         px, py = GX.interior_points(L.polys)
         lots["tod_overlay"] = G.points_in_any(px, py, tod.polys)
     return lots
+
+
+def madison_base_district(zoning_all, coded: set) -> str:
+    """Base district from Madison's ZoningAll (e.g. 'WP-27, TR-V1, HIS-UH'; Zoning1 is empty in the file on disk):
+    the first coded district listed, else the first entry that is not a wellhead (WP-) or historic (HIS-) overlay."""
+    toks = [t.strip() for t in str(zoning_all or "").split(",") if t.strip()]
+    for t in toks:
+        if t in coded:
+            return t
+    for t in toks:
+        if not t.startswith(("WP-", "HIS-")):
+            return t
+    return ""
 
 
 def conds_of(row, place: str) -> frozenset:

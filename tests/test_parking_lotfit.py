@@ -169,6 +169,15 @@ class FitTest(unittest.TestCase):
         self.assertEqual(LF.fit_lot(lot, replace(p, park_rear_setback=False))[0], LF.PARKING)
 
 
+class Zoning(unittest.TestCase):
+    def test_madison_base_district(self):
+        coded = R.districts("Madison")
+        self.assertEqual(LF.madison_base_district("WP-27, TR-V1, HIS-UH", coded), "TR-V1")
+        self.assertEqual(LF.madison_base_district("HIS-TL, TR-V1", coded), "TR-V1")
+        self.assertEqual(LF.madison_base_district("WP-27, PD", coded), "PD")
+        self.assertEqual(LF.madison_base_district(None, coded), "")
+
+
 class Geometry(unittest.TestCase):
     def rect(self, x0, y0, w, d):
         r = np.array([[x0, y0], [x0 + w, y0], [x0 + w, y0 + d], [x0, y0 + d], [x0, y0]], float)
