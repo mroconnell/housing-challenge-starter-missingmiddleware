@@ -1976,3 +1976,10 @@ Ryan, 01:36–01:39 UTC:
   - Eastern Neighborhoods RH/RM lots are left out of both arms.
 - **SF after-window:** ends 2018, at most, before the citywide rule of 2019-01-21.
 - **SF case label:** Ord. 112-08 (2008-07-31; affordable and senior minimums to 0 citywide) is stated in the case write-up as bundled with wave A's start year.
+
+**Test 57 rules after the addendum 2 checks (parking thread, before any count). These override the text above.**
+- **NY 2016 line:** the primary line is DCP's own `nyctransitzones_201601` (Internet Archive capture). The rebuild (today's layer minus four amendments, now including E 241 St, N 180084 ZRX, 2019) is the check. On Map 3 the 2016 file is used.
+- **NY DOB seam:** no seam date. Both files are counted in full, legacy filings at any date plus DOB NOW, because the two systems hold separate jobs and DOB NOW starts on 2021-03-03. The 12/10 scaling is withdrawn. The whole-city level drop at the March 2021 switch affects both arms and is labelled. ALT-CO jobs in DOB NOW are left out, since legacy defines them differently.
+- **NY balance:** zoning, density and building age differ across the line (2016 levels). The event study's leads are the pre-trend check, and the imbalance is stated beside the result.
+- **SF treatment layer:** DataSF Zoning Districts is the 2026 version, so lots rezoned in 2026 are dropped. Wave A treatment is set from DataSF Historic Zoning 2009 (PDDL) where the current layer cannot show 2008/2009 districts. Districts that can't be dated are dropped, including NCT-SoMa, NCT-2, NCT-1 and NCT-Valencia (its year is unclear: 2008 or 2009).
+- **SF controls:** the 41 districts in reference/parking_t57_sf_districts.csv marked clean. Bayview, the Bernal Heights SUD, RCD, Polk/Pacific, Parkmerced and Excelsior are out.
