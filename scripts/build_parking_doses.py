@@ -31,7 +31,8 @@ Schema of input.json:
    "blocks_2010": true,                                          # audit fix 5
    "dose_source": "computable"|"partly"|"fallback", "fallback_class": "...", "use_fallback": false,
    "dose_units_2_4": null,         # 2-4 unit outcome dose for use-type reforms (default = dose)
-   "sensitivity": {"areas": [...], "prior": [...]},   # optional second scoring -> dose_sensitivity_mapped
+   "sensitivity": {"areas": [...], "prior": [...]},
+   "state_law_prior": [{"label", "removal", "where"}],   # extra prior for the 'state laws as prior' variant   # optional second scoring -> dose_sensitivity_mapped
    "dose_override": null,          # a number only for doses that are pure arithmetic of the ordinance (e.g. a citywide
                                    # cut 1.5 -> 1 = 33.3), never for mapped areas
    "eligibility": "...", "sources": [...], "licences": [...], "notes": "..."}
@@ -314,7 +315,7 @@ def zoned_land_check(inp: dict, base: Path):
 # ------------------------------------------------------------------------------------------------ assembly
 COLS = ["reform_id", "place", "state", "event_year", "type", "event_used", "eligibility", "coverage_homes_share",
         "coverage_homes_share_2010", "coverage_zoned_land_share", "removal_share", "dose", "dose_source",
-        "dose_units_2_4", "dose_sensitivity_mapped", "fallback_class", "prior_exempt_homes_share",
+        "dose_units_2_4", "dose_sensitivity_mapped", "dose_if_unlicensed_refused", "dose_state_law_prior", "fallback_class", "prior_exempt_homes_share",
         "prior_removal_homes_mean", "homes_2020", "sources", "licences", "notes"]
 
 
@@ -355,6 +356,9 @@ def build_row(u: dict, inp: dict, base: Path) -> dict:
     if s["prior_exempt_share"] is not None:
         r["prior_exempt_homes_share"] = round(s["prior_exempt_share"], 4)
         r["prior_removal_homes_mean"] = round(s["prior_removal_mean"], 4)
+    if inp.get("state_law_prior"):  # audit variant: state transit laws counted as prior everywhere
+        v = dict(inp, prior=(inp.get("prior") or []) + inp["state_law_prior"])
+        r["dose_state_law_prior"] = round(score(v, base, 2020)["dose"], 2)
     if inp.get("sensitivity"):  # e.g. mapped carve-out for near-benchmark places (main dose per plan)
         r["dose_sensitivity_mapped"] = round(score(inp["sensitivity"] | {"geo": inp["geo"]}, base, 2020)["dose"], 2)
     if inp.get("blocks_2010"):
@@ -398,6 +402,16 @@ def main():
             yr = u["reform_id"][-4:]
             r["event_used"] = ("pending (Spokane event year not yet chosen)" if a.spokane_event == "pending"
                                else ("yes" if yr == a.spokane_event else f"no (Spokane event = {a.spokane_event})"))
+        if r["dose_state_law_prior"] in ("", None):
+            r["dose_state_law_prior"] = r["dose"]
+        # audit: the dose this row falls back to if Ryan refuses layers with no stated licence (or a use-restricted one)
+        lic = str(r["licences"]).lower()
+        if ("no licence stated" in lic or "no license stated" in lic or "illustrative" in lic) and r["dose_source"] != "fallback":
+            fc = r["fallback_class"]
+            r["dose_if_unlicensed_refused"] = (100.0 if u["type"] == "citywide residential" else
+                                               FALLBACK[fc] if fc in FALLBACK else (u["fallback_dose"] or ""))
+        else:
+            r["dose_if_unlicensed_refused"] = r["dose"]
         d24 = inputs.get(u["reform_id"], {}).get("dose_units_2_4")
         r["dose_units_2_4"] = r["dose"] if d24 is None else d24
         rows.append(r)
