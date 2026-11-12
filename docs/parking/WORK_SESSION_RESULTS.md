@@ -1427,7 +1427,7 @@ Units are homes per 100 eligible lot acres a year, from difference in difference
 | sf_a (case) | +79.3 | +4.7 to +149.0 | Yes | none | none | mechanically "counts", but a case only (see below) |
 
 **What the NY event study shows:**
-- Relative to 2015 (year −1), the Transit Zone side ran about 40–50 lower than the comparison side in 2010–2012 (leads −5 to −3, all excluding 0). It then rose to level by 2014–2015.
+- Relative to 2015 (year −1), the Transit Zone side ran about 40–50 lower than the comparison side in 2010–2012 (leads −5 to −3, all excluding 0). The gap narrowed by 2014 (lead −2: −22.2, range −93.6 to +30.2).
 - The after-years (0 to +5) sit near 0 relative to 2015 (−24 to +7, none excluding 0).
 - So the "effect" is a rise that happened **before** the 2016 rule and then held. It is not a jump at 2016.
 - 2015 was the 421-a rush year (year −1, the reference year), which may have lifted it.
