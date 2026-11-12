@@ -1983,3 +1983,7 @@ Ryan, 01:36–01:39 UTC:
 - **NY balance:** zoning, density and building age differ across the line (2016 levels). The event study's leads are the pre-trend check, and the imbalance is stated beside the result.
 - **SF treatment layer:** DataSF Zoning Districts is the 2026 version, so lots rezoned in 2026 are dropped. Wave A treatment is set from DataSF Historic Zoning 2009 (PDDL) where the current layer cannot show 2008/2009 districts. Districts that can't be dated are dropped, including NCT-SoMa, NCT-2, NCT-1 and NCT-Valencia (its year is unclear: 2008 or 2009).
 - **SF controls:** the 41 districts in reference/parking_t57_sf_districts.csv marked clean. Bayview, the Bernal Heights SUD, RCD, Polk/Pacific, Parkmerced and Excelsior are out.
+- **Test 57 pre-set sensitivities (audit, 02:48 UTC), NY 2016 only, reported beside the headline:
+  1. **Same-zoning edge:** only cells on line segments where both sides have the same zoning district. The about 25% of the land line that follows a zoning change is left out.
+  2. **Legacy-only window:** after-window ends 2020, legacy DOB file only, so the March 2021 system switch is not in the window.
+- **Balance** is reported for the 50–400 m bands (lot centroids in band), which is the test area.

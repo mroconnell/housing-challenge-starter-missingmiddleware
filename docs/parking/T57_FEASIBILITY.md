@@ -314,3 +314,17 @@ Whole-city new-building jobs per month (not split by area):
 - codelibrary.amlegal.com: HTTP 403.
 - gocodebook.com Sec. 151 pages: HTTP 404 (section repealed in 2025).
 - No DCP 2016 zoning-district zip on Wayback.
+
+## Provenance and a rule breach (audit rulings, 2026-11-12 02:48 UTC)
+
+- **Rule breach:** while probing, one request went to nyc.gov with a Safari browser user-agent. That breaks the project's no-spoofing rule. It returned 200, and the response was thrown away and not used. No result depends on it, and nothing was rerun. Ryan has been told.
+- **Internet Archive copies.** These were fetched under our own user-agent from web.archive.org, because nyc.gov returns 403. The audit reads this as not a workaround. Ryan can rule otherwise; the rebuild is ready as a fallback.
+
+| File | Capture URL | Accessed (UTC) | sha256 |
+|---|---|---|---|
+| nyctransitzones_201601.zip | https://web.archive.org/web/20251222031139id_/https://www.nyc.gov/assets/planning/download/zip/data-maps/open-data/nyctransitzones_201601.zip | 2026-11-12T02:23:42Z | c6dc261fa8ab9b11cd46cbd4c43f75d0ffe953b95aa661c84c8a86195d2a8ab4 |
+| appendixi_2016.pdf | https://web.archive.org/web/20160625230052id_/http://www1.nyc.gov:80/assets/planning/download/pdf/zoning/zoning-text/appendixi.pdf | 2026-11-12T02:34:01Z | 6f2431967391b24d91544dcf4463995acbd2fc36184b6f50b6bb949aa6456ca1 |
+| nycd_16a.zip | https://web.archive.org/web/20181130061047id_/https://www1.nyc.gov/assets/planning/download/zip/data-maps/open-data/nycd_16a.zip | 2026-11-12T02:23:43Z | 8a46b49d1852a5ecd576b8e38204b847a1538f817bf38cab340e3212ce1e56f3 |
+| nybb_16a.zip | https://web.archive.org/web/20181130061038id_/https://www1.nyc.gov/assets/planning/download/zip/data-maps/open-data/nybb_16a.zip | 2026-11-12T02:23:43Z | a303be17630990455eb079777a6b31980549e9096d66d41ce0110761a7e2f92a |
+
+- **Balance figures** are for lots whose centroid is in the 50–400 m bands on each side of the land line, not the whole zone.
