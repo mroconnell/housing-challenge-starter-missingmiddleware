@@ -172,3 +172,18 @@ Full rows, sections and URLs: helper notes from 2026-11-12, to be moved into a h
 ## Changes after writing
 
 (none yet; plan not locked)
+
+## Choices (Ryan, 2026-11-12 16:33:27 UTC: go once the audit clears; he did not object to the proposed picks)
+
+These choices make the draft above the plan for audit.
+
+- **C1. Places:** 11 places (24.4% of Wisconsin's homes): Milwaukee, Madison, Appleton, Waukesha, Eau Claire, Oshkosh, Germantown, Green Bay, Kenosha, Racine and Janesville. The rules for the last four come from code PDFs Ryan supplied, which are kept out of git.
+- **C2. Which lots:** two versions.
+  - **Main:** lots whose current zoning allows the 2–4 unit building.
+  - **Second:** all residential lots, as if 2–4 units were allowed, matching the middle housing scenario.
+  - Zoning by lot exists only for Milwaukee and Madison (C6). In the other 9 places only the second version runs.
+- **C3. Building:** 1,000 sq ft per unit; 2 floors for 2 units, 2–3 floors for 3–4 units.
+- **C4. Tandem stalls:** counted in the main run. A variant does not count them.
+- **C5. Existing house:** new building only.
+- **C6. Zoning layers:** Milwaukee (MPROP) and Madison (tax parcels) only.
+- **Use:** supporting evidence beside the 2–4 unit range. It is not a causal effect and does not change the scenario line.
