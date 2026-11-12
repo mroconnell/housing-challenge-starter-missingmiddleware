@@ -1191,6 +1191,7 @@ Kept here so the owner can take them to mentor office hours or the Administrator
 
 28. ~~Is a model-based cost-per-unit estimate acceptable as the main method for parking, if before/after city data are too noisy to show an effect?~~ Withdrawn 2026-10-27: the owner chose no cost-based line (AQ-048, G2-4).
 29. Is it acceptable to correct a Census permit series (Milwaukee's apartments) from a city's property file, if the adjustment is labelled and the published series is kept as a sensitivity?
+30. **City map layers with no stated licence.** The parking dose test measures how much of each town a partial parking reform covered (share of homes inside the reform area). For 60 of 112 reforms, the reform-area map is a city GIS layer that states no licence. We publish only the computed share per town, never the map or its shapes. Is that use acceptable under the challenge rules, or must every input layer carry an explicit open licence? (Owner OK for now, 2026-11-12; DOSE_PLAN.md, DOSES_BUILT.md)
 
 ## Additional questions to develop
 
