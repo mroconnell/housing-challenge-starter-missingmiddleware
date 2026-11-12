@@ -164,7 +164,8 @@ def load_doses(path: Path = DOSES, universe: Path = UNIVERSE) -> pd.DataFrame:
     d24 = t["dose_units_2_4"].map(_num) if has24 else pd.Series(np.nan, index=t.index)
     t["d_24"] = np.where(np.isfinite(d24), d24 / 100, t["d_all"])
     t["d_24_source"] = np.where(np.isfinite(d24), "dose_units_2_4 column", "all-homes dose (no 2-4 dose given)")
-    t["fallback"] = t["dose_source"].str.strip().str.lower().eq("fallback")
+    _src = t["dose_source"].astype(str).str.strip().str.lower()
+    t["fallback"] = _src.eq("fallback") | _src.str.startswith("assumed dose")  # audit: assumed doses count as fallback
     t["placeholder"] = t.get("fallback_class", pd.Series("", index=t.index)).str.contains("PLACEHOLDER") | \
         t.get("notes", pd.Series("", index=t.index)).str.contains("C3 PLACEHOLDER")
     t["event_used_yes"] = t["event_used"].map(_yes) if "event_used" in t.columns else True
