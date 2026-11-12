@@ -1537,3 +1537,9 @@ Units: homes per 1,000 existing homes a year, per 100 dose points (a full repeal
 - Pooling partial reforms by dose gives the same answer as the 74 full repeals: **we can't tell**, and the middle sits slightly below 0 for all homes.
 - It does **not** narrow the range. The main range is wider, because many partial reforms cover few homes and their noise is magnified.
 - It stays a side row, and the scenario line is unchanged.
+
+**Dose test label fixes (audit, 20:09 UTC). These override the cells and reading CSVs; no re-run.**
+- **D "Brainerd alone":** its range is 9.990 to 9.990, one place with no spread. Read it as **"no range"**, not "excludes 0".
+- **D "dose-0 places alone":** 2 places for all homes and 3 for 2–4 units. Read it as **"too few for a range"**.
+- **Condition 2 label:** the reading CSV still prints "near-automatic". Read it as "not automatic here: only 30 of the 74 are at dose 100" (see above).
+- **Full-only vs low-dose-only:** these point opposite ways in both methods (main +0.762 vs −1.335; D −1.452 vs +0.900). That fits noise.
