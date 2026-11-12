@@ -2038,3 +2038,31 @@ Ryan, 01:36–01:39 UTC:
 - "Too few to read" is not expected, because 1-unit permits are common. The count of places with any 1–4 permits before is reported first, with the MDE.
 
 **Test 57 GO (Ryan, 13:56:13 UTC 2026-11-12, project chat cmsg_01C3Z6G8h32D4UwCcjcGMM7qPpJSgh1duJJVxs96kYg25h: "Go for it").**
+
+## Test 59: hold one place out, 2–4 unit homes (post hoc; plan committed before any Test 59 number)
+
+**Ryan's ask** (14:03:02 UTC, cmsg_01C3Z6G8h32D4UwCcjcGMM7q4AFA6iPAZswvJ518p9fc5i): "Can we do the thing where we drop one place at a time and train on the other ones?"
+
+**Post hoc.** Test 56's 2–4 results were seen first. The test reads Test 56's saved per-place outputs (data/processed/t56/units_2_4_ref), with no new run of the pipeline.
+
+**Units:** homes per 1,000 existing homes a year. 90% ranges. Wisconsin = rate × 13,343.385 (display only).
+
+**Part 1, drop one place:**
+- For each of the 74 places, recompute the overall effect without it: main (homes × after-years weights) and D (target-state mix, method 2 D's place effects and weights).
+- Report:
+  - the range of the 74 leave-one-out averages (min and max);
+  - the 5 places whose removal moves each average most;
+  - whether any single drop flips the sign or makes a range exclude 0 (main: the placebo spread rebuilt without that place; D: method 2's bootstrap on the 73).
+
+**Part 2, predict the hidden place:**
+- For each place, predict its after-repeal 2–4 rate, using that method's own comparison towns:
+  - **A (no reform effect):** rate_before + (pool after − pool before). Its miss is the place's own effect.
+  - **B (reform effect learned from the other 73):** A + the other 73 places' average effect (same weights as the headline). Its miss is the effect minus that average.
+- **Score:** weighted root mean square miss over the 74 places (headline weights). A weighted mean absolute miss is shown beside it.
+- **Reading:**
+  - B "beats" A only if B's score is lower **and** the 90% range of (A score − B score) over 2,000 place resamples (seed 20261105) excludes 0. The same rule applies under each method.
+  - Otherwise: "the learned effect does not improve prediction of a hidden place".
+  - Expected direction: none stated. Both outcomes are read the same way.
+- **Note:** with the average close to 0, B adds a leave-one-out penalty, so B can score slightly worse than A even with no effect. This is stated beside the result.
+
+**Code:** scripts/run_parking_t59_holdout.py, committed before it runs. Outputs: reference/parking_t59_{drop_one,predict}.csv.
