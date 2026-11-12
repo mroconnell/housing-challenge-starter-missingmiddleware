@@ -77,26 +77,24 @@ def _units_ok(cell: str, n: int) -> bool:
 
 
 def _score(row) -> int:
-    return 8 * (row.place != "*") + 4 * (row.district != "*") + 2 * (row.units != "") + (row.condition != "")
+    """Specificity: a condition row (alley, corner, TOD overlay, small lot) is a deliberate override and beats
+    everything; then place, district, unit count."""
+    return 16 * (row.condition != "") + 8 * (row.place != "*") + 4 * (row.district != "*") + 2 * (row.units != "")
 
 
 class Rules:
-    """Look-ups in reference/parking_lotfit_rules.csv. The most specific matching row wins: place, then district,
-    then unit count, then condition (alley, corner, tod_overlay, lot_area_le_7500, small_lot_w60_d100). Rows with
-    use 'central' are the main run; one 'span_variant' row can replace its central counterpart for a variant run."""
+    """Look-ups in reference/parking_lotfit_rules.csv. The most specific matching row wins (see _score). Rows with
+    use 'central' are the main run; one 'span_variant' row can replace its central counterpart for a variant run:
+    it applies where it is at least as specific as the central row (so a plan default variant only reaches places
+    whose code is silent), except the FORCE_ALL variants, which apply everywhere."""
 
     def __init__(self, df: pd.DataFrame):
         self.df = df
-        self._by_prov = {p: g for p, g in df[df.use.isin(["central", "span_variant"])].groupby("provision")}
+        self._by_prov: dict = {}
+        for r in df[df.use == "central"].itertuples(index=False):
+            self._by_prov.setdefault(r.provision, []).append(r)
+        self._row = {int(r.rid): r for r in df.itertuples(index=False)}
         self._memo: dict = {}
-
-    def rows(self, place, district, prov, n, conds, use=("central",)):
-        g = self._by_prov.get(prov)
-        if g is None:
-            return g
-        m = (g.place.isin([place, "*"]) & g.district.isin([district, "*"]) & g.use.isin(use)
-             & g.units.map(lambda c: _units_ok(c, n)) & g.condition.map(lambda c: c == "" or c in conds))
-        return g[m]
 
     def get(self, place, district, prov, n, conds=frozenset(), variant: int | None = None):
         """Value of a provision (string), or None when no row applies."""
@@ -105,24 +103,30 @@ class Rules:
             self._memo[key] = self._get(place, district, prov, n, conds, variant)
         return self._memo[key]
 
+    @staticmethod
+    def _match(r, place, district, n, conds) -> bool:
+        return (r.place in (place, "*") and r.district in (district, "*") and _units_ok(r.units, n)
+                and (r.condition == "" or r.condition in conds))
+
     def _get(self, place, district, prov, n, conds, variant):
-        c = self.rows(place, district, prov, n, conds)
+        c = [r for r in self._by_prov.get(prov, []) if self._match(r, place, district, n, conds)]
         best = None
-        if c is not None and len(c):
-            sc = c.apply(_score, axis=1)
-            top = c[sc == sc.max()]
-            vals = set(top.value)
+        if c:
+            top = max(_score(r) for r in c)
+            vals = {r.value for r in c if _score(r) == top}
             if len(vals) > 1:
                 raise ValueError(f"conflicting rows for {place}/{district}/{prov}/n={n}/{sorted(conds)}: {vals}")
-            best = (int(sc.max()), top.value.iloc[0])
+            best = (top, vals.pop())
         if variant is not None:
-            v = self.df.loc[self.df.rid == variant].iloc[0]
-            if (v.provision == prov and v.place in (place, "*") and v.district in (district, "*")
-                    and _units_ok(v.units, n) and (v.condition == "" or v.condition in conds)):
+            v = self._row[int(variant)]
+            if v.provision == prov and self._match(v, place, district, n, conds):
                 forced = (v.provision, v.value) in FORCE_ALL
                 if best is None or forced or _score(v) >= best[0]:
                     return v.value
         return None if best is None else best[1]
+
+    def row(self, rid: int):
+        return self._row[int(rid)]
 
     def variants(self, place: str) -> list[int]:
         """Span-variant rows that can apply in a place."""
@@ -202,7 +206,7 @@ def resolve(R: Rules, place: str, district: str, n: int, conds=frozenset(), vari
     tandem = counted(g("tandem_counts"), True)
     drive_counts = counted(g("driveway_counts"), True) if tandem else False   # the 'no tandem' variant drops both
     if variant is not None:
-        v = R.df.loc[R.df.rid == variant].iloc[0]
+        v = R.row(variant)
         if (v.provision, v.value) == ("tandem_counts", "no"):
             tandem, drive_counts = False, False
     rear_park = g("setback_parking_rear")
@@ -578,7 +582,7 @@ def summarise(lots: pd.DataFrame, cls: pd.Series, keys: dict, fill_min: float) -
 def variant_label(R: Rules, rid: int | None) -> str:
     if rid is None:
         return "central"
-    v = R.df.loc[R.df.rid == rid].iloc[0]
+    v = R.row(rid)
     scope = v.place if v.district == "*" else f"{v.place} {v.district}"
     u = f" (units {v.units})" if v.units else ""
     return f"{v.provision}={v.value} [{scope}{u}]"
@@ -669,9 +673,10 @@ def sanity_milwaukee(lots: pd.DataFrame, R: Rules) -> pd.DataFrame:
     a = pd.DataFrame(rows)
     tot = a[["existing_buildings", "could_not_fit", "of_which_other_rules", "of_which_parking", "recorded_spaces_total"]].sum()
     share = tot.could_not_fit / tot.existing_buildings if tot.existing_buildings else np.nan
-    a.loc[len(a)] = {"units": "2-4", **tot.to_dict(), "share_could_not_fit": share,
-                     "label": SANITY_LABEL if share > cut else "", "rule": a.rule.iloc[0]}
-    return a
+    a["units"] = a.units.astype(str)
+    total = {"units": "2-4", **{k: int(v) for k, v in tot.items()}, "share_could_not_fit": share,
+             "label": SANITY_LABEL if share > cut else "", "rule": a.rule.iloc[0]}
+    return pd.concat([a, pd.DataFrame([total])], ignore_index=True)
 
 
 # ============================================================================================== synthetic

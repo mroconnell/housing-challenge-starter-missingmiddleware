@@ -792,25 +792,25 @@ Madison,*,,tod_overlay,stalls_total_2,0,stalls,central,verified,Table 28I-3,ORD-
 Madison,*,,tod_overlay,stalls_total_3,0,stalls,central,verified,Table 28I-3,ORD-23-00013,,No minimum in the TOD Overlay District
 Madison,*,,tod_overlay,stalls_total_4,0,stalls,central,verified,Table 28I-3,ORD-23-00013,,No minimum in the TOD Overlay District
 Madison,*,,,coverage_basis,building,,central,plan_choice,3.5,docs/parking/LOT_FIT_PLAN.md,,Plan section 3.5 counts buildings only for Madison; definition MGO 28.211 blocked (Municode 403)
-Madison,*,,,coverage_basis,impervious,,span_variant,assumption,,,,"Ordinance tables print lot coverage apart from building coverage, so lot coverage may include paving"
-Milwaukee,RT1,,,front_setback_ft,20,ft,central,assumption,,,,"Code sets the block average (+/-20%), no number; 20 ft is the RT3/RT4 maximum. Assumption for audit"
-Milwaukee,RT1,,,front_setback_ft,10,ft,span_variant,assumption,,,,Shallower block-average front setback. Assumption for audit
-Milwaukee,RT2,,,front_setback_ft,20,ft,central,assumption,,,,"Code sets the block average (+/-20%), no number; 20 ft is the RT3/RT4 maximum. Assumption for audit"
-Milwaukee,RT2,,,front_setback_ft,10,ft,span_variant,assumption,,,,Shallower block-average front setback. Assumption for audit
-Milwaukee,RT3,,,front_setback_ft,20,ft,central,assumption,,,,"Code sets the block average (+/-20%), no number; 20 ft is the RT3/RT4 maximum. Assumption for audit"
-Milwaukee,RT3,,,front_setback_ft,10,ft,span_variant,assumption,,,,Shallower block-average front setback. Assumption for audit
-Milwaukee,RT4,,,front_setback_ft,20,ft,central,assumption,,,,"Code sets the block average (+/-20%), no number; 20 ft is the RT3/RT4 maximum. Assumption for audit"
-Milwaukee,RT4,,,front_setback_ft,10,ft,span_variant,assumption,,,,Shallower block-average front setback. Assumption for audit
-Milwaukee,RT5,,,front_setback_ft,20,ft,central,assumption,,,,"Code sets the block average (+/-20%), no number; 20 ft is the RT3/RT4 maximum. Assumption for audit"
-Milwaukee,RT5,,,front_setback_ft,10,ft,span_variant,assumption,,,,Shallower block-average front setback. Assumption for audit
-Milwaukee,RM1,,,front_setback_ft,20,ft,central,assumption,,,,"Code sets the block average (+/-20%), no number; 20 ft is the RT3/RT4 maximum. Assumption for audit"
-Milwaukee,RM1,,,front_setback_ft,10,ft,span_variant,assumption,,,,Shallower block-average front setback. Assumption for audit
-Milwaukee,RM2,,,front_setback_ft,20,ft,central,assumption,,,,"Code sets the block average (+/-20%), no number; 20 ft is the RT3/RT4 maximum. Assumption for audit"
-Milwaukee,RM2,,,front_setback_ft,10,ft,span_variant,assumption,,,,Shallower block-average front setback. Assumption for audit
-Milwaukee,RM3,,,front_setback_ft,20,ft,central,assumption,,,,"Code sets the block average (+/-20%), no number; 20 ft is the RT3/RT4 maximum. Assumption for audit"
-Milwaukee,RM3,,,front_setback_ft,10,ft,span_variant,assumption,,,,Shallower block-average front setback. Assumption for audit
-Milwaukee,*,,,stall_width_ft,9,ft,central,assumption,,,,Code sets 160 sq ft per stall; 9 x 18 = 162 sq ft (plan default)
-Milwaukee,*,,,stall_width_ft,8.9,ft,span_variant,assumption,,,,"Narrowest stall meeting 160 sq ft at 18 ft deep (replaces the plan's 8.5 ft variant, which is under 160 sq ft)"
+Madison,*,,,coverage_basis,impervious,,span_variant,assumption,,docs/parking/LOT_FIT_CODE_NOTES.md (assumption or choice for audit),,"Ordinance tables print lot coverage apart from building coverage, so lot coverage may include paving"
+Milwaukee,RT1,,,front_setback_ft,20,ft,central,assumption,,docs/parking/LOT_FIT_CODE_NOTES.md (assumption or choice for audit),,"Code sets the block average (+/-20%), no number; 20 ft is the RT3/RT4 maximum. Assumption for audit"
+Milwaukee,RT1,,,front_setback_ft,10,ft,span_variant,assumption,,docs/parking/LOT_FIT_CODE_NOTES.md (assumption or choice for audit),,Shallower block-average front setback. Assumption for audit
+Milwaukee,RT2,,,front_setback_ft,20,ft,central,assumption,,docs/parking/LOT_FIT_CODE_NOTES.md (assumption or choice for audit),,"Code sets the block average (+/-20%), no number; 20 ft is the RT3/RT4 maximum. Assumption for audit"
+Milwaukee,RT2,,,front_setback_ft,10,ft,span_variant,assumption,,docs/parking/LOT_FIT_CODE_NOTES.md (assumption or choice for audit),,Shallower block-average front setback. Assumption for audit
+Milwaukee,RT3,,,front_setback_ft,20,ft,central,assumption,,docs/parking/LOT_FIT_CODE_NOTES.md (assumption or choice for audit),,"Code sets the block average (+/-20%), no number; 20 ft is the RT3/RT4 maximum. Assumption for audit"
+Milwaukee,RT3,,,front_setback_ft,10,ft,span_variant,assumption,,docs/parking/LOT_FIT_CODE_NOTES.md (assumption or choice for audit),,Shallower block-average front setback. Assumption for audit
+Milwaukee,RT4,,,front_setback_ft,20,ft,central,assumption,,docs/parking/LOT_FIT_CODE_NOTES.md (assumption or choice for audit),,"Code sets the block average (+/-20%), no number; 20 ft is the RT3/RT4 maximum. Assumption for audit"
+Milwaukee,RT4,,,front_setback_ft,10,ft,span_variant,assumption,,docs/parking/LOT_FIT_CODE_NOTES.md (assumption or choice for audit),,Shallower block-average front setback. Assumption for audit
+Milwaukee,RT5,,,front_setback_ft,20,ft,central,assumption,,docs/parking/LOT_FIT_CODE_NOTES.md (assumption or choice for audit),,"Code sets the block average (+/-20%), no number; 20 ft is the RT3/RT4 maximum. Assumption for audit"
+Milwaukee,RT5,,,front_setback_ft,10,ft,span_variant,assumption,,docs/parking/LOT_FIT_CODE_NOTES.md (assumption or choice for audit),,Shallower block-average front setback. Assumption for audit
+Milwaukee,RM1,,,front_setback_ft,20,ft,central,assumption,,docs/parking/LOT_FIT_CODE_NOTES.md (assumption or choice for audit),,"Code sets the block average (+/-20%), no number; 20 ft is the RT3/RT4 maximum. Assumption for audit"
+Milwaukee,RM1,,,front_setback_ft,10,ft,span_variant,assumption,,docs/parking/LOT_FIT_CODE_NOTES.md (assumption or choice for audit),,Shallower block-average front setback. Assumption for audit
+Milwaukee,RM2,,,front_setback_ft,20,ft,central,assumption,,docs/parking/LOT_FIT_CODE_NOTES.md (assumption or choice for audit),,"Code sets the block average (+/-20%), no number; 20 ft is the RT3/RT4 maximum. Assumption for audit"
+Milwaukee,RM2,,,front_setback_ft,10,ft,span_variant,assumption,,docs/parking/LOT_FIT_CODE_NOTES.md (assumption or choice for audit),,Shallower block-average front setback. Assumption for audit
+Milwaukee,RM3,,,front_setback_ft,20,ft,central,assumption,,docs/parking/LOT_FIT_CODE_NOTES.md (assumption or choice for audit),,"Code sets the block average (+/-20%), no number; 20 ft is the RT3/RT4 maximum. Assumption for audit"
+Milwaukee,RM3,,,front_setback_ft,10,ft,span_variant,assumption,,docs/parking/LOT_FIT_CODE_NOTES.md (assumption or choice for audit),,Shallower block-average front setback. Assumption for audit
+Milwaukee,*,,,stall_width_ft,9,ft,central,assumption,,docs/parking/LOT_FIT_CODE_NOTES.md (assumption or choice for audit),,Code sets 160 sq ft per stall; 9 x 18 = 162 sq ft (plan default)
+Milwaukee,*,,,stall_width_ft,8.9,ft,span_variant,assumption,,docs/parking/LOT_FIT_CODE_NOTES.md (assumption or choice for audit),,"Narrowest stall meeting 160 sq ft at 18 ft deep (replaces the plan's 8.5 ft variant, which is under 160 sq ft)"
 Milwaukee,*,,,as_if_district,RT4,code,central,choice_pending_audit,,docs/parking/LOT_FIT_PLAN.md,,Only RT district that allows new 3-4 unit buildings (limited use); plan table row
 Madison,*,,,as_if_district,TR-V1,code,central,choice_pending_audit,,docs/parking/LOT_FIT_PLAN.md,,Plan table row 'TR-V1 (3-4 units)'; allows 2-4 units
 Appleton,*,,,as_if_district,R-3,code,central,choice_pending_audit,,docs/parking/LOT_FIT_PLAN.md,,Plan table: R-3 is the 3+ unit district (R-2 two units only)
