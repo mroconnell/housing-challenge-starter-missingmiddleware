@@ -1,0 +1,10 @@
+rule,result,too_few_to_read,detail
+"overall 2-4 effect counts (both headline ranges exclude 0, same sign)",False,,
+"size slope counts (both slope ranges exclude 0, same sign, and both 25,000 gaps agree in sign)",False,,"places with any 2-4 permits before, 25,000+: 39; under 25,000: 14"
+"25,000 gap agrees in sign with the slope (main gap vs main slope, D gap vs D slope)",False,,
+pre-trend label (a lead -5..-2 or a placebo date excludes 0 under both methods),True,,leads [-4]; placebo dates []
+"scale rule, main",no scale flag,,
+"scale rule, D","don't know (levels include 0, Poisson excludes 0)",,
+too few to read overall (fewer than 10 of the 74 places with any 2-4 permits before),False,,53 places
+"too few to read in a size group (fewer than 10 places with any 2-4 permits before in 25,000+ or under 25,000)",False,,"25,000+: 39; under 25,000: 14"
+headline cells excluding 0 (of 4; one by chance is plausible),1,,
