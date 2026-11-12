@@ -450,7 +450,8 @@ def all_cells(doses: pd.DataFrame) -> None:
                     if stat == "Brainerd alone":
                         grp = (P["reform_id"] == "oth_brainerd_2023").values
                     else:
-                        grp = (P["role"].isin(["alone", "dose 0"]) & (P["d"] == 0)).values
+                        # per outcome: a 74 or pooled place whose dose for this outcome is 0 (Milwaukie for 2-4) joins the dose-0 group (audit)
+                        grp = (P["role"].isin(["alone", "dose 0", "74", "pooled"]) & (P["d"] == 0)).values
                     one = np.ones(len(P))  # an average, not a slope: dose 0 adds nothing through the origin
                     if meth == "main":
                         m = grp & okM
