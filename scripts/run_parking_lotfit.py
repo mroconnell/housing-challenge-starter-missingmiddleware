@@ -371,33 +371,36 @@ def fit_lot(lot: Lot, p: Params) -> tuple[str, str]:
     if S <= 0 and E <= 0:
         return FITS, "no_minimum"
     S = max(S, E)
-    if lot.alley:
-        bd = b[1]
-    else:
-        side_drive = side_sum - min(p.side, p.side_other)          # the drive runs in the wider side setback
-        encroach = max(0.0, p.drive_w - side_drive)
-        b2 = _building(BW - encroach, F, BD, p.min_dim)
-        if b2 is None:
-            return PARKING, "driveway_squeezes_building"
-        bd = b2[1]
+    # with an alley: rear stalls off the alley first; the owner may still use a driveway layout instead, so an alley
+    # never makes a lot worse than having no alley (keeps the alley lower bound a true lower bound)
+    tries = [(lot, b[1])] if lot.alley else []
+    no_alley = replace(lot, alley=False)
+    side_drive = side_sum - min(p.side, p.side_other)              # the drive runs in the wider side setback
+    encroach = max(0.0, p.drive_w - side_drive)
+    b2 = _building(BW - encroach, F, BD, p.min_dim)
+    if b2 is not None:
+        tries.append((no_alley, b2[1]))
+    if not tries:
+        return PARKING, "driveway_squeezes_building"
     reason = "stalls"
-    for g, o, paved in _layouts(lot, p, bd, rear_sb, side_sum):
-        if g < E or g + o < S:
-            continue
-        open_used = S - E
-        garages = E * p.encl_w * p.encl_d
-        build = F + garages
-        imperv = build + paved + open_used * p.stall_w * p.stall_d
-        if p.cov_cap is not None and p.cov_basis == "building" and build > p.cov_cap * A + 1e-6:
-            reason = "coverage_with_parking"
-            continue
-        if p.cov_cap is not None and p.cov_basis == "impervious" and imperv > p.cov_cap * A + 1e-6:
-            reason = "coverage_with_parking"
-            continue
-        if p.bldg_cov_cap is not None and build > p.bldg_cov_cap * A + 1e-6:
-            reason = "coverage_with_parking"
-            continue
-        return FITS, "parking_fits"
+    for lt, bd in tries:
+        for g, o, paved in _layouts(lt, p, bd, rear_sb, side_sum):
+            if g < E or g + o < S:
+                continue
+            open_used = S - E
+            garages = E * p.encl_w * p.encl_d
+            build = F + garages
+            imperv = build + paved + open_used * p.stall_w * p.stall_d
+            if p.cov_cap is not None and p.cov_basis == "building" and build > p.cov_cap * A + 1e-6:
+                reason = "coverage_with_parking"
+                continue
+            if p.cov_cap is not None and p.cov_basis == "impervious" and imperv > p.cov_cap * A + 1e-6:
+                reason = "coverage_with_parking"
+                continue
+            if p.bldg_cov_cap is not None and build > p.bldg_cov_cap * A + 1e-6:
+                reason = "coverage_with_parking"
+                continue
+            return FITS, "parking_fits"
     return PARKING, reason
 
 

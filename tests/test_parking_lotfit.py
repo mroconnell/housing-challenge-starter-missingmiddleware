@@ -158,6 +158,18 @@ class FitTest(unittest.TestCase):
         self.assertEqual(LF.fit_lot(lot, replace(p, tandem=True))[0], LF.FITS)
         self.assertEqual(LF.fit_lot(lot, replace(p, tandem=False))[0], LF.PARKING)
 
+    def test_alley_never_worse_than_no_alley(self):
+        rng = np.random.default_rng(11)
+        for place in LF.PLACES:
+            for n in LF.UNITS:
+                d = R.as_if_district(place, n)
+                p = LF.resolve(R, place, d, n)                   # same rules both ways: only the access differs
+                for w, dp in zip(rng.uniform(25, 120, 60), rng.uniform(80, 220, 60)):
+                    without = LF.fit_lot(LF.Lot(w * dp, w, dp), p)[0]
+                    with_alley = LF.fit_lot(LF.Lot(w * dp, w, dp, alley=True), p)[0]
+                    if without == LF.FITS:
+                        self.assertEqual(with_alley, LF.FITS, (place, n, w, dp))
+
     def test_rear_setback_lesser_of(self):
         p = LF.resolve(R, "Madison", "TR-V1", 2)          # lesser of 25% of depth or 25 ft
         self.assertAlmostEqual(min(p.rear, p.rear_pct * 80), 20.0)

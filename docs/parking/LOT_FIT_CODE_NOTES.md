@@ -43,7 +43,7 @@ Plan: [LOT_FIT_PLAN.md](LOT_FIT_PLAN.md). Its Choices and Audit fixes blocks ove
 | `reference/parking_lotfit_rules.csv` | Hand-coded rules: one row per rule, with source, status and use |
 | `scripts/run_parking_lotfit.py` | Runs the fit test, variants, aggregates and the Milwaukee sanity check |
 | `scripts/run_parking_lotfit.sh` | Runner: fetch if missing, tests, licence check, then a synthetic smoke run (or `--go`) |
-| `tests/test_parking_lotfit.py` | 29 unittest cases on synthetic lots (all pass) |
+| `tests/test_parking_lotfit.py` | 30 unittest cases on synthetic lots (all pass) |
 
 **Rules table columns.**
 - `use` values:
@@ -163,6 +163,11 @@ Plan: [LOT_FIT_PLAN.md](LOT_FIT_PLAN.md). Its Choices and Audit fixes blocks ove
       - **upper bound:** no lot has an alley;
       - **lower bound:** every lot has an alley.
     - Alley-dependent rules follow the bound, for example Eau Claire's width and Waukesha's lot area.
+    - On an alley lot the model tries the alley row first. It may still use any driveway layout, so an alley never makes a lot fail that would fit without one.
+      - The first `--go` run (outputs not kept) let alley lots use only the alley row.
+      - In Oshkosh and Kenosha, that made the lower bound block more lots than the upper bound.
+      - This was fixed before the outputs were committed.
+      - Lower-bound counts can still be higher where alley rules lower the lot minimums (Waukesha, Eau Claire), because more lots pass step 1.
     - The alley / no-alley split is dropped.
     - The TIGER detection code (`alley_flags`) is kept but not called.
 21. **Corner lots** are known only in Milwaukee. Elsewhere every lot is treated as interior.
