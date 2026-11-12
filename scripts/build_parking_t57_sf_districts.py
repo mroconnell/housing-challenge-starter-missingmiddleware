@@ -121,6 +121,8 @@ for z in ["C-3-G", "C-3-O", "C-3-R", "C-3-S", "C-3-O(SD)"]:
             "always treated (Downtown C-3)", GOC)
 for z in ["RH DTR", "SB-DTR", "TB DTR"]:
     H[z] = ("changed", "DTR max only from creation (Ord. 217-05, 2005, and later)", "excluded", "always treated (Rincon Hill/Transbay/South Beach)", GOC)
+H["RCD"] = ("changed", "in the Sec. 151.1 max-only list by Aug 2018 (Ord. 202-18); date of change not verified", "excluded",
+            "Regional Commercial District (Sec. 758)", S202)
 H["CMUO"] = ("changed", "created 2019 (Ord. 296-18); land already max only from 2009/2011/2013", "excluded", "Central SoMa", o("296", "18"))
 for z in ["PM-R", "PM-MU1", "PM-MU2", "PM-CF", "PM-OS", "PM-S"]:
     H[z] = ("changed", "Parkmerced SUD Ord. 90-11 with development agreement 89-11 (2011): no minimum, max 1 per unit", "excluded",
