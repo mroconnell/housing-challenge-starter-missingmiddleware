@@ -2119,3 +2119,25 @@ Ryan, 01:36–01:39 UTC:
 **Cells:** 2 outcomes × 2 methods × 2 benchmarks = 8 gains, each with its repeat range. Places used are reported per cell.
 
 **Test 61 go (Ryan, 20:53:10 UTC, cmsg_01C3Z6G8h32D4UwCcjcGMM7qSH13KatJpkoPYeWYUNRwLF):** "when audit comes back, resolve that and run it".
+
+**Test 61 audit fixes (20:53 UTC review of 26cf1a4). These override the text above; the plan is locked with them.**
+1. **Rate before repeal.** It sits inside both the trait and the effect (the effect is after minus before), so noise can make a false pass.
+   - **The pass is judged on 3 traits only:** dose, log10 population and area class.
+   - The 4-trait run (adding rate_before) is reported as an extra, with Test 54's denominator caveat.
+2. **Chances.**
+   - **2–4 units is primary**, following Ryan's 20:52 UTC follow-up. That gives 2 chances: main and D.
+   - All homes is reported, not judged.
+   - The pass is judged against **one weighted average only**. The dose-scaled benchmark is reported.
+3. **Places, the same list for the forest and both benchmarks.**
+   - **In:** the dose test's fit set for each outcome, meaning the 74 and the pooled new places with a dose above 0 for that outcome (98 for all homes, 97 for 2–4). Assumed-dose and fallback rows stay in, as in the dose fit.
+   - **Out:** dose-0 places (including Milwaukie for 2–4), the "alone" places (Seabrook, Brainerd) and the wait group.
+   - The dose-scaled benchmark refits β through the origin inside each training fold, with the dose test's weights.
+4. **Settings.**
+   - Area class is one-hot coded.
+   - Missing trait values are filled with the training-fold median.
+   - The forest uses Test 54's settings: 500 trees, minimum leaf 5, honest splitting.
+   - The rule "gain above 0 in at least 80% of repeats" is a convention, and it is stricter than Test 54's.
+- **Shuffle check (added):** the traits are shuffled across places 20 times, and the gain from chance alone is reported beside the result.
+- **Notes:**
+  - The dose results were already seen, so a pass would be optimistic.
+  - Boosting is left out, because it would add chances.
