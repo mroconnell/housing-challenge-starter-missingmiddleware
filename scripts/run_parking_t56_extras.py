@@ -250,9 +250,10 @@ def poisson_theta(stacks: list[list[dict]]):
     for s, cells in enumerate(stacks):
         if not cells:
             continue
-        # A stack with any zero cell (place or pool, before or after) has no finite Poisson estimate (separation),
-        # so it is left out; the number of stacks used is reported beside the result (audit note, 2026-11-12).
-        if min(x["count"] for x in cells) <= 0:
+        # Only a place or pool with zero permits in both periods carries no information (audit, 2026-11-12);
+        # a zero in one period is information about the effect, so the stack stays.
+        tot = {g: sum(x["count"] for x in cells if x["group"] == g) for g in ("place", "pool")}
+        if min(tot.values()) <= 0:
             continue
         for x in cells:
             rows.append(dict(stack=s, unit=f"{s}|{x['group']}", after=float(x["period"] == "after"),
@@ -285,10 +286,13 @@ def part_poisson(D, cases):
             bt.append(poisson_theta([stacks[j] for j in i])[0])
         bt = np.array(bt, float)
         bt = bt[np.isfinite(bt)]
-        lo, hi = np.percentile(bt, [5, 95])
+        lo, hi = np.percentile(bt, [5, 95]) if len(bt) else (np.nan, np.nan)
+        if not np.isfinite(th):
+            lo = hi = np.nan  # main fit did not converge: reported as "did not converge", not as a result
         out.append(dict(check="Poisson count model", design=POISSON_DESIGN, method=meth, stacks_used=n, stacks=len(stacks), theta=th, theta_p05=lo,
                         theta_p95=hi, multiplicative_effect=np.expm1(th), mult_p05=np.expm1(lo), mult_p95=np.expm1(hi),
-                        excludes_0=bool(lo > 0 or hi < 0), draws_used=len(bt)))
+                        excludes_0=bool(lo > 0 or hi < 0), draws_used=len(bt),
+                        status="ok" if np.isfinite(th) else "did not converge"))
     pd.DataFrame(out).round(6).to_csv(REFERENCE / "parking_t56_poisson.csv", index=False)
     print(pd.DataFrame(out).round(3).to_string(index=False), flush=True)
 
