@@ -1927,3 +1927,29 @@ Ryan, 01:36–01:39 UTC:
 4. Ryan's go.
 5. Count.
 6. Write-up.
+
+**Test 57 audit fixes (01:41 UTC review of ea353f2). These override the text above.**
+1. **San Francisco is a case, not a headline cell.** SF citywide results have been seen, and wave A is bundled with upzoning. The only headline cell is New York 2016, and the chance line refers to that one cell.
+2. **Outcome sources:** set in the feasibility table, with file, years and licence.
+   - SF: the DataSF building permits already on disk (`data/raw/parking_lot_cities/sf_permits.json`, PDDL), measured by permits **issued** for new units; years to be confirmed.
+   - NY: Department of Buildings new-building jobs, measured by **filing** date (legacy plus DOB NOW).
+   - The measure ("issued" or "filed") is stated for each city.
+3. **SF controls stay untreated:**
+   - The feasibility step lists every SF parking change from 2003 to 2018 by area, from the ordinances (for example Western SoMa, Transit Center District, commercial districts).
+   - Any B+C area that changed inside wave A's window is dropped from the controls, before any count.
+   - Whether Central SoMa overlaps Eastern Neighborhoods is checked.
+4. **SF wave years:** one effective year per area, taken from its ordinance (for example Market–Octavia 2008, Eastern Neighborhoods about January 2009). Where the date is unclear, the rule is the ordinance's effective date.
+5. **NY primary outcome:** chosen after the exact-rule check and before the lock. If the 2016 change applied mainly to affordable and senior units, the primary outcome is those units (if a dated, located, public source exists); otherwise all new-building units, labelled as possibly diluted toward 0.
+6. **NY changes at the same time, each flagged with how it is treated** (dropped, or labelled as bundled):
+   - Mandatory Inclusionary Housing rezonings inside the Transit Zone (TOD's list);
+   - the 421-a lapse and its filing rushes (before mid-2015, and before June 2022);
+   - ZQA's building-envelope changes.
+   - The 2015 rush falls in the before-window and the 2022 rush in the after-window. Both are shown in the event study and called out.
+7. **The Transit Zone line:** whether it follows zoning or borough lines is reported. Pre-period balance across the line (lot size, zoning, and pre-period trends in existing homes, not permit outcomes) is reported before any count.
+8. **Cells:**
+   - The number of 500 m cells per arm is reported.
+   - A cell that crosses the line is split, and each part goes to its own arm.
+   - **"Too few to read" (a convention):** fewer than 20 cells per arm, or fewer than 30 new-building jobs per arm in the before-window.
+   - The minimum detectable effect is reported first, before any effect, as in Test 56.
+9. **Placebo:** the placebo date uses the same not-yet-treated rule. With one wave per city, no pooling weight is needed.
+- **GIS files** stay out of git.
