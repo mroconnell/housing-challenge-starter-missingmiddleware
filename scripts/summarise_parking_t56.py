@@ -433,12 +433,14 @@ def reading(Cdf: pd.DataFrame) -> None:
         return q.iloc[0]
     sign = lambda r: 0 if not r["excludes_0"] else (1 if r["p05"] > 0 else -1)  # noqa: E731
     o = OUT_LABEL["units_2_4"]
-    hm, hd = cell(outcome=o, method="main", weighting="homes x after-years", statistic="overall effect", sample="all 74 places"), \
-        cell(outcome=o, method="D", weighting=MIX, statistic="overall effect", sample="all 74 places")
-    sm, sd = cell(outcome=o, method="main", weighting="homes x after-years", statistic="size slope", sample="all 74 places"), \
-        cell(outcome=o, method="D", weighting=MIX, statistic="size slope", sample="all 74 places")
-    gm, gd = cell(outcome=o, method="main", weighting="homes x after-years", statistic="25,000 gap"), \
-        cell(outcome=o, method="D", weighting=MIX, statistic="25,000 gap")
+    # group= keeps the spillover and date-aware D cells (also D, target-state mix, overall effect) out of the match
+    H, G = "headline", "outcome x statistic x method x weighting"
+    hm, hd = cell(group=H, outcome=o, method="main", weighting="homes x after-years", statistic="overall effect", sample="all 74 places"), \
+        cell(group=H, outcome=o, method="D", weighting=MIX, statistic="overall effect", sample="all 74 places")
+    sm, sd = cell(group=H, outcome=o, method="main", weighting="homes x after-years", statistic="size slope", sample="all 74 places"), \
+        cell(group=H, outcome=o, method="D", weighting=MIX, statistic="size slope", sample="all 74 places")
+    gm, gd = cell(group=G, outcome=o, method="main", weighting="homes x after-years", statistic="25,000 gap"), \
+        cell(group=G, outcome=o, method="D", weighting=MIX, statistic="25,000 gap")
     eff_counts = sign(hm) != 0 and sign(hm) == sign(hd)
     gap_agrees = all(g["estimate"] != 0 and np.sign(g["estimate"]) == np.sign(s["estimate"]) for g, s in ((gm, sm), (gd, sd)))
     slope_counts = sign(sm) != 0 and sign(sm) == sign(sd) and gap_agrees
