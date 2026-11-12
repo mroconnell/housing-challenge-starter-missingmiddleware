@@ -442,3 +442,14 @@ These go to the audit before any count.
 - **C11. Display:** a sensitivity row beside the headline, not the headline.
 
 **Status:** locked pending audit. Map coding and dose computation may start, because they read no outcomes. No effect is computed until the audit clears the plan.
+
+**C11 amended (Ryan, 16:31:36 UTC, cmsg_01C3Z6G8h32D4UwCcjcGMM7qPd32REjtrj3L7AXp4W2aFq):** "reserve the right to make this the headline if it says something clear and useful, and we just have to be transparent about how we got here."
+
+- The default stays a sensitivity row.
+- To keep a headline switch from being chosen after seeing the result, the dose estimate **may be offered as the headline only if all of these hold**. They are set now, before any count:
+  1. The dose-proportional check passes: the 90% range of (full-repeal-only estimate − low-dose-only estimate) includes 0.
+  2. Its 90% range is narrower than the 74-place range for the same outcome.
+  3. No pre-trend label is on, using Test 56's lead and placebo-date rule applied to the dose estimate.
+  4. Its result is not driven by fallback doses: with fallback doses dropped, the estimate keeps the same sign, or keeps a range including 0 if the main result's does.
+- If all four hold, Ryan decides. The tool and the write-up then say that the headline was switched after the result, and why.
+- If any one fails, the dose estimate stays a sensitivity row.
