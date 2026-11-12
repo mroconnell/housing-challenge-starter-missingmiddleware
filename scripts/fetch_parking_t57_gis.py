@@ -7,6 +7,8 @@ Raw (git-ignored), all in data/raw/parking_t57/:
     answers HTTP 403 to non-browser clients, so it is taken from the Internet Archive's public copy (Wayback, capture
     2025-12-22) with this project's own user agent. Not worked around.
   - nycd_16a.zip, nybb_16a.zip: DCP community districts and borough boundaries, release 16A (Wayback copies, same reason).
+  - appendixi_2016.pdf: Zoning Resolution Appendix I (Transit Zone) web version, effective 3/22/16, file of 4/5/16
+    (Wayback capture 2016-06-25 of the www1.nyc.gov PDF; same 403 reason). Used to check the 2016 line map by map.
   - sf_zoning_districts.geojson: DataSF "Zoning Map - Zoning Districts" (3i4a-hu95), PDDL-1.0. Current layer.
 """
 from __future__ import annotations
@@ -40,6 +42,10 @@ def main(argv: list[str] | None = None) -> None:
     for f, (ts, host) in FILES.items():
         download_file(man, f, WB.format(ts=ts, host=host, f=f), a.refresh, licence=NYC,
                       original_url=f"https://{host}/assets/planning/download/zip/data-maps/open-data/{f}")
+    download_file(man, "appendixi_2016.pdf",
+                  "https://web.archive.org/web/20160625230052id_/http://www1.nyc.gov:80/assets/planning/download/pdf/"
+                  "zoning/zoning-text/appendixi.pdf", a.refresh, licence=NYC.replace("Bytes of the Big Apple", "Zoning Resolution"),
+                  original_url="https://www1.nyc.gov/assets/planning/download/pdf/zoning/zoning-text/appendixi.pdf")
     if not man.have("sf_zoning_districts.geojson", a.refresh):
         rows, u = socrata("https://data.sf.gov/resource/3i4a-hu95.geojson",
                           {"$select": "zoning_sim,zoning,districtna,gen,codesectio,the_geom"})
