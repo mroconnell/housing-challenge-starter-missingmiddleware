@@ -421,3 +421,24 @@ Listed in the CSV with the reason (51 no date found, 20 no minimums before, 17 n
 ## Changes after writing
 
 (none yet)
+
+## Ryan's choices (2026-11-12 16:31:12 UTC, cmsg_01C3Z6G8h32D4UwCcjcGMM7q4365kbjpRFj6rsC56u2uz8: "okay" to the proposed picks)
+
+These go to the audit before any count.
+
+- **C1. Ryan's 2026-11-04 stop on map coding:** reopened for this test.
+- **C2. Coverage:** share of the place's homes (2020 blocks). Share of land zoned for apartments is reported as a check.
+- **C3. Fallback doses:**
+  - Broad mapped districts: 25.
+  - Citywide reductions whose old and new tables are not yet coded: 50 until they are.
+  - Ryan's other fallbacks are unchanged: TOD 25, weak repeal 15, commercial-only 10, no repeal 0.
+- **C4. Citywide repeals that followed an earlier partial reform:** the dose is the increment (what that repeal removed), not 100.
+- **C5. Partial-reform places in comparison pools:** pools are left as they are. Dropping those places is a check.
+- **C6. The 6 near-benchmark places with discretion left:** dose 100, as in today's sample.
+- **C7. Brainerd (added minimums):** reported alone, not pooled.
+- **C8. Central Falls (reversed in 2025):** kept, flagged.
+- **C9. Two-step reforms (Pomona, Spokane):** the event is the first step that touched housing.
+- **C10. Census blocks:** 2020 boundaries for all places.
+- **C11. Display:** a sensitivity row beside the headline, not the headline.
+
+**Status:** locked pending audit. Map coding and dose computation may start, because they read no outcomes. No effect is computed until the audit clears the plan.
