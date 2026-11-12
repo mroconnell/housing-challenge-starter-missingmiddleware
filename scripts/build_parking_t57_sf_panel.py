@@ -138,7 +138,7 @@ def permits(L: pd.DataFrame, blk: pd.Series) -> tuple[pd.DataFrame, dict]:
     p["year"] = pd.to_datetime(p.issued_date, errors="coerce").dt.year
     p = p[(p.units > 0) & p.year.notna()].copy()
     p["year"] = p.year.astype(int)
-    i = (p.block.astype(str) + p.lot.astype(str)).map(blk).fillna(-1).astype(int).to_numpy()
+    i = (p.block.astype(str) + p.lot.astype(str)).map(blk).fillna(-1).astype(int).to_numpy().copy()
     lon = p.location.map(lambda g: g["coordinates"][0] if isinstance(g, dict) else np.nan).to_numpy(float)
     lat = p.location.map(lambda g: g["coordinates"][1] if isinstance(g, dict) else np.nan).to_numpy(float)
     need = (i < 0) & np.isfinite(lon) & np.isfinite(lat)
