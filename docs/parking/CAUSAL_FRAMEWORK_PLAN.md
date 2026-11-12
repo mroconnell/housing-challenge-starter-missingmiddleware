@@ -2117,3 +2117,5 @@ Ryan, 01:36–01:39 UTC:
 - If it fails: "these traits, dose included, don't predict a city's effect better than one average." The trait search stays closed.
 
 **Cells:** 2 outcomes × 2 methods × 2 benchmarks = 8 gains, each with its repeat range. Places used are reported per cell.
+
+**Test 61 go (Ryan, 20:53:10 UTC, cmsg_01C3Z6G8h32D4UwCcjcGMM7qSH13KatJpkoPYeWYUNRwLF):** "when audit comes back, resolve that and run it".
