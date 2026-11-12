@@ -1,0 +1,8 @@
+run,statistic,bootstrap_sd,mde,draws_used,unit,note
+ny_dob,main effect (difference in differences),11.233263450371528,27.9315095693488,2000,homes per 100 eligible lot acres a year,"MDE = 2.486 x SD of the cluster-bootstrap draws (90% two-sided, 80% power); no centre read"
+ny_dob_keepmih,main effect (difference in differences),11.530437424608401,28.67043265628879,2000,homes per 100 eligible lot acres a year,"MDE = 2.486 x SD of the cluster-bootstrap draws (90% two-sided, 80% power); no centre read"
+ny_dob_samezone,main effect (difference in differences),11.457667875881464,28.48949117337926,2000,homes per 100 eligible lot acres a year,"MDE = 2.486 x SD of the cluster-bootstrap draws (90% two-sided, 80% power); no centre read"
+ny_dob_legacy2020,main effect (difference in differences),13.522363067198528,33.623355766589135,2000,homes per 100 eligible lot acres a year,"MDE = 2.486 x SD of the cluster-bootstrap draws (90% two-sided, 80% power); no centre read"
+ny_hpd,main effect (difference in differences),3.130852392341804,7.784864473557895,2000,homes per 100 eligible lot acres a year,"MDE = 2.486 x SD of the cluster-bootstrap draws (90% two-sided, 80% power); no centre read"
+ny_hpd_keepmih,main effect (difference in differences),3.495057540227249,8.690460573775054,2000,homes per 100 eligible lot acres a year,"MDE = 2.486 x SD of the cluster-bootstrap draws (90% two-sided, 80% power); no centre read"
+sf_a,main effect (difference in differences),44.91079676450043,111.67069615493033,2000,homes per 100 eligible lot acres a year,"MDE = 2.486 x SD of the cluster-bootstrap draws (90% two-sided, 80% power); no centre read"
