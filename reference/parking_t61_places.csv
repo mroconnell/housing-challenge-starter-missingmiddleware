@@ -1,0 +1,433 @@
+outcome,method,reform_id,place,state,group,role,status,dose,pop2010,pop_source,area_class6,rate_before_missing
+all_homes,main,rep_san_jose_2023,San Jose,California,74,74,used,0.4489,945942.0,2010 Gazetteer,main city,False
+all_homes,main,rep_san_francisco_2019,San Francisco,California,74,74,used,0.7182999999999999,805235.0,2010 Gazetteer,main city,False
+all_homes,main,rep_raleigh_2022,Raleigh,North Carolina,74,74,used,0.5888,403892.0,2010 Gazetteer,main city,False
+all_homes,main,rep_minneapolis_2021,Minneapolis,Minnesota,74,74,used,0.36310000000000003,382578.0,2010 Gazetteer,main city,False
+all_homes,main,rep_lexington_2022,Lexington,Kentucky,74,74,used,0.9904999999999999,295803.0,2010 Gazetteer,main city,False
+all_homes,main,rep_st_paul_2021,St. Paul,Minnesota,74,74,used,0.8884000000000001,285068.0,2010 Gazetteer,secondary principal city,False
+all_homes,main,rep_anchorage_2023,Anchorage,Alaska,74,74,used,0.9915,291826.0,2010 Gazetteer,main city,False
+all_homes,main,rep_buffalo_2017,Buffalo,New York,74,74,used,1.0,261310.0,2010 Gazetteer,main city,False
+all_homes,main,rep_bridgeport_2021,Bridgeport,Connecticut,74,74,used,0.9815,144229.0,2010 Gazetteer,main city,False
+all_homes,main,rep_gainesville_2022,Gainesville,Florida,74,74,used,0.8452,124354.0,2010 Gazetteer,main city,False
+all_homes,main,rep_hartford_2017,Hartford,Connecticut,74,74,used,0.5915,124775.0,2010 Gazetteer,main city,False
+all_homes,main,rep_ann_arbor_2022,Ann Arbor,Michigan,74,74,used,0.9525,113934.0,2010 Gazetteer,main city,False
+all_homes,main,rep_cambridge_2022,Cambridge,Massachusetts,74,74,used,0.9826,105162.0,2010 Gazetteer,secondary principal city,False
+all_homes,main,rep_roanoke_2021,Roanoke,Virginia,74,74,used,0.9643,97032.0,2010 Gazetteer,main city,False
+all_homes,main,rep_alameda_2021,Alameda,California,74,74,used,0.9851000000000001,73812.0,2010 Gazetteer,suburb,False
+all_homes,main,rep_west_allis_2022,West Allis,Wisconsin,74,74,used,1.0,60411.0,2010 Gazetteer,secondary principal city,False
+all_homes,main,rep_corvallis_2022,Corvallis,Oregon,74,74,used,0.9972,54462.0,2010 Gazetteer,main city,False
+all_homes,main,rep_tigard_2022,Tigard,Oregon,74,74,used,0.43229999999999996,48035.0,2010 Gazetteer,suburb,False
+all_homes,main,rep_dunwoody_2019,Dunwoody,Georgia,74,74,used,1.0,46267.0,2010 Gazetteer,suburb,False
+all_homes,main,rep_culver_city_2022,Culver City,California,74,74,used,1.0,38883.0,2010 Gazetteer,suburb,False
+all_homes,main,rep_mount_pleasant_2018,Mount Pleasant,Michigan,74,74,used,1.0,26016.0,2010 Gazetteer,outside metro,False
+all_homes,main,rep_windham_2018,Windham,Maine,74,74,used,1.0,17001.0,2010 Gazetteer,suburb,False
+all_homes,main,rep_cambridge_md_2021,Cambridge,Maryland,74,74,used,0.7744,12326.0,2010 Gazetteer,outside metro,False
+all_homes,main,rep_emeryville_2020,Emeryville,California,74,74,used,0.8331999999999999,10080.0,2010 Gazetteer,suburb,False
+all_homes,main,rep_branson_2018,Branson,Missouri,74,74,used,1.0,10520.0,2010 Gazetteer,outside metro,False
+all_homes,main,rep_canandaigua_2020,Canandaigua,New York,74,74,used,1.0,10020.0,2010 Gazetteer,suburb,False
+all_homes,main,rep_ecorse_2020,Ecorse,Michigan,74,74,used,1.0,9512.0,2010 Gazetteer,suburb,False
+all_homes,main,rep_bastrop_2019,Bastrop,Texas,74,74,used,1.0,7218.0,2010 Gazetteer,exurb,False
+all_homes,main,rep_river_rouge_2021,River Rouge,Michigan,74,74,used,1.0,7903.0,2010 Gazetteer,suburb,False
+all_homes,main,rep_hudson_2019,Hudson,New York,74,74,used,1.0,6713.0,2010 Gazetteer,outside metro,False
+all_homes,main,rep_bandera_2021,Bandera,Texas,74,74,used,1.0,857.0,2010 Gazetteer,exurb,False
+all_homes,main,rep_austin_2023,Austin,Texas,74,74,used,0.9756999999999999,790390.0,2010 Gazetteer,main city,False
+all_homes,main,rep_sacramento_2024,Sacramento,California,74,74,used,0.47609999999999997,466488.0,2010 Gazetteer,main city,False
+all_homes,main,rep_durham_2023,Durham,North Carolina,74,74,used,0.8920999999999999,228330.0,2010 Gazetteer,main city,False
+all_homes,main,rep_richmond_2023,Richmond,Virginia,74,74,used,0.9117000000000001,204214.0,2010 Gazetteer,main city,False
+all_homes,main,rep_birmingham_2024,Birmingham,Alabama,74,74,used,0.9739,212237.0,2010 Gazetteer,main city,False
+all_homes,main,rep_newport_news_2024,Newport News,Virginia,74,74,used,0.9937999999999999,180719.0,2010 Gazetteer,secondary principal city,False
+all_homes,main,rep_salem_2023,Salem,Oregon,74,74,used,0.7977,154637.0,2010 Gazetteer,main city,False
+all_homes,main,rep_eugene_2024,Eugene,Oregon,74,74,used,0.6359,156185.0,2010 Gazetteer,main city,False
+all_homes,main,rep_berkeley_2021,Berkeley,California,74,74,used,0.973,112580.0,2010 Gazetteer,secondary principal city,False
+all_homes,main,rep_bend_2023,Bend,Oregon,74,74,used,0.7247,76639.0,2010 Gazetteer,main city,False
+all_homes,main,rep_beaverton_2023,Beaverton,Oregon,74,74,used,0.3924,89803.0,2010 Gazetteer,secondary principal city,False
+all_homes,main,rep_longmont_2024,Longmont,Colorado,74,74,used,0.9692000000000001,86270.0,2010 Gazetteer,suburb,False
+all_homes,main,rep_trenton_2023,Trenton,New Jersey,74,74,used,1.0,84913.0,2010 Gazetteer,main city,False
+all_homes,main,rep_duluth_2023,Duluth,Minnesota,74,74,used,0.7565999999999999,86265.0,2010 Gazetteer,main city,False
+all_homes,main,rep_kalamazoo_2023,Kalamazoo,Michigan,74,74,used,1.0,74262.0,2010 Gazetteer,main city,False
+all_homes,main,rep_rogers_2024,Rogers,Arkansas,74,74,used,1.0,55964.0,2010 Gazetteer,secondary principal city,False
+all_homes,main,rep_portland_2024,Portland,Maine,74,74,used,1.0,66194.0,2010 Gazetteer,main city,False
+all_homes,main,rep_springfield_2024,Springfield,Oregon,74,74,used,0.319,59403.0,2010 Gazetteer,suburb,False
+all_homes,main,rep_albany_2023,Albany,Oregon,74,74,used,0.1096,50158.0,2010 Gazetteer,main city,False
+all_homes,main,rep_la_crosse_2024,La Crosse,Wisconsin,74,74,used,1.0,51320.0,2010 Gazetteer,main city,False
+all_homes,main,rep_burlington_2023,Burlington,Vermont,74,74,used,0.6122,42417.0,2010 Gazetteer,main city,False
+all_homes,main,rep_grants_pass_2024,Grants Pass,Oregon,74,74,used,0.3558,34533.0,2010 Gazetteer,main city,False
+all_homes,main,rep_plainfield_2022,Plainfield,Indiana,74,74,used,1.0,27631.0,2010 Gazetteer,suburb,False
+all_homes,main,rep_tualatin_2024,Tualatin,Oregon,74,74,used,0.2798,26054.0,2010 Gazetteer,suburb,False
+all_homes,main,rep_west_linn_2024,West Linn,Oregon,74,74,used,0.3724,25109.0,2010 Gazetteer,suburb,False
+all_homes,main,rep_kingston_2023,Kingston,New York,74,74,used,1.0,23893.0,2010 Gazetteer,main city,False
+all_homes,main,rep_ashland_2023,Ashland,Oregon,74,74,used,0.1161,20078.0,2010 Gazetteer,suburb,False
+all_homes,main,rep_carrboro_2023,Carrboro,North Carolina,74,74,used,0.9986,19582.0,2010 Gazetteer,suburb,False
+all_homes,main,rep_milwaukie_2024,Milwaukie,Oregon,74,74,used,0.1776,20291.0,2010 Gazetteer,suburb,False
+all_homes,main,rep_northfield_2024,Northfield,Minnesota,74,74,used,1.0,20007.0,2010 Gazetteer,outside metro,False
+all_homes,main,rep_central_point_2023,Central Point,Oregon,74,74,used,0.2293,17169.0,2010 Gazetteer,suburb,False
+all_homes,main,rep_portsmouth_2022,Portsmouth,Ohio,74,74,used,1.0,20226.0,2010 Gazetteer,outside metro,False
+all_homes,main,rep_taylor_2023,Taylor,Texas,74,74,used,1.0,15191.0,2010 Gazetteer,exurb,False
+all_homes,main,rep_hanover_2024,Hanover,New Hampshire,74,74,used,0.42710000000000004,11260.0,2010 Gazetteer,outside metro,False
+all_homes,main,rep_lansing_2024,Lansing,Kansas,74,74,used,1.0,11265.0,2010 Gazetteer,rural,False
+all_homes,main,rep_hampden_2022,Hampden,Maine,74,74,used,1.0,7257.0,2010 Gazetteer,suburb,False
+all_homes,main,rep_king_city_2024,King City,Oregon,74,74,used,0.3764,3111.0,2010 Gazetteer,suburb,False
+all_homes,main,rep_social_circle_2023,Social Circle,Georgia,74,74,used,1.0,4262.0,2010 Gazetteer,exurb,False
+all_homes,main,rep_millersburg_2024,Millersburg,Oregon,74,74,used,1.0,1329.0,2010 Gazetteer,suburb,False
+all_homes,main,rep_south_bend_2021,South Bend (with unincorporated St. Joseph County),Indiana,74,74,used,0.907,103085.0,ACS fallback,main city,False
+all_homes,main,rep_gastonia_2021,Gastonia,North Carolina,74,74,used,1.0,71741.0,2010 Gazetteer,secondary principal city,False
+all_homes,main,rep_avondale_estates_2021,Avondale Estates,Georgia,74,74,used,1.0,2960.0,2010 Gazetteer,suburb,False
+all_homes,main,rep_saranac_lake_2016,Saranac Lake,New York,74,74,used,1.0,5406.0,2010 Gazetteer,rural,False
+all_homes,main,oth_central_falls_2022,Central Falls,Rhode Island,new,pooled,used,1.0,19376.0,2010 Gazetteer,suburb,False
+all_homes,main,oth_charlottesville_2024,Charlottesville,Virginia,new,wait,"not in the dose fit set (dose 0, alone, wait or not used)",1.0,43475.0,2010 Gazetteer,main city,False
+all_homes,main,oth_spokane_2024,Spokane,Washington,new,pooled,used,0.0852,208916.0,2010 Gazetteer,main city,False
+all_homes,main,oth_bakersfield_2024,Bakersfield,California,new,pooled,used,0.8426,347483.0,2010 Gazetteer,main city,False
+all_homes,main,oth_maumee_2020,Maumee,Ohio,new,pooled,used,0.15,14286.0,2010 Gazetteer,suburb,False
+all_homes,main,oth_dover_2015,Dover,New Hampshire,new,pooled,used,0.15,29987.0,2010 Gazetteer,suburb,False
+all_homes,main,oth_jackson_2021,Jackson,Tennessee,new,pooled,used,0.15,65211.0,2010 Gazetteer,main city,False
+all_homes,main,oth_norman_2021,Norman,Oklahoma,new,pooled,used,0.2774,110925.0,2010 Gazetteer,suburb,False
+all_homes,main,oth_camden_2021,Camden,Maine,new,pooled,used,0.0111,4850.0,2010 Gazetteer,rural,False
+all_homes,main,oth_waukegan_2024,Waukegan,Illinois,new,pooled,used,0.5047999999999999,89078.0,2010 Gazetteer,suburb,False
+all_homes,main,oth_watertown_2023,Watertown,New York,new,pooled,used,0.4647,27023.0,2010 Gazetteer,main city,False
+all_homes,main,oth_north_canton_2023,North Canton,Ohio,new,wait,"not in the dose fit set (dose 0, alone, wait or not used)",0.0,17488.0,2010 Gazetteer,suburb,False
+all_homes,main,oth_bloomsburg_2024,Bloomsburg,Pennsylvania,new,pooled,used,0.011699999999999999,14855.0,2010 Gazetteer,outside metro,False
+all_homes,main,oth_lewisburg_2023,Lewisburg,Pennsylvania,new,pooled,used,0.2408,5792.0,2010 Gazetteer,outside metro,False
+all_homes,main,oth_pomona_2019,Pomona,California,new,pooled,used,0.008199999999999999,149058.0,2010 Gazetteer,suburb,False
+all_homes,main,oth_covington_2020,Covington,Kentucky,new,pooled,used,0.8011,40640.0,2010 Gazetteer,suburb,False
+all_homes,main,oth_columbia_2021,Columbia,South Carolina,new,pooled,used,0.1825,129272.0,2010 Gazetteer,main city,False
+all_homes,main,oth_albany_2017,Albany,New York,new,wait,"not in the dose fit set (dose 0, alone, wait or not used)",0.1,97856.0,2010 Gazetteer,main city,False
+all_homes,main,oth_bangor_2024,Bangor,Maine,new,wait,"not in the dose fit set (dose 0, alone, wait or not used)",0.3208,33039.0,2010 Gazetteer,main city,False
+all_homes,main,oth_boise_2023,Boise,Idaho,new,pooled,used,0.0124,205671.0,2010 Gazetteer,main city,False
+all_homes,main,oth_tulsa_2024,Tulsa,Oklahoma,new,pooled,used,0.381,391906.0,2010 Gazetteer,main city,False
+all_homes,main,oth_binghamton_2024,Binghamton,New York,new,wait,"not in the dose fit set (dose 0, alone, wait or not used)",0.2,47376.0,2010 Gazetteer,main city,False
+all_homes,main,oth_eureka_2019,Eureka,California,new,wait,"not in the dose fit set (dose 0, alone, wait or not used)",0.1,27191.0,2010 Gazetteer,outside metro,False
+all_homes,main,oth_seabrook_2019,Seabrook,New Hampshire,new,alone,"not in the dose fit set (dose 0, alone, wait or not used)",0.0,8693.0,2010 Gazetteer,suburb,False
+all_homes,main,oth_brainerd_2023,Brainerd,Minnesota,new,alone,"not in the dose fit set (dose 0, alone, wait or not used)",0.0,13590.0,2010 Gazetteer,outside metro,False
+all_homes,main,oth_chicago_2015,Chicago,Illinois,new,pooled,used,0.018000000000000002,2695598.0,2010 Gazetteer,main city,False
+all_homes,main,oth_san_diego_2019,San Diego,California,new,pooled,used,0.6314,1307402.0,2010 Gazetteer,main city,False
+all_homes,main,oth_albuquerque_2018,Albuquerque,New Mexico,new,pooled,used,0.1512,545852.0,2010 Gazetteer,main city,False
+all_homes,main,oth_penndel_2020,Penndel,Pennsylvania,new,pooled,used,0.25,2328.0,2010 Gazetteer,suburb,False
+all_homes,main,oth_somerville_2019,Somerville,Massachusetts,new,pooled,used,0.7232,75754.0,2010 Gazetteer,suburb,False
+all_homes,main,oth_madison_2023,Madison,Wisconsin,new,pooled,used,0.2457,233209.0,2010 Gazetteer,main city,False
+all_homes,main,oth_denver_2018,Denver,Colorado,new,pooled,used,0.0021,600158.0,2010 Gazetteer,main city,False
+all_homes,main,oth_shoreline_2022,Shoreline,Washington,new,wait,"not in the dose fit set (dose 0, alone, wait or not used)",0.25,53007.0,2010 Gazetteer,suburb,False
+all_homes,main,oth_portland_2018,Portland,Oregon,new,wait,"not in the dose fit set (dose 0, alone, wait or not used)",0.0,583776.0,2010 Gazetteer,main city,False
+all_homes,D,rep_san_jose_2023,San Jose,California,74,74,used,0.4489,945942.0,2010 Gazetteer,main city,False
+all_homes,D,rep_san_francisco_2019,San Francisco,California,74,74,used,0.7182999999999999,805235.0,2010 Gazetteer,main city,False
+all_homes,D,rep_raleigh_2022,Raleigh,North Carolina,74,74,used,0.5888,403892.0,2010 Gazetteer,main city,False
+all_homes,D,rep_minneapolis_2021,Minneapolis,Minnesota,74,74,used,0.36310000000000003,382578.0,2010 Gazetteer,main city,False
+all_homes,D,rep_lexington_2022,Lexington,Kentucky,74,74,used,0.9904999999999999,295803.0,2010 Gazetteer,main city,False
+all_homes,D,rep_st_paul_2021,St. Paul,Minnesota,74,74,used,0.8884000000000001,285068.0,2010 Gazetteer,secondary principal city,False
+all_homes,D,rep_anchorage_2023,Anchorage,Alaska,74,74,used,0.9915,291826.0,2010 Gazetteer,main city,False
+all_homes,D,rep_buffalo_2017,Buffalo,New York,74,74,used,1.0,261310.0,2010 Gazetteer,main city,False
+all_homes,D,rep_bridgeport_2021,Bridgeport,Connecticut,74,74,used,0.9815,144229.0,2010 Gazetteer,main city,False
+all_homes,D,rep_gainesville_2022,Gainesville,Florida,74,74,used,0.8452,124354.0,2010 Gazetteer,main city,False
+all_homes,D,rep_hartford_2017,Hartford,Connecticut,74,74,used,0.5915,124775.0,2010 Gazetteer,main city,False
+all_homes,D,rep_ann_arbor_2022,Ann Arbor,Michigan,74,74,used,0.9525,113934.0,2010 Gazetteer,main city,False
+all_homes,D,rep_cambridge_2022,Cambridge,Massachusetts,74,74,used,0.9826,105162.0,2010 Gazetteer,secondary principal city,False
+all_homes,D,rep_roanoke_2021,Roanoke,Virginia,74,74,used,0.9643,97032.0,2010 Gazetteer,main city,False
+all_homes,D,rep_alameda_2021,Alameda,California,74,74,used,0.9851000000000001,73812.0,2010 Gazetteer,suburb,False
+all_homes,D,rep_west_allis_2022,West Allis,Wisconsin,74,74,used,1.0,60411.0,2010 Gazetteer,secondary principal city,False
+all_homes,D,rep_corvallis_2022,Corvallis,Oregon,74,74,used,0.9972,54462.0,2010 Gazetteer,main city,False
+all_homes,D,rep_tigard_2022,Tigard,Oregon,74,74,used,0.43229999999999996,48035.0,2010 Gazetteer,suburb,False
+all_homes,D,rep_dunwoody_2019,Dunwoody,Georgia,74,74,used,1.0,46267.0,2010 Gazetteer,suburb,False
+all_homes,D,rep_culver_city_2022,Culver City,California,74,74,used,1.0,38883.0,2010 Gazetteer,suburb,False
+all_homes,D,rep_mount_pleasant_2018,Mount Pleasant,Michigan,74,74,used,1.0,26016.0,2010 Gazetteer,outside metro,False
+all_homes,D,rep_windham_2018,Windham,Maine,74,74,used,1.0,17001.0,2010 Gazetteer,suburb,False
+all_homes,D,rep_cambridge_md_2021,Cambridge,Maryland,74,74,used,0.7744,12326.0,2010 Gazetteer,outside metro,False
+all_homes,D,rep_emeryville_2020,Emeryville,California,74,74,used,0.8331999999999999,10080.0,2010 Gazetteer,suburb,False
+all_homes,D,rep_branson_2018,Branson,Missouri,74,74,used,1.0,10520.0,2010 Gazetteer,outside metro,False
+all_homes,D,rep_canandaigua_2020,Canandaigua,New York,74,74,used,1.0,10020.0,2010 Gazetteer,suburb,False
+all_homes,D,rep_ecorse_2020,Ecorse,Michigan,74,74,used,1.0,9512.0,2010 Gazetteer,suburb,False
+all_homes,D,rep_bastrop_2019,Bastrop,Texas,74,74,used,1.0,7218.0,2010 Gazetteer,exurb,False
+all_homes,D,rep_river_rouge_2021,River Rouge,Michigan,74,74,used,1.0,7903.0,2010 Gazetteer,suburb,False
+all_homes,D,rep_hudson_2019,Hudson,New York,74,74,used,1.0,6713.0,2010 Gazetteer,outside metro,False
+all_homes,D,rep_bandera_2021,Bandera,Texas,74,74,used,1.0,857.0,2010 Gazetteer,exurb,False
+all_homes,D,rep_austin_2023,Austin,Texas,74,74,used,0.9756999999999999,790390.0,2010 Gazetteer,main city,False
+all_homes,D,rep_sacramento_2024,Sacramento,California,74,74,used,0.47609999999999997,466488.0,2010 Gazetteer,main city,False
+all_homes,D,rep_durham_2023,Durham,North Carolina,74,74,used,0.8920999999999999,228330.0,2010 Gazetteer,main city,False
+all_homes,D,rep_richmond_2023,Richmond,Virginia,74,74,used,0.9117000000000001,204214.0,2010 Gazetteer,main city,False
+all_homes,D,rep_birmingham_2024,Birmingham,Alabama,74,74,used,0.9739,212237.0,2010 Gazetteer,main city,False
+all_homes,D,rep_newport_news_2024,Newport News,Virginia,74,74,used,0.9937999999999999,180719.0,2010 Gazetteer,secondary principal city,False
+all_homes,D,rep_salem_2023,Salem,Oregon,74,74,used,0.7977,154637.0,2010 Gazetteer,main city,False
+all_homes,D,rep_eugene_2024,Eugene,Oregon,74,74,used,0.6359,156185.0,2010 Gazetteer,main city,False
+all_homes,D,rep_berkeley_2021,Berkeley,California,74,74,used,0.973,112580.0,2010 Gazetteer,secondary principal city,False
+all_homes,D,rep_bend_2023,Bend,Oregon,74,74,used,0.7247,76639.0,2010 Gazetteer,main city,False
+all_homes,D,rep_beaverton_2023,Beaverton,Oregon,74,74,used,0.3924,89803.0,2010 Gazetteer,secondary principal city,False
+all_homes,D,rep_longmont_2024,Longmont,Colorado,74,74,used,0.9692000000000001,86270.0,2010 Gazetteer,suburb,False
+all_homes,D,rep_trenton_2023,Trenton,New Jersey,74,74,used,1.0,84913.0,2010 Gazetteer,main city,False
+all_homes,D,rep_duluth_2023,Duluth,Minnesota,74,74,used,0.7565999999999999,86265.0,2010 Gazetteer,main city,False
+all_homes,D,rep_kalamazoo_2023,Kalamazoo,Michigan,74,74,used,1.0,74262.0,2010 Gazetteer,main city,False
+all_homes,D,rep_rogers_2024,Rogers,Arkansas,74,74,used,1.0,55964.0,2010 Gazetteer,secondary principal city,False
+all_homes,D,rep_portland_2024,Portland,Maine,74,74,used,1.0,66194.0,2010 Gazetteer,main city,False
+all_homes,D,rep_springfield_2024,Springfield,Oregon,74,74,used,0.319,59403.0,2010 Gazetteer,suburb,False
+all_homes,D,rep_albany_2023,Albany,Oregon,74,74,used,0.1096,50158.0,2010 Gazetteer,main city,False
+all_homes,D,rep_la_crosse_2024,La Crosse,Wisconsin,74,74,used,1.0,51320.0,2010 Gazetteer,main city,False
+all_homes,D,rep_burlington_2023,Burlington,Vermont,74,74,used,0.6122,42417.0,2010 Gazetteer,main city,False
+all_homes,D,rep_grants_pass_2024,Grants Pass,Oregon,74,74,used,0.3558,34533.0,2010 Gazetteer,main city,False
+all_homes,D,rep_plainfield_2022,Plainfield,Indiana,74,74,used,1.0,27631.0,2010 Gazetteer,suburb,False
+all_homes,D,rep_tualatin_2024,Tualatin,Oregon,74,74,used,0.2798,26054.0,2010 Gazetteer,suburb,False
+all_homes,D,rep_west_linn_2024,West Linn,Oregon,74,74,used,0.3724,25109.0,2010 Gazetteer,suburb,False
+all_homes,D,rep_kingston_2023,Kingston,New York,74,74,used,1.0,23893.0,2010 Gazetteer,main city,False
+all_homes,D,rep_ashland_2023,Ashland,Oregon,74,74,used,0.1161,20078.0,2010 Gazetteer,suburb,False
+all_homes,D,rep_carrboro_2023,Carrboro,North Carolina,74,74,used,0.9986,19582.0,2010 Gazetteer,suburb,False
+all_homes,D,rep_milwaukie_2024,Milwaukie,Oregon,74,74,used,0.1776,20291.0,2010 Gazetteer,suburb,False
+all_homes,D,rep_northfield_2024,Northfield,Minnesota,74,74,used,1.0,20007.0,2010 Gazetteer,outside metro,False
+all_homes,D,rep_central_point_2023,Central Point,Oregon,74,74,used,0.2293,17169.0,2010 Gazetteer,suburb,False
+all_homes,D,rep_portsmouth_2022,Portsmouth,Ohio,74,74,used,1.0,20226.0,2010 Gazetteer,outside metro,False
+all_homes,D,rep_taylor_2023,Taylor,Texas,74,74,used,1.0,15191.0,2010 Gazetteer,exurb,False
+all_homes,D,rep_hanover_2024,Hanover,New Hampshire,74,74,used,0.42710000000000004,11260.0,2010 Gazetteer,outside metro,False
+all_homes,D,rep_lansing_2024,Lansing,Kansas,74,74,used,1.0,11265.0,2010 Gazetteer,rural,False
+all_homes,D,rep_hampden_2022,Hampden,Maine,74,74,used,1.0,7257.0,2010 Gazetteer,suburb,False
+all_homes,D,rep_king_city_2024,King City,Oregon,74,74,used,0.3764,3111.0,2010 Gazetteer,suburb,False
+all_homes,D,rep_social_circle_2023,Social Circle,Georgia,74,74,used,1.0,4262.0,2010 Gazetteer,exurb,False
+all_homes,D,rep_millersburg_2024,Millersburg,Oregon,74,74,used,1.0,1329.0,2010 Gazetteer,suburb,False
+all_homes,D,rep_south_bend_2021,South Bend (with unincorporated St. Joseph County),Indiana,74,74,used,0.907,103085.0,ACS fallback,main city,False
+all_homes,D,rep_gastonia_2021,Gastonia,North Carolina,74,74,used,1.0,71741.0,2010 Gazetteer,secondary principal city,False
+all_homes,D,rep_avondale_estates_2021,Avondale Estates,Georgia,74,74,used,1.0,2960.0,2010 Gazetteer,suburb,False
+all_homes,D,rep_saranac_lake_2016,Saranac Lake,New York,74,74,used,1.0,5406.0,2010 Gazetteer,rural,False
+all_homes,D,oth_central_falls_2022,Central Falls,Rhode Island,new,pooled,used,1.0,19376.0,2010 Gazetteer,suburb,False
+all_homes,D,oth_charlottesville_2024,Charlottesville,Virginia,new,wait,"not in the dose fit set (dose 0, alone, wait or not used)",1.0,43475.0,2010 Gazetteer,main city,False
+all_homes,D,oth_spokane_2024,Spokane,Washington,new,pooled,used,0.0852,208916.0,2010 Gazetteer,main city,False
+all_homes,D,oth_bakersfield_2024,Bakersfield,California,new,pooled,used,0.8426,347483.0,2010 Gazetteer,main city,False
+all_homes,D,oth_maumee_2020,Maumee,Ohio,new,pooled,used,0.15,14286.0,2010 Gazetteer,suburb,False
+all_homes,D,oth_dover_2015,Dover,New Hampshire,new,pooled,used,0.15,29987.0,2010 Gazetteer,suburb,False
+all_homes,D,oth_jackson_2021,Jackson,Tennessee,new,pooled,used,0.15,65211.0,2010 Gazetteer,main city,False
+all_homes,D,oth_norman_2021,Norman,Oklahoma,new,pooled,used,0.2774,110925.0,2010 Gazetteer,suburb,False
+all_homes,D,oth_camden_2021,Camden,Maine,new,pooled,used,0.0111,4850.0,2010 Gazetteer,rural,False
+all_homes,D,oth_waukegan_2024,Waukegan,Illinois,new,pooled,used,0.5047999999999999,89078.0,2010 Gazetteer,suburb,False
+all_homes,D,oth_watertown_2023,Watertown,New York,new,pooled,used,0.4647,27023.0,2010 Gazetteer,main city,False
+all_homes,D,oth_north_canton_2023,North Canton,Ohio,new,wait,"not in the dose fit set (dose 0, alone, wait or not used)",0.0,17488.0,2010 Gazetteer,suburb,False
+all_homes,D,oth_bloomsburg_2024,Bloomsburg,Pennsylvania,new,pooled,used,0.011699999999999999,14855.0,2010 Gazetteer,outside metro,False
+all_homes,D,oth_lewisburg_2023,Lewisburg,Pennsylvania,new,pooled,used,0.2408,5792.0,2010 Gazetteer,outside metro,False
+all_homes,D,oth_pomona_2019,Pomona,California,new,pooled,used,0.008199999999999999,149058.0,2010 Gazetteer,suburb,False
+all_homes,D,oth_covington_2020,Covington,Kentucky,new,pooled,used,0.8011,40640.0,2010 Gazetteer,suburb,False
+all_homes,D,oth_columbia_2021,Columbia,South Carolina,new,pooled,used,0.1825,129272.0,2010 Gazetteer,main city,False
+all_homes,D,oth_albany_2017,Albany,New York,new,wait,"not in the dose fit set (dose 0, alone, wait or not used)",0.1,97856.0,2010 Gazetteer,main city,False
+all_homes,D,oth_bangor_2024,Bangor,Maine,new,wait,"not in the dose fit set (dose 0, alone, wait or not used)",0.3208,33039.0,2010 Gazetteer,main city,False
+all_homes,D,oth_boise_2023,Boise,Idaho,new,pooled,used,0.0124,205671.0,2010 Gazetteer,main city,False
+all_homes,D,oth_tulsa_2024,Tulsa,Oklahoma,new,pooled,used,0.381,391906.0,2010 Gazetteer,main city,False
+all_homes,D,oth_binghamton_2024,Binghamton,New York,new,wait,"not in the dose fit set (dose 0, alone, wait or not used)",0.2,47376.0,2010 Gazetteer,main city,False
+all_homes,D,oth_eureka_2019,Eureka,California,new,wait,"not in the dose fit set (dose 0, alone, wait or not used)",0.1,27191.0,2010 Gazetteer,outside metro,False
+all_homes,D,oth_seabrook_2019,Seabrook,New Hampshire,new,alone,"not in the dose fit set (dose 0, alone, wait or not used)",0.0,8693.0,2010 Gazetteer,suburb,False
+all_homes,D,oth_brainerd_2023,Brainerd,Minnesota,new,alone,"not in the dose fit set (dose 0, alone, wait or not used)",0.0,13590.0,2010 Gazetteer,outside metro,False
+all_homes,D,oth_chicago_2015,Chicago,Illinois,new,pooled,used,0.018000000000000002,2695598.0,2010 Gazetteer,main city,False
+all_homes,D,oth_san_diego_2019,San Diego,California,new,pooled,used,0.6314,1307402.0,2010 Gazetteer,main city,False
+all_homes,D,oth_albuquerque_2018,Albuquerque,New Mexico,new,pooled,used,0.1512,545852.0,2010 Gazetteer,main city,False
+all_homes,D,oth_penndel_2020,Penndel,Pennsylvania,new,pooled,used,0.25,2328.0,2010 Gazetteer,suburb,False
+all_homes,D,oth_somerville_2019,Somerville,Massachusetts,new,pooled,used,0.7232,75754.0,2010 Gazetteer,suburb,False
+all_homes,D,oth_madison_2023,Madison,Wisconsin,new,pooled,used,0.2457,233209.0,2010 Gazetteer,main city,False
+all_homes,D,oth_denver_2018,Denver,Colorado,new,pooled,used,0.0021,600158.0,2010 Gazetteer,main city,False
+all_homes,D,oth_shoreline_2022,Shoreline,Washington,new,wait,"not in the dose fit set (dose 0, alone, wait or not used)",0.25,53007.0,2010 Gazetteer,suburb,False
+all_homes,D,oth_portland_2018,Portland,Oregon,new,wait,"not in the dose fit set (dose 0, alone, wait or not used)",0.0,583776.0,2010 Gazetteer,main city,False
+units_2_4,main,rep_san_jose_2023,San Jose,California,74,74,used,0.4489,945942.0,2010 Gazetteer,main city,False
+units_2_4,main,rep_san_francisco_2019,San Francisco,California,74,74,used,0.7182999999999999,805235.0,2010 Gazetteer,main city,False
+units_2_4,main,rep_raleigh_2022,Raleigh,North Carolina,74,74,used,0.5888,403892.0,2010 Gazetteer,main city,False
+units_2_4,main,rep_minneapolis_2021,Minneapolis,Minnesota,74,74,used,0.36310000000000003,382578.0,2010 Gazetteer,main city,False
+units_2_4,main,rep_lexington_2022,Lexington,Kentucky,74,74,used,0.9904999999999999,295803.0,2010 Gazetteer,main city,False
+units_2_4,main,rep_st_paul_2021,St. Paul,Minnesota,74,74,used,0.8884000000000001,285068.0,2010 Gazetteer,secondary principal city,False
+units_2_4,main,rep_anchorage_2023,Anchorage,Alaska,74,74,used,0.9915,291826.0,2010 Gazetteer,main city,False
+units_2_4,main,rep_buffalo_2017,Buffalo,New York,74,74,used,1.0,261310.0,2010 Gazetteer,main city,False
+units_2_4,main,rep_bridgeport_2021,Bridgeport,Connecticut,74,74,used,0.9815,144229.0,2010 Gazetteer,main city,False
+units_2_4,main,rep_gainesville_2022,Gainesville,Florida,74,74,used,0.8452,124354.0,2010 Gazetteer,main city,False
+units_2_4,main,rep_hartford_2017,Hartford,Connecticut,74,74,used,0.5915,124775.0,2010 Gazetteer,main city,False
+units_2_4,main,rep_ann_arbor_2022,Ann Arbor,Michigan,74,74,used,0.9525,113934.0,2010 Gazetteer,main city,False
+units_2_4,main,rep_cambridge_2022,Cambridge,Massachusetts,74,74,used,0.9826,105162.0,2010 Gazetteer,secondary principal city,False
+units_2_4,main,rep_roanoke_2021,Roanoke,Virginia,74,74,used,0.9643,97032.0,2010 Gazetteer,main city,False
+units_2_4,main,rep_alameda_2021,Alameda,California,74,74,used,0.9851000000000001,73812.0,2010 Gazetteer,suburb,False
+units_2_4,main,rep_west_allis_2022,West Allis,Wisconsin,74,74,used,1.0,60411.0,2010 Gazetteer,secondary principal city,False
+units_2_4,main,rep_corvallis_2022,Corvallis,Oregon,74,74,used,0.9972,54462.0,2010 Gazetteer,main city,False
+units_2_4,main,rep_tigard_2022,Tigard,Oregon,74,74,used,0.43229999999999996,48035.0,2010 Gazetteer,suburb,False
+units_2_4,main,rep_dunwoody_2019,Dunwoody,Georgia,74,74,used,1.0,46267.0,2010 Gazetteer,suburb,False
+units_2_4,main,rep_culver_city_2022,Culver City,California,74,74,used,1.0,38883.0,2010 Gazetteer,suburb,False
+units_2_4,main,rep_mount_pleasant_2018,Mount Pleasant,Michigan,74,74,used,1.0,26016.0,2010 Gazetteer,outside metro,False
+units_2_4,main,rep_windham_2018,Windham,Maine,74,74,used,1.0,17001.0,2010 Gazetteer,suburb,False
+units_2_4,main,rep_cambridge_md_2021,Cambridge,Maryland,74,74,used,0.7744,12326.0,2010 Gazetteer,outside metro,False
+units_2_4,main,rep_emeryville_2020,Emeryville,California,74,74,used,0.8331999999999999,10080.0,2010 Gazetteer,suburb,False
+units_2_4,main,rep_branson_2018,Branson,Missouri,74,74,used,1.0,10520.0,2010 Gazetteer,outside metro,False
+units_2_4,main,rep_canandaigua_2020,Canandaigua,New York,74,74,used,1.0,10020.0,2010 Gazetteer,suburb,False
+units_2_4,main,rep_ecorse_2020,Ecorse,Michigan,74,74,used,1.0,9512.0,2010 Gazetteer,suburb,False
+units_2_4,main,rep_bastrop_2019,Bastrop,Texas,74,74,used,1.0,7218.0,2010 Gazetteer,exurb,False
+units_2_4,main,rep_river_rouge_2021,River Rouge,Michigan,74,74,used,1.0,7903.0,2010 Gazetteer,suburb,False
+units_2_4,main,rep_hudson_2019,Hudson,New York,74,74,used,1.0,6713.0,2010 Gazetteer,outside metro,False
+units_2_4,main,rep_bandera_2021,Bandera,Texas,74,74,used,1.0,857.0,2010 Gazetteer,exurb,False
+units_2_4,main,rep_austin_2023,Austin,Texas,74,74,used,0.9756999999999999,790390.0,2010 Gazetteer,main city,False
+units_2_4,main,rep_sacramento_2024,Sacramento,California,74,74,used,0.47609999999999997,466488.0,2010 Gazetteer,main city,False
+units_2_4,main,rep_durham_2023,Durham,North Carolina,74,74,used,0.8920999999999999,228330.0,2010 Gazetteer,main city,False
+units_2_4,main,rep_richmond_2023,Richmond,Virginia,74,74,used,0.9117000000000001,204214.0,2010 Gazetteer,main city,False
+units_2_4,main,rep_birmingham_2024,Birmingham,Alabama,74,74,used,0.9739,212237.0,2010 Gazetteer,main city,False
+units_2_4,main,rep_newport_news_2024,Newport News,Virginia,74,74,used,0.9937999999999999,180719.0,2010 Gazetteer,secondary principal city,False
+units_2_4,main,rep_salem_2023,Salem,Oregon,74,74,used,0.7977,154637.0,2010 Gazetteer,main city,False
+units_2_4,main,rep_eugene_2024,Eugene,Oregon,74,74,used,0.6359,156185.0,2010 Gazetteer,main city,False
+units_2_4,main,rep_berkeley_2021,Berkeley,California,74,74,used,0.973,112580.0,2010 Gazetteer,secondary principal city,False
+units_2_4,main,rep_bend_2023,Bend,Oregon,74,74,used,0.7247,76639.0,2010 Gazetteer,main city,False
+units_2_4,main,rep_beaverton_2023,Beaverton,Oregon,74,74,used,0.3924,89803.0,2010 Gazetteer,secondary principal city,False
+units_2_4,main,rep_longmont_2024,Longmont,Colorado,74,74,used,0.9692000000000001,86270.0,2010 Gazetteer,suburb,False
+units_2_4,main,rep_trenton_2023,Trenton,New Jersey,74,74,used,1.0,84913.0,2010 Gazetteer,main city,False
+units_2_4,main,rep_duluth_2023,Duluth,Minnesota,74,74,used,0.7565999999999999,86265.0,2010 Gazetteer,main city,False
+units_2_4,main,rep_kalamazoo_2023,Kalamazoo,Michigan,74,74,used,1.0,74262.0,2010 Gazetteer,main city,False
+units_2_4,main,rep_rogers_2024,Rogers,Arkansas,74,74,used,1.0,55964.0,2010 Gazetteer,secondary principal city,False
+units_2_4,main,rep_portland_2024,Portland,Maine,74,74,used,1.0,66194.0,2010 Gazetteer,main city,False
+units_2_4,main,rep_springfield_2024,Springfield,Oregon,74,74,used,0.319,59403.0,2010 Gazetteer,suburb,False
+units_2_4,main,rep_albany_2023,Albany,Oregon,74,74,used,0.1096,50158.0,2010 Gazetteer,main city,False
+units_2_4,main,rep_la_crosse_2024,La Crosse,Wisconsin,74,74,used,1.0,51320.0,2010 Gazetteer,main city,False
+units_2_4,main,rep_burlington_2023,Burlington,Vermont,74,74,used,0.6122,42417.0,2010 Gazetteer,main city,False
+units_2_4,main,rep_grants_pass_2024,Grants Pass,Oregon,74,74,used,0.3558,34533.0,2010 Gazetteer,main city,False
+units_2_4,main,rep_plainfield_2022,Plainfield,Indiana,74,74,used,1.0,27631.0,2010 Gazetteer,suburb,False
+units_2_4,main,rep_tualatin_2024,Tualatin,Oregon,74,74,used,0.2798,26054.0,2010 Gazetteer,suburb,False
+units_2_4,main,rep_west_linn_2024,West Linn,Oregon,74,74,used,0.3724,25109.0,2010 Gazetteer,suburb,False
+units_2_4,main,rep_kingston_2023,Kingston,New York,74,74,used,1.0,23893.0,2010 Gazetteer,main city,False
+units_2_4,main,rep_ashland_2023,Ashland,Oregon,74,74,used,0.1161,20078.0,2010 Gazetteer,suburb,False
+units_2_4,main,rep_carrboro_2023,Carrboro,North Carolina,74,74,used,0.9986,19582.0,2010 Gazetteer,suburb,False
+units_2_4,main,rep_milwaukie_2024,Milwaukie,Oregon,74,74,"not in the dose fit set (dose 0, alone, wait or not used)",0.0,20291.0,2010 Gazetteer,suburb,False
+units_2_4,main,rep_northfield_2024,Northfield,Minnesota,74,74,used,1.0,20007.0,2010 Gazetteer,outside metro,False
+units_2_4,main,rep_central_point_2023,Central Point,Oregon,74,74,used,0.2293,17169.0,2010 Gazetteer,suburb,False
+units_2_4,main,rep_portsmouth_2022,Portsmouth,Ohio,74,74,used,1.0,20226.0,2010 Gazetteer,outside metro,False
+units_2_4,main,rep_taylor_2023,Taylor,Texas,74,74,used,1.0,15191.0,2010 Gazetteer,exurb,False
+units_2_4,main,rep_hanover_2024,Hanover,New Hampshire,74,74,used,0.42710000000000004,11260.0,2010 Gazetteer,outside metro,False
+units_2_4,main,rep_lansing_2024,Lansing,Kansas,74,74,used,1.0,11265.0,2010 Gazetteer,rural,False
+units_2_4,main,rep_hampden_2022,Hampden,Maine,74,74,used,1.0,7257.0,2010 Gazetteer,suburb,False
+units_2_4,main,rep_king_city_2024,King City,Oregon,74,74,used,0.3764,3111.0,2010 Gazetteer,suburb,False
+units_2_4,main,rep_social_circle_2023,Social Circle,Georgia,74,74,used,1.0,4262.0,2010 Gazetteer,exurb,False
+units_2_4,main,rep_millersburg_2024,Millersburg,Oregon,74,74,used,1.0,1329.0,2010 Gazetteer,suburb,False
+units_2_4,main,rep_south_bend_2021,South Bend (with unincorporated St. Joseph County),Indiana,74,74,used,0.907,103085.0,ACS fallback,main city,False
+units_2_4,main,rep_gastonia_2021,Gastonia,North Carolina,74,74,used,1.0,71741.0,2010 Gazetteer,secondary principal city,False
+units_2_4,main,rep_avondale_estates_2021,Avondale Estates,Georgia,74,74,used,1.0,2960.0,2010 Gazetteer,suburb,False
+units_2_4,main,rep_saranac_lake_2016,Saranac Lake,New York,74,74,used,1.0,5406.0,2010 Gazetteer,rural,False
+units_2_4,main,oth_central_falls_2022,Central Falls,Rhode Island,new,pooled,used,1.0,19376.0,2010 Gazetteer,suburb,False
+units_2_4,main,oth_charlottesville_2024,Charlottesville,Virginia,new,wait,"not in the dose fit set (dose 0, alone, wait or not used)",1.0,43475.0,2010 Gazetteer,main city,False
+units_2_4,main,oth_spokane_2024,Spokane,Washington,new,pooled,used,0.0852,208916.0,2010 Gazetteer,main city,False
+units_2_4,main,oth_bakersfield_2024,Bakersfield,California,new,pooled,used,0.8426,347483.0,2010 Gazetteer,main city,False
+units_2_4,main,oth_maumee_2020,Maumee,Ohio,new,pooled,used,0.15,14286.0,2010 Gazetteer,suburb,False
+units_2_4,main,oth_dover_2015,Dover,New Hampshire,new,pooled,used,0.15,29987.0,2010 Gazetteer,suburb,False
+units_2_4,main,oth_jackson_2021,Jackson,Tennessee,new,pooled,used,0.15,65211.0,2010 Gazetteer,main city,False
+units_2_4,main,oth_norman_2021,Norman,Oklahoma,new,pooled,used,0.706,110925.0,2010 Gazetteer,suburb,False
+units_2_4,main,oth_camden_2021,Camden,Maine,new,pooled,used,0.0111,4850.0,2010 Gazetteer,rural,False
+units_2_4,main,oth_waukegan_2024,Waukegan,Illinois,new,pooled,used,0.5047999999999999,89078.0,2010 Gazetteer,suburb,False
+units_2_4,main,oth_watertown_2023,Watertown,New York,new,pooled,used,0.4647,27023.0,2010 Gazetteer,main city,False
+units_2_4,main,oth_north_canton_2023,North Canton,Ohio,new,wait,"not in the dose fit set (dose 0, alone, wait or not used)",0.0,17488.0,2010 Gazetteer,suburb,False
+units_2_4,main,oth_bloomsburg_2024,Bloomsburg,Pennsylvania,new,pooled,used,0.011699999999999999,14855.0,2010 Gazetteer,outside metro,False
+units_2_4,main,oth_lewisburg_2023,Lewisburg,Pennsylvania,new,pooled,used,0.2408,5792.0,2010 Gazetteer,outside metro,False
+units_2_4,main,oth_pomona_2019,Pomona,California,new,pooled,used,0.008199999999999999,149058.0,2010 Gazetteer,suburb,False
+units_2_4,main,oth_covington_2020,Covington,Kentucky,new,pooled,used,0.8011,40640.0,2010 Gazetteer,suburb,False
+units_2_4,main,oth_columbia_2021,Columbia,South Carolina,new,pooled,used,0.1825,129272.0,2010 Gazetteer,main city,False
+units_2_4,main,oth_albany_2017,Albany,New York,new,wait,"not in the dose fit set (dose 0, alone, wait or not used)",0.1,97856.0,2010 Gazetteer,main city,False
+units_2_4,main,oth_bangor_2024,Bangor,Maine,new,wait,"not in the dose fit set (dose 0, alone, wait or not used)",0.3208,33039.0,2010 Gazetteer,main city,False
+units_2_4,main,oth_boise_2023,Boise,Idaho,new,pooled,used,0.0124,205671.0,2010 Gazetteer,main city,False
+units_2_4,main,oth_tulsa_2024,Tulsa,Oklahoma,new,pooled,used,0.381,391906.0,2010 Gazetteer,main city,False
+units_2_4,main,oth_binghamton_2024,Binghamton,New York,new,wait,"not in the dose fit set (dose 0, alone, wait or not used)",0.2,47376.0,2010 Gazetteer,main city,False
+units_2_4,main,oth_eureka_2019,Eureka,California,new,wait,"not in the dose fit set (dose 0, alone, wait or not used)",0.1,27191.0,2010 Gazetteer,outside metro,False
+units_2_4,main,oth_seabrook_2019,Seabrook,New Hampshire,new,alone,"not in the dose fit set (dose 0, alone, wait or not used)",0.0,8693.0,2010 Gazetteer,suburb,False
+units_2_4,main,oth_brainerd_2023,Brainerd,Minnesota,new,alone,"not in the dose fit set (dose 0, alone, wait or not used)",0.0,13590.0,2010 Gazetteer,outside metro,False
+units_2_4,main,oth_chicago_2015,Chicago,Illinois,new,pooled,used,0.018000000000000002,2695598.0,2010 Gazetteer,main city,False
+units_2_4,main,oth_san_diego_2019,San Diego,California,new,pooled,used,0.6314,1307402.0,2010 Gazetteer,main city,False
+units_2_4,main,oth_albuquerque_2018,Albuquerque,New Mexico,new,pooled,used,0.1512,545852.0,2010 Gazetteer,main city,False
+units_2_4,main,oth_penndel_2020,Penndel,Pennsylvania,new,pooled,used,0.25,2328.0,2010 Gazetteer,suburb,False
+units_2_4,main,oth_somerville_2019,Somerville,Massachusetts,new,pooled,used,0.7232,75754.0,2010 Gazetteer,suburb,False
+units_2_4,main,oth_madison_2023,Madison,Wisconsin,new,pooled,used,0.2457,233209.0,2010 Gazetteer,main city,False
+units_2_4,main,oth_denver_2018,Denver,Colorado,new,pooled,used,0.0021,600158.0,2010 Gazetteer,main city,False
+units_2_4,main,oth_shoreline_2022,Shoreline,Washington,new,wait,"not in the dose fit set (dose 0, alone, wait or not used)",0.25,53007.0,2010 Gazetteer,suburb,False
+units_2_4,main,oth_portland_2018,Portland,Oregon,new,wait,"not in the dose fit set (dose 0, alone, wait or not used)",0.0,583776.0,2010 Gazetteer,main city,False
+units_2_4,D,rep_san_jose_2023,San Jose,California,74,74,used,0.4489,945942.0,2010 Gazetteer,main city,False
+units_2_4,D,rep_san_francisco_2019,San Francisco,California,74,74,used,0.7182999999999999,805235.0,2010 Gazetteer,main city,False
+units_2_4,D,rep_raleigh_2022,Raleigh,North Carolina,74,74,used,0.5888,403892.0,2010 Gazetteer,main city,False
+units_2_4,D,rep_minneapolis_2021,Minneapolis,Minnesota,74,74,used,0.36310000000000003,382578.0,2010 Gazetteer,main city,False
+units_2_4,D,rep_lexington_2022,Lexington,Kentucky,74,74,used,0.9904999999999999,295803.0,2010 Gazetteer,main city,False
+units_2_4,D,rep_st_paul_2021,St. Paul,Minnesota,74,74,used,0.8884000000000001,285068.0,2010 Gazetteer,secondary principal city,False
+units_2_4,D,rep_anchorage_2023,Anchorage,Alaska,74,74,used,0.9915,291826.0,2010 Gazetteer,main city,False
+units_2_4,D,rep_buffalo_2017,Buffalo,New York,74,74,used,1.0,261310.0,2010 Gazetteer,main city,False
+units_2_4,D,rep_bridgeport_2021,Bridgeport,Connecticut,74,74,used,0.9815,144229.0,2010 Gazetteer,main city,False
+units_2_4,D,rep_gainesville_2022,Gainesville,Florida,74,74,used,0.8452,124354.0,2010 Gazetteer,main city,False
+units_2_4,D,rep_hartford_2017,Hartford,Connecticut,74,74,used,0.5915,124775.0,2010 Gazetteer,main city,False
+units_2_4,D,rep_ann_arbor_2022,Ann Arbor,Michigan,74,74,used,0.9525,113934.0,2010 Gazetteer,main city,False
+units_2_4,D,rep_cambridge_2022,Cambridge,Massachusetts,74,74,used,0.9826,105162.0,2010 Gazetteer,secondary principal city,False
+units_2_4,D,rep_roanoke_2021,Roanoke,Virginia,74,74,used,0.9643,97032.0,2010 Gazetteer,main city,False
+units_2_4,D,rep_alameda_2021,Alameda,California,74,74,used,0.9851000000000001,73812.0,2010 Gazetteer,suburb,False
+units_2_4,D,rep_west_allis_2022,West Allis,Wisconsin,74,74,used,1.0,60411.0,2010 Gazetteer,secondary principal city,False
+units_2_4,D,rep_corvallis_2022,Corvallis,Oregon,74,74,used,0.9972,54462.0,2010 Gazetteer,main city,False
+units_2_4,D,rep_tigard_2022,Tigard,Oregon,74,74,used,0.43229999999999996,48035.0,2010 Gazetteer,suburb,False
+units_2_4,D,rep_dunwoody_2019,Dunwoody,Georgia,74,74,used,1.0,46267.0,2010 Gazetteer,suburb,False
+units_2_4,D,rep_culver_city_2022,Culver City,California,74,74,used,1.0,38883.0,2010 Gazetteer,suburb,False
+units_2_4,D,rep_mount_pleasant_2018,Mount Pleasant,Michigan,74,74,used,1.0,26016.0,2010 Gazetteer,outside metro,False
+units_2_4,D,rep_windham_2018,Windham,Maine,74,74,used,1.0,17001.0,2010 Gazetteer,suburb,False
+units_2_4,D,rep_cambridge_md_2021,Cambridge,Maryland,74,74,used,0.7744,12326.0,2010 Gazetteer,outside metro,False
+units_2_4,D,rep_emeryville_2020,Emeryville,California,74,74,used,0.8331999999999999,10080.0,2010 Gazetteer,suburb,False
+units_2_4,D,rep_branson_2018,Branson,Missouri,74,74,used,1.0,10520.0,2010 Gazetteer,outside metro,False
+units_2_4,D,rep_canandaigua_2020,Canandaigua,New York,74,74,used,1.0,10020.0,2010 Gazetteer,suburb,False
+units_2_4,D,rep_ecorse_2020,Ecorse,Michigan,74,74,used,1.0,9512.0,2010 Gazetteer,suburb,False
+units_2_4,D,rep_bastrop_2019,Bastrop,Texas,74,74,used,1.0,7218.0,2010 Gazetteer,exurb,False
+units_2_4,D,rep_river_rouge_2021,River Rouge,Michigan,74,74,used,1.0,7903.0,2010 Gazetteer,suburb,False
+units_2_4,D,rep_hudson_2019,Hudson,New York,74,74,used,1.0,6713.0,2010 Gazetteer,outside metro,False
+units_2_4,D,rep_bandera_2021,Bandera,Texas,74,74,used,1.0,857.0,2010 Gazetteer,exurb,False
+units_2_4,D,rep_austin_2023,Austin,Texas,74,74,used,0.9756999999999999,790390.0,2010 Gazetteer,main city,False
+units_2_4,D,rep_sacramento_2024,Sacramento,California,74,74,used,0.47609999999999997,466488.0,2010 Gazetteer,main city,False
+units_2_4,D,rep_durham_2023,Durham,North Carolina,74,74,used,0.8920999999999999,228330.0,2010 Gazetteer,main city,False
+units_2_4,D,rep_richmond_2023,Richmond,Virginia,74,74,used,0.9117000000000001,204214.0,2010 Gazetteer,main city,False
+units_2_4,D,rep_birmingham_2024,Birmingham,Alabama,74,74,used,0.9739,212237.0,2010 Gazetteer,main city,False
+units_2_4,D,rep_newport_news_2024,Newport News,Virginia,74,74,used,0.9937999999999999,180719.0,2010 Gazetteer,secondary principal city,False
+units_2_4,D,rep_salem_2023,Salem,Oregon,74,74,used,0.7977,154637.0,2010 Gazetteer,main city,False
+units_2_4,D,rep_eugene_2024,Eugene,Oregon,74,74,used,0.6359,156185.0,2010 Gazetteer,main city,False
+units_2_4,D,rep_berkeley_2021,Berkeley,California,74,74,used,0.973,112580.0,2010 Gazetteer,secondary principal city,False
+units_2_4,D,rep_bend_2023,Bend,Oregon,74,74,used,0.7247,76639.0,2010 Gazetteer,main city,False
+units_2_4,D,rep_beaverton_2023,Beaverton,Oregon,74,74,used,0.3924,89803.0,2010 Gazetteer,secondary principal city,False
+units_2_4,D,rep_longmont_2024,Longmont,Colorado,74,74,used,0.9692000000000001,86270.0,2010 Gazetteer,suburb,False
+units_2_4,D,rep_trenton_2023,Trenton,New Jersey,74,74,used,1.0,84913.0,2010 Gazetteer,main city,False
+units_2_4,D,rep_duluth_2023,Duluth,Minnesota,74,74,used,0.7565999999999999,86265.0,2010 Gazetteer,main city,False
+units_2_4,D,rep_kalamazoo_2023,Kalamazoo,Michigan,74,74,used,1.0,74262.0,2010 Gazetteer,main city,False
+units_2_4,D,rep_rogers_2024,Rogers,Arkansas,74,74,used,1.0,55964.0,2010 Gazetteer,secondary principal city,False
+units_2_4,D,rep_portland_2024,Portland,Maine,74,74,used,1.0,66194.0,2010 Gazetteer,main city,False
+units_2_4,D,rep_springfield_2024,Springfield,Oregon,74,74,used,0.319,59403.0,2010 Gazetteer,suburb,False
+units_2_4,D,rep_albany_2023,Albany,Oregon,74,74,used,0.1096,50158.0,2010 Gazetteer,main city,False
+units_2_4,D,rep_la_crosse_2024,La Crosse,Wisconsin,74,74,used,1.0,51320.0,2010 Gazetteer,main city,False
+units_2_4,D,rep_burlington_2023,Burlington,Vermont,74,74,used,0.6122,42417.0,2010 Gazetteer,main city,False
+units_2_4,D,rep_grants_pass_2024,Grants Pass,Oregon,74,74,used,0.3558,34533.0,2010 Gazetteer,main city,False
+units_2_4,D,rep_plainfield_2022,Plainfield,Indiana,74,74,used,1.0,27631.0,2010 Gazetteer,suburb,False
+units_2_4,D,rep_tualatin_2024,Tualatin,Oregon,74,74,used,0.2798,26054.0,2010 Gazetteer,suburb,False
+units_2_4,D,rep_west_linn_2024,West Linn,Oregon,74,74,used,0.3724,25109.0,2010 Gazetteer,suburb,False
+units_2_4,D,rep_kingston_2023,Kingston,New York,74,74,used,1.0,23893.0,2010 Gazetteer,main city,False
+units_2_4,D,rep_ashland_2023,Ashland,Oregon,74,74,used,0.1161,20078.0,2010 Gazetteer,suburb,False
+units_2_4,D,rep_carrboro_2023,Carrboro,North Carolina,74,74,used,0.9986,19582.0,2010 Gazetteer,suburb,False
+units_2_4,D,rep_milwaukie_2024,Milwaukie,Oregon,74,74,"not in the dose fit set (dose 0, alone, wait or not used)",0.0,20291.0,2010 Gazetteer,suburb,False
+units_2_4,D,rep_northfield_2024,Northfield,Minnesota,74,74,used,1.0,20007.0,2010 Gazetteer,outside metro,False
+units_2_4,D,rep_central_point_2023,Central Point,Oregon,74,74,used,0.2293,17169.0,2010 Gazetteer,suburb,False
+units_2_4,D,rep_portsmouth_2022,Portsmouth,Ohio,74,74,used,1.0,20226.0,2010 Gazetteer,outside metro,False
+units_2_4,D,rep_taylor_2023,Taylor,Texas,74,74,used,1.0,15191.0,2010 Gazetteer,exurb,False
+units_2_4,D,rep_hanover_2024,Hanover,New Hampshire,74,74,used,0.42710000000000004,11260.0,2010 Gazetteer,outside metro,False
+units_2_4,D,rep_lansing_2024,Lansing,Kansas,74,74,used,1.0,11265.0,2010 Gazetteer,rural,False
+units_2_4,D,rep_hampden_2022,Hampden,Maine,74,74,used,1.0,7257.0,2010 Gazetteer,suburb,False
+units_2_4,D,rep_king_city_2024,King City,Oregon,74,74,used,0.3764,3111.0,2010 Gazetteer,suburb,False
+units_2_4,D,rep_social_circle_2023,Social Circle,Georgia,74,74,used,1.0,4262.0,2010 Gazetteer,exurb,False
+units_2_4,D,rep_millersburg_2024,Millersburg,Oregon,74,74,used,1.0,1329.0,2010 Gazetteer,suburb,False
+units_2_4,D,rep_south_bend_2021,South Bend (with unincorporated St. Joseph County),Indiana,74,74,used,0.907,103085.0,ACS fallback,main city,False
+units_2_4,D,rep_gastonia_2021,Gastonia,North Carolina,74,74,used,1.0,71741.0,2010 Gazetteer,secondary principal city,False
+units_2_4,D,rep_avondale_estates_2021,Avondale Estates,Georgia,74,74,used,1.0,2960.0,2010 Gazetteer,suburb,False
+units_2_4,D,rep_saranac_lake_2016,Saranac Lake,New York,74,74,used,1.0,5406.0,2010 Gazetteer,rural,False
+units_2_4,D,oth_central_falls_2022,Central Falls,Rhode Island,new,pooled,used,1.0,19376.0,2010 Gazetteer,suburb,False
+units_2_4,D,oth_charlottesville_2024,Charlottesville,Virginia,new,wait,"not in the dose fit set (dose 0, alone, wait or not used)",1.0,43475.0,2010 Gazetteer,main city,False
+units_2_4,D,oth_spokane_2024,Spokane,Washington,new,pooled,used,0.0852,208916.0,2010 Gazetteer,main city,False
+units_2_4,D,oth_bakersfield_2024,Bakersfield,California,new,pooled,used,0.8426,347483.0,2010 Gazetteer,main city,False
+units_2_4,D,oth_maumee_2020,Maumee,Ohio,new,pooled,used,0.15,14286.0,2010 Gazetteer,suburb,False
+units_2_4,D,oth_dover_2015,Dover,New Hampshire,new,pooled,used,0.15,29987.0,2010 Gazetteer,suburb,False
+units_2_4,D,oth_jackson_2021,Jackson,Tennessee,new,pooled,used,0.15,65211.0,2010 Gazetteer,main city,False
+units_2_4,D,oth_norman_2021,Norman,Oklahoma,new,pooled,used,0.706,110925.0,2010 Gazetteer,suburb,False
+units_2_4,D,oth_camden_2021,Camden,Maine,new,pooled,used,0.0111,4850.0,2010 Gazetteer,rural,False
+units_2_4,D,oth_waukegan_2024,Waukegan,Illinois,new,pooled,used,0.5047999999999999,89078.0,2010 Gazetteer,suburb,False
+units_2_4,D,oth_watertown_2023,Watertown,New York,new,pooled,used,0.4647,27023.0,2010 Gazetteer,main city,False
+units_2_4,D,oth_north_canton_2023,North Canton,Ohio,new,wait,"not in the dose fit set (dose 0, alone, wait or not used)",0.0,17488.0,2010 Gazetteer,suburb,False
+units_2_4,D,oth_bloomsburg_2024,Bloomsburg,Pennsylvania,new,pooled,used,0.011699999999999999,14855.0,2010 Gazetteer,outside metro,False
+units_2_4,D,oth_lewisburg_2023,Lewisburg,Pennsylvania,new,pooled,used,0.2408,5792.0,2010 Gazetteer,outside metro,False
+units_2_4,D,oth_pomona_2019,Pomona,California,new,pooled,used,0.008199999999999999,149058.0,2010 Gazetteer,suburb,False
+units_2_4,D,oth_covington_2020,Covington,Kentucky,new,pooled,used,0.8011,40640.0,2010 Gazetteer,suburb,False
+units_2_4,D,oth_columbia_2021,Columbia,South Carolina,new,pooled,used,0.1825,129272.0,2010 Gazetteer,main city,False
+units_2_4,D,oth_albany_2017,Albany,New York,new,wait,"not in the dose fit set (dose 0, alone, wait or not used)",0.1,97856.0,2010 Gazetteer,main city,False
+units_2_4,D,oth_bangor_2024,Bangor,Maine,new,wait,"not in the dose fit set (dose 0, alone, wait or not used)",0.3208,33039.0,2010 Gazetteer,main city,False
+units_2_4,D,oth_boise_2023,Boise,Idaho,new,pooled,used,0.0124,205671.0,2010 Gazetteer,main city,False
+units_2_4,D,oth_tulsa_2024,Tulsa,Oklahoma,new,pooled,used,0.381,391906.0,2010 Gazetteer,main city,False
+units_2_4,D,oth_binghamton_2024,Binghamton,New York,new,wait,"not in the dose fit set (dose 0, alone, wait or not used)",0.2,47376.0,2010 Gazetteer,main city,False
+units_2_4,D,oth_eureka_2019,Eureka,California,new,wait,"not in the dose fit set (dose 0, alone, wait or not used)",0.1,27191.0,2010 Gazetteer,outside metro,False
+units_2_4,D,oth_seabrook_2019,Seabrook,New Hampshire,new,alone,"not in the dose fit set (dose 0, alone, wait or not used)",0.0,8693.0,2010 Gazetteer,suburb,False
+units_2_4,D,oth_brainerd_2023,Brainerd,Minnesota,new,alone,"not in the dose fit set (dose 0, alone, wait or not used)",0.0,13590.0,2010 Gazetteer,outside metro,False
+units_2_4,D,oth_chicago_2015,Chicago,Illinois,new,pooled,used,0.018000000000000002,2695598.0,2010 Gazetteer,main city,False
+units_2_4,D,oth_san_diego_2019,San Diego,California,new,pooled,used,0.6314,1307402.0,2010 Gazetteer,main city,False
+units_2_4,D,oth_albuquerque_2018,Albuquerque,New Mexico,new,pooled,used,0.1512,545852.0,2010 Gazetteer,main city,False
+units_2_4,D,oth_penndel_2020,Penndel,Pennsylvania,new,pooled,used,0.25,2328.0,2010 Gazetteer,suburb,False
+units_2_4,D,oth_somerville_2019,Somerville,Massachusetts,new,pooled,used,0.7232,75754.0,2010 Gazetteer,suburb,False
+units_2_4,D,oth_madison_2023,Madison,Wisconsin,new,pooled,used,0.2457,233209.0,2010 Gazetteer,main city,False
+units_2_4,D,oth_denver_2018,Denver,Colorado,new,pooled,used,0.0021,600158.0,2010 Gazetteer,main city,False
+units_2_4,D,oth_shoreline_2022,Shoreline,Washington,new,wait,"not in the dose fit set (dose 0, alone, wait or not used)",0.25,53007.0,2010 Gazetteer,suburb,False
+units_2_4,D,oth_portland_2018,Portland,Oregon,new,wait,"not in the dose fit set (dose 0, alone, wait or not used)",0.0,583776.0,2010 Gazetteer,main city,False
