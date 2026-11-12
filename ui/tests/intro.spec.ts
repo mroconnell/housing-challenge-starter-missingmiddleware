@@ -20,8 +20,7 @@ async function bundle(page: Page, root: string, file: string) {
 
 // The approved copy, word for word (rev 180, as changed by the owner on 2026-11-12).
 const COPY = [
-  "Let's build some housing!",
-  "If Wisconsin adopts new housing bills, how many more homes would it permit?",
+  "What would housing reforms mean for new home permits in Wisconsin?",
   "Missing Middleware estimates how many extra homes different housing reforms could add. We study real places that already adopted each reform and compare them with places that didn’t. We test how well that comparison holds up. Then we carry what we learned to Wisconsin, and give a range of extra home permits for the first five years, assuming a law takes effect on 1 January 2027.",
   "What you'll see",
   "How we got there",

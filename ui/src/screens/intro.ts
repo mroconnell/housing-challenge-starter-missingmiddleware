@@ -65,8 +65,7 @@ export function renderIntro(main: HTMLElement, n: IntroNumbers): void {
   const b = n.baseline;
   main.innerHTML = `
   <article class="intro" data-testid="intro">
-  <h1 id="intro-h">Let's build some housing!</h1>
-  <p class="intro-sub">If Wisconsin adopts new housing bills, how many more homes would it permit?</p>
+  <h1 id="intro-h">What would housing reforms mean for new home permits in Wisconsin?</h1>
   <p class="lede intro-lede">Missing Middleware estimates how many extra homes different housing reforms could add. We study real places that already adopted each reform and compare them with places that didn’t. We test how well that comparison holds up. Then we carry what we learned to Wisconsin, and give a range of extra home permits for the first five years, assuming a law takes effect on 1 January 2027.</p>
 
   <section class="card" aria-labelledby="intro-see-h">
@@ -102,5 +101,5 @@ export function renderIntro(main: HTMLElement, n: IntroNumbers): void {
 
 /** Shown while the bundles load. */
 export function introLoading(main: HTMLElement): void {
-  main.innerHTML = `<h1>Let's build some housing!</h1><p class="muted" data-testid="intro-loading">${esc("Loading…")}</p>`;
+  main.innerHTML = `<h1>What would housing reforms mean for new home permits in Wisconsin?</h1><p class="muted" data-testid="intro-loading">${esc("Loading…")}</p>`;
 }
