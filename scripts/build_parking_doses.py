@@ -373,6 +373,7 @@ def build_row(u: dict, inp: dict, base: Path) -> dict:
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--only")
+    ap.add_argument("--out", default=str(OUT), help="output CSV (default reference/parking_doses.csv)")
     ap.add_argument("--spokane-event", choices=["2023", "2024", "pending"], default="pending",
                     help="which Spokane step is the event (C9 says 2023; coordinator asked Ryan 2026-11-12)")
     a = ap.parse_args()
@@ -404,9 +405,10 @@ def main():
     if a.only:
         print(json.dumps(rows, indent=1, default=str))
         return
-    pd.DataFrame(rows, columns=COLS).to_csv(OUT, index=False)
+    out = Path(a.out)
+    pd.DataFrame(rows, columns=COLS).to_csv(out, index=False)
     INPUTS_OUT.write_text(json.dumps(inputs, indent=1, sort_keys=True))
-    print("wrote", OUT, len(rows), "rows; sha256", hashlib.sha256(OUT.read_bytes()).hexdigest())
+    print("wrote", out, len(rows), "rows; sha256", hashlib.sha256(out.read_bytes()).hexdigest())
 
 
 if __name__ == "__main__":
