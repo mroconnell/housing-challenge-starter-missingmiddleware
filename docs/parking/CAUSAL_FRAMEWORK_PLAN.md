@@ -1849,3 +1849,80 @@ Ryan, 01:23–01:26 UTC:
   - Only new outcome columns, the size slope, the event-study years for 2–4, and the Poisson check are new code. That code is committed and audited before the count.
 - **Guards kept from the earlier blocks:** the flag window overlap; Oregon; no post-treatment controls; the collider fix; the regression-to-the-mean report; the 52g spillover rerun; the 52a balance check.
 - **Wisconsin:** display only. Any use needs Ryan's OK and the 25% rule.
+
+## Test 57: staggered waves inside one city: San Francisco and New York (DRAFT PLAN 2026-11-12, before any wave result is read; Ryan 01:36–01:39 UTC)
+
+Ryan, 01:36–01:39 UTC:
+- "is there a version of staggered timing tests we can run with a jx like NY that did waves of reform?"
+- "the data should illustrate or rebuke some of those caveats"
+- "don't we need to lock in the staggered test before lookng at the results for each city?"
+- "k"
+
+**Running count: 57.** Evidence only. No tool change without Ryan's own OK. This plan states no expected direction.
+
+**What has been seen.**
+- **San Francisco:** citywide results (Test 50 project records; the earlier lot work, including "San Francisco absent" in the lot-size test; SF in the 74), but never a wave-by-wave comparison. SF is reported as a case.
+- **New York:** no New York parking result has been looked at. TOD's New York rezoning work used upzonings, not the parking waves.
+
+**Design (ch. 18 of *The Effect*).**
+- **Comparison:** each wave is compared with areas of the same city that are **not yet** treated in its window. Already-treated areas are never used as controls.
+- **Windows:** each wave's after-window ends the year before its comparison areas are treated.
+- **Event study:** each wave's years are shown from −5 to +3 (reference −1).
+- **Pooling:** each city is reported on its own. A wave's results are pooled only within its city, weighted by eligible lot acres.
+
+**San Francisco.**
+- **Waves:**
+
+  | Wave | Areas | Year |
+  | --- | --- | --- |
+  | A | Market–Octavia and Eastern Neighborhoods plan areas (residential minimums replaced by maximums) | 2008 |
+  | B | Central SoMa | about 2018 |
+  | C | Remaining Sec. 151 districts | 2019-01-21 |
+
+  - Downtown C-3, exempt long before, is always treated and left out.
+- **Contrasts:** wave A against wave B+C areas, with after-years from 2009 until the year before wave B. Wave B cannot be separated from C (no clean after-years), so it is reported only as a case. Wave C has no not-yet-treated areas left in SF, so it is not testable here.
+- **Bundling:** wave A came with the 2008 plan-area upzonings. Its result is labelled "parking plus upzoning, not separable", the same limit as the TOD cases. The 2008–09 recession falls in its early after-years.
+
+**New York.**
+- **Wave 2016:** the Zoning for Quality and Affordability Transit Zone (adopted March 2016) removed parking requirements for affordable and senior housing, and cut them for some other housing, inside the Transit Zone.
+  - **Main design:** lots inside vs outside the Transit Zone, before vs after 2016, compared at the Transit Zone edge (bands to be fixed below).
+  - **After-window:** to 2023, the year before City of Yes.
+- **Wave 2024 (City of Yes):** too recent, so not testable.
+- **Outcomes:**
+  - **Primary:** units in new buildings by filing date, from Department of Buildings new-building filings (legacy file plus DOB NOW after 2020).
+  - **Secondary:** affordable and senior units, if a public, dated, located source exists (for example HPD "Housing New York Units by Building"). Because the 2016 change targeted affordable and senior housing, the secondary outcome is the more direct one; its before-years may be short.
+
+**Data checks before the lock (no permit or unit count is read; waves that fail are dropped before any count).**
+1. **San Francisco:**
+   - Wave A, B and C boundaries as GIS (DataSF plan areas and zoning, PDDL).
+   - Adoption and effective dates from ordinances.
+   - Confirmation that each area's residential minimums changed in that wave.
+2. **New York:**
+   - The Transit Zone boundary as a DCP GIS file (Zoning Resolution Appendix I).
+   - The exact 2016 rule: which housing types lost parking, and for which lot sizes.
+   - City of Yes date.
+   - DOB NOW coverage and fields.
+   - HPD affordable-unit data years and licence.
+3. **Licences:** recorded (SF PDDL; NYC Open Data terms).
+4. **Commit:** a feasibility table is committed before the lock is final.
+
+**Measures.**
+- **Outcome:** homes permitted per 100 eligible lot acres a year (TOD's measure). Eligible land is residential, mixed-use and commercial lots, as defined before the change.
+- **Edge bands (New York):** 0–400 m inside vs 0–400 m outside the Transit Zone line, with a 50 m donut either side. This is a convention, fixed now.
+- **Ranges:** resampling 500 m grid cells (2,000 draws, seed 20261105).
+- **Placebo:** a fake wave date 3 years earlier, run the same way.
+
+**Reading** (the same bar for either sign):
+- **Counts:** a wave result counts only if its 90% range excludes 0.
+- **Pre-trend:** if any lead (−5 to −2) or the placebo date excludes 0, the wave reads "pre-trend, not read as an effect".
+- **Caveats** (wave timing tangled with fast-growing areas; bundling): the leads and placebo test them, and the write-up says what they showed.
+- **Chance:** there are 2 headline cells (SF wave A, NY 2016 primary). With 2 cells, one range excluding 0 by chance is possible.
+- **Wisconsin:** any use needs Ryan's OK and the 25% rule.
+
+**Run order:**
+1. Data checks and the feasibility table, committed.
+2. Audit, and the lock made final.
+3. Code, committed and audited.
+4. Ryan's go.
+5. Count.
+6. Write-up.
