@@ -1,6 +1,6 @@
 # Test 57 feasibility (data checks before the lock)
 
-Date: 2026-11-12 (UTC). Full table: `reference/parking_t57_feasibility.csv` (28 rows).
+Date: 2026-11-12 (UTC). Full table: `reference/parking_t57_feasibility.csv` (29 rows).
 
 **No outcome was read.** No permit or unit count was split by area or by time around any reform date. Only file fields, date spans and whole-file row totals were checked.
 
@@ -110,6 +110,7 @@ Date: 2026-11-12 (UTC). Full table: `reference/parking_t57_feasibility.csv` (28 
 
 **Licences.**
 - SF: PDDL 1.0 (DataSF).
+- SF Historic Zoning Districts 2009 (jud5-ja46): its own licence field is blank. The DataSF Terms of Use (Section IX, dated 2017-04-21, https://www.sf.gov/reports--april-2017--datasf-terms-use) make PDDL 1.0 the default unless the file or its page (incl. metadata) states otherwise. Nothing states otherwise, so PDDL applies (code step, 2026-11-12).
 - NY: NYC Open Data terms; licence field blank on the datasets.
 
 ## Sources
