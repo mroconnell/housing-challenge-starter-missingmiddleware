@@ -2087,3 +2087,33 @@ Ryan, 01:36–01:39 UTC:
 **Reading:** descriptive (a power curve). No pass or fail.
 
 **Code:** scripts/run_parking_t60_injection.py, committed before it runs. Output: reference/parking_t60_catch_rate.csv.
+
+## Test 61: honest forest with dose and population (post hoc; draft plan 2026-11-12 20:55 UTC, before any count)
+
+**Ryan's ask** (20:51:48 UTC, cmsg_01C3Z6G8h32D4UwCcjcGMM7q6gxgRSNxjrvci2GYjJ96my): "can we try to go back to one of the big models like the causal forest or boosted regression, whichever one did best and use the new variables we've added like dose and population as a continuous variable?"
+
+**Post hoc.**
+- Test 54 recommended ending the trait search. Ryan reopens it here.
+- Test 54's best tool was the honest regression forest: main +0.9% held-out gain (range over repeats −10.2% to +11.7%), against the 5% bar.
+- 2010 population was already one of Test 54's roughly 90 traits. **Dose is new.** The sample grows to the dose test's 98 places (97 for 2–4 units).
+
+**Design: no trait screening.**
+- Test 54's screen of about 4,000 traits was the main source of noise. This test fixes a small trait set in advance instead:
+  1. dose (frozen table, sha256 39a33135…; d_24 for 2–4 units);
+  2. log10 population (2010; ACS fallback as in Test 53);
+  3. area class (Test 53's six classes);
+  4. rate before repeal (each place's own pre-period rate for the outcome).
+- **Tool:** the same honest forest code as Test 54 (run_parking_t54_screen's predict path), with seeds and settings unchanged.
+- **Benchmark:**
+  - Main benchmark: one weighted average.
+  - Second benchmark, also checked: the dose-scaled average (β × dose, from the dose test's fit on the training places).
+- **Outcomes and methods:** all homes and 2–4 units, under main and D (target-state mix). Each place's effect comes from the dose test's working copies (data/processed/dose/*_ref), so no new pipeline run is needed.
+- **Scoring:** held-out weighted mean absolute error, over 10 folds × 20 repeats, the same as Test 54.
+
+**Reading (set now):**
+- The forest "beats" a benchmark only if its mean held-out gain is at least 5% and the gain is above 0 in at least 80% of the repeats. Test 54's bar was the 5% mean; the repeat rule is added because repeats swung ±10% there.
+- That must hold under main or D, for the same outcome. Two chances, as in Test 54.
+- If it passes: report which traits carry the forest (permutation importance). It changes the line only through a new plan and Ryan's call.
+- If it fails: "these traits, dose included, don't predict a city's effect better than one average." The trait search stays closed.
+
+**Cells:** 2 outcomes × 2 methods × 2 benchmarks = 8 gains, each with its repeat range. Places used are reported per cell.
