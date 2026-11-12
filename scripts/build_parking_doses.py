@@ -349,6 +349,11 @@ def build_row(u: dict, inp: dict, base: Path) -> dict:
     if inp.get("dose_override") is not None:  # pure ordinance arithmetic, citywide
         r.update(dose=float(inp["dose_override"]), coverage_homes_share=inp.get("coverage_override", 1.0),
                  removal_share=inp.get("removal_override", float(inp["dose_override"]) / 100))
+        if inp.get("state_law_prior"):  # citywide arithmetic, with the state-law areas netted out
+            v = {"geo": inp["geo"], "areas": [{"removal": float(r["removal_share"]), "where": "all"}],
+                 "prior": inp["state_law_prior"]}
+            r["dose_state_law_prior"] = round(score(v, base, 2020)["dose"] * float(inp["dose_override"]) /
+                                              (100 * float(r["removal_share"])), 2)
         return r
     s = score(inp, base, 2020)
     r.update(coverage_homes_share=round(s["coverage"], 4), removal_share=round(s["removal"], 4),
