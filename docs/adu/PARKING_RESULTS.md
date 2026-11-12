@@ -27,10 +27,18 @@ Each row is a package; parking is not separable. Counts are ADU permits per year
 | Tacoma, 2019 | Parking dropped | Detached ADUs ("cottages") legalised; owner occupancy dropped | 0.5 a month | 9.25 a month | Sightline, 2020 |
 | Tigard, OR, 2018 | No parking near transit | Cottages; 2 ADUs per lot; owner occupancy dropped | 1 (2018) | 25 (2019) | Sightline, 2020 |
 | Portland, 2010 onward | Parking not required (timing unclear) | Development-charge (SDC) waiver of about $11,000 (2010–2018); owner-occupancy rule removed earlier | 45 (2010) | 545 (2016); fell after the waiver ended in 2018 | Sightline, 2020; accessorydwellings.org, 2019 |
+| Bellingham, WA, May 2018 | Reduced, not removed: one space per bedroom → at least one space | Detached ADUs re-legalised; fees cut; owner occupancy kept | 12 applications (record year before 2018) | 48 applications (2018) | Sightline, 2018 and 2019 |
+| Olympia, WA, late 2018 | Parking requirement removed | Owner occupancy removed; height to 24 ft | 5 applications (2017) | 4 (2018); 3 by February 2019 | Sightline, 2019 |
+| Vancouver, WA, 2017 | None (parking unchanged at that time) | Owner occupancy removed | 1 application (2016) | 10 (2017), 45 (2018) | Sightline, 2019 |
 
 **Notes**
 - **Two Seattle series.** Our series and the city's annual report count differently, so both are shown.
 - **Portland.** Its swings follow the fee waiver's deadline more closely than any parking change.
+- **Washington cities (Sightline 2019, added 2026-11-12):** the three rows point different ways.
+  - Bellingham kept a parking minimum and still quadrupled its applications.
+  - Vancouver changed owner occupancy, not parking, and rose 45-fold from 1.
+  - Olympia dropped parking and owner occupancy, and its applications did not rise in the first months.
+  - These are counts of a few dozen with no comparison places, so they do not separate parking either.
 
 ## P3. Proposed How-sure wording (needs Ryan's OK)
 
