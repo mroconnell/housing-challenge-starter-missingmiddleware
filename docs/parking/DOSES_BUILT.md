@@ -21,10 +21,14 @@ GIS layers and Census files: `data/raw/parking_dose/<reform_id>/` (git-ignored; 
 
 | Dose source | The 74 | Other reforms | All |
 |---|---|---|---|
-| computable (both factors from data) | 64 | 19 | 83 |
-| partly (one factor assumed) | 10 | 6 | 16 |
+| computable (both factors from data) | 62 | 19 | 81 |
+| partly (one factor assumed) | 10 | 5 | 15 |
 | fallback (C3 class dose) | 0 | 13 | 13 |
+| assumed dose (prior unsourced): Salem, Portland ME | 2 | 0 | 2 |
+| assumed dose: Boise | 0 | 1 | 1 |
 | **All** | **74** | **38** | **112** |
+
+- The "assumed dose" rows are meant to count as fallback in the fallback checks (dropped, halved, doubled). The estimator matches `dose_source == "fallback"`, so it needs to treat any value starting "assumed dose" the same way.
 
 - C3 placeholder 50s: 1 row (Pomona 2024), and it is not the event (C9).
 - The 74 citywide repeals, by dose (number of places):
@@ -73,6 +77,8 @@ GIS layers and Census files: `data/raw/parking_dose/<reform_id>/` (git-ignored; 
 
 - Wrong side but kept, with the reason in the row: Binghamton (file stamped 2023-12-29 and linked from a pre-reform page; switching gives the placeholder 50), Bangor, Avondale Estates, Pomona 2019.
 
+**Second ruling (2026-11-12).** Salem (79.77) and Portland ME (100) are marked "assumed dose (prior unsourced)". Boise is marked "assumed dose": the 2017 full text could not be tied to the 2023 table, because the amendment history is blocked (amlegal 403) and no 2018–2023 ordinance amending the multifamily rows was found. Its C-5 zones are labelled a stand-in for P-1.
+
 **Full text read** (no longer search extracts): Durham (UDO as amended 2023-10-16), Hanover (Zoning Ordinance 2022 and 2023), Boise (legacy Title 11, 2017 edition). All coded values confirmed. Durham's repeal took effect 2024-01-01; event year kept at 2023 (adoption).
 
 **New columns.**
@@ -101,7 +107,7 @@ GIS layers and Census files: `data/raw/parking_dose/<reform_id>/` (git-ignored; 
 4. **Choices with big effects:** Albany OR follows city staff (10.96; strict rule 97.04); Oregon 1-per-home cap counted as prior; Raleigh frequent-transit stand-in (58.88; 81.77 without); Hanover discretion (42.71 or weak repeal 15).
 5. **Assumptions:** Pomona 4 storeys; Berkeley C-DMU 0.75; Boise C-5 for old P-1; Albuquerque downtown prior.
 6. **Hand-digitising:** Trenton downtown parking districts (PDF only), Penndel overlay (only on file at the borough).
-7. **Boise:** P-1 district still stood in by C-5 zones; the 2017 code map could be traced instead.
+7. **Boise:** assumed dose (1.24); C-5 stands in for P-1. The 2017 code map could be traced, and the 2023 legacy table read if a copy turns up.
 8. **Fremont** now ineligible (2014): the estimator's list of 24 must drop it.
 
 ## Freeze
