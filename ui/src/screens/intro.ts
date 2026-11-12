@@ -86,10 +86,10 @@ export function renderIntro(main: HTMLElement, n: IntroNumbers): void {
       <li data-testid="intro-step-2"><strong>Set a baseline in Wisconsin.</strong> We estimate what the state would permit under current law. For Wisconsin that is about <span data-testid="intro-baseline">${int(b.central)}</span> homes over 2027–2031 (90% range <span data-testid="intro-baseline-range">${int(b.low)} to ${int(b.high)}</span>). <a href="${L.today}" data-testid="intro-link-today">Wisconsin Today</a></li>
       <li data-testid="intro-step-3"><strong>Define the proposed policies.</strong>
         <ul class="intro-reform-links" aria-label="The modelled law for each reform">
-          <li><a href="${L.adu}" data-testid="intro-link-adu">ADU reform: the modelled law and what it adds</a></li>
-          <li><a href="${L.middle}" data-testid="intro-link-middle">Middle housing reform: what the modelled law adds</a></li>
-          <li><a href="${L.tod}" data-testid="intro-link-tod">TOD reform: the modelled law and the homes near transit today</a></li>
-          <li><a href="${L.parking}" data-testid="intro-link-parking">Parking reform: the modelled law and what it adds</a></li>
+          <li><a href="${L.adu}" data-testid="intro-link-adu">ADU reform<span class="sr-only">: the modelled law and what it adds</span></a></li>
+          <li><a href="${L.middle}" data-testid="intro-link-middle">Middle housing reform<span class="sr-only">: what the modelled law adds</span></a></li>
+          <li><a href="${L.tod}" data-testid="intro-link-tod">TOD reform<span class="sr-only">: the modelled law and the homes near transit today</span></a></li>
+          <li><a href="${L.parking}" data-testid="intro-link-parking">Parking reform<span class="sr-only">: the modelled law and what it adds</span></a></li>
         </ul></li>
       <li data-testid="intro-step-4"><strong>Look at cities and states outside Wisconsin to measure the effect of each proposed policy.</strong> Compare places where the reforms passed, and places that did not reform.</li>
       <li data-testid="intro-step-5"><strong>Carry the effect to Wisconsin.</strong> We apply each measured effect to Wisconsin, producing a range of new permits we expect to see from each policy.</li>

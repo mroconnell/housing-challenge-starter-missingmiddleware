@@ -404,9 +404,9 @@ ul.vs-band, ul.tn-rows { list-style: none; padding: 0; }
 .intro-steps { padding-left: 1.4em; margin: 0; }
 .intro-steps > li { margin: 10px 0; }
 .intro-state { font-weight: 600; }   /* plain text, not a control: no state picker yet */
-.intro-reform-links { padding-left: 1.2em; margin: 6px 0 0; }
-.intro-reform-links li { margin: 2px 0; }
-.intro-reform-links a { display: inline-block; padding: 8px 0; font-weight: 600; }   /* 44 px-ish tap height with the line */
+.intro-reform-links { display: flex; flex-wrap: wrap; gap: 8px; list-style: none; padding: 0; margin: 8px 0 0; }
+.intro-reform-links a { display: inline-flex; align-items: center; min-height: 44px; padding: 0 14px; border: 1px solid var(--accent); border-radius: 8px; background: var(--surface); font-weight: 600; text-decoration: none; }
+.intro-reform-links a:hover { background: var(--accent-soft); }
 
 /* The estimate card on each Brief tab (src/estimate.ts), moved from the Introduction's ranges table */
 .estimate-card { border-color: var(--accent); box-shadow: inset 4px 0 0 var(--accent); }
