@@ -31,7 +31,9 @@ Steps
     a borough line, a community-district line, a zoning-district change (modal ZoneDist1 of 16v1 lots within
     300 ft on each side, lot centroids), or none.
  4. Arms and cells: 500 m cells on the plan's edge bands (50-400 m inside vs outside the land line, 50 m donut);
-    a cell crossing the line is split, each part to its arm. Balance per arm from 16v1 lots (by centroid).
+    a cell crossing the line is split, each part to its arm. Balance per arm from 16v1 lots (by centroid); outside
+    lots in Manhattan CDs 101-108 (Manhattan Core, already treated) are left out of the balance (audit 06:28 UTC).
+    The cell counts are of land, not lots, and still include that part of the outside band.
 Output: reference/parking_t57_nyc_tz_check.csv (long table: section, item, arm, value, unit, note).
 """
 from __future__ import annotations
@@ -387,6 +389,12 @@ def run(tmp: Path) -> None:
     rj = ((lots.YCoord - BOX[1]) // STEP).astype(int).clip(0, len(ys) - 1)
     lots["arm"] = np.where(inb[rj, ci], "inside (Transit Zone)", np.where(outb[rj, ci], "outside", ""))
     lots["cell"] = cid[rj, ci]
+    # audit code rulings (06:28 UTC): outside lots in Manhattan CDs 101-108 (Manhattan Core, no residential parking
+    # minimum since 1982) are already treated, so they are left out of the outside arm's balance
+    core = (pd.to_numeric(lots.CD, errors="coerce").between(101, 108)) & (lots.arm == "outside")
+    rec("balance", "outside lots dropped: Manhattan Core (CDs 101-108)", int(core.sum()), "lots", "outside",
+        note="already treated (no minimums since 1982); audit code rulings 06:28 UTC")
+    lots.loc[core, "arm"] = ""
 
     def zclass(z: str) -> str:
         if re.match(r"R[1-5]", z):
