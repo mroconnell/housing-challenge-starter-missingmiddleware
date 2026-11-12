@@ -48,7 +48,7 @@ GIS layers and Census files: `data/raw/parking_dose/<reform_id>/` (git-ignored; 
 
 | Reform | Change |
 |---|---|
-| Spokane 2023 vs 2024 | **Event year not frozen.** C9 says 2023 (dose 91.48). Coordinator recommends 2024 (increment 8.52). Ryan to choose. |
+| Spokane 2023 vs 2024 | **Ryan chose 2024** (18:44 UTC): dose 8.52, the increment net of the 2023 transit area. The 2023 row is kept with event_used = no. |
 | North Canton 2023 | Main Street exemption dates from 2021. Dose 0 (no change for housing). |
 | Waukegan 2024 | Not commercial-only: citywide 2 → 1 per home plus B4 and L1–L3. Dose 50.48. |
 | Lewisburg 2023 | Not downtown-only: borough-wide cut too. Dose 24.08. |
@@ -83,7 +83,7 @@ GIS layers and Census files: `data/raw/parking_dose/<reform_id>/` (git-ignored; 
 
 **New columns.**
 - `dose_if_unlicensed_refused`: the row's fallback dose if Ryan refuses layers with no stated licence (citywide repeals fall back to 100). 53 rows would change.
-- `dose_state_law_prior`: state transit laws counted as prior everywhere.
+- State transit laws as prior everywhere (**now the main dose**, Ryan 18:47 UTC); old values in `dose_without_state_law_prior`:
   - San Jose 99.55 → 44.89 (Caltrans current major stops; the helper's 52.02 used another layer).
   - Tigard 99.01 → 43.23 (Oregon rule).
   - Bakersfield 84.85 → 84.26.
@@ -99,12 +99,12 @@ GIS layers and Census files: `data/raw/parking_dose/<reform_id>/` (git-ignored; 
 
 ## Needs Ryan's OK
 
-1. **Spokane event year** (above). The freeze waits on it.
+1. ~~Spokane event year~~ decided: 2024.
 1a. **Binghamton:** keep 20 (wrong-side capture explained) or use the placeholder 50?
 1b. **Hanover rounding:** building total (35 spaces, as coded) or per home (40; priors 0.625 and 0.75)?
-2. **Layers with no licence stated:** 60 of 112 rows name one; 53 of them would change dose if refused (`dose_if_unlicensed_refused`).
-3. **State laws as prior:** Sacramento counts AB 2097 (47.61). San Jose does not (99.55; 52.02 if it did). Tigard leaves out the state rule (99.01; 43.23 if in).
-4. **Choices with big effects:** Albany OR follows city staff (10.96; strict rule 97.04); Oregon 1-per-home cap counted as prior; Raleigh frequent-transit stand-in (58.88; 81.77 without); Hanover discretion (42.71 or weak repeal 15).
+2. ~~Layers with no licence stated~~ decided: allowed for derived shares only (office-hours question 30). `dose_if_unlicensed_refused` stays as a record column.
+3. ~~State laws as prior~~ decided: counted everywhere (San Jose 44.89, Tigard 43.23, Bakersfield 84.26; Sacramento already 47.61).
+4. **Choices with big effects:** Albany OR follows city staff (10.96, kept by Ryan; strict rule 97.04 in `dose_check_alt`); Oregon 1-per-home cap counted as prior; Raleigh frequent-transit stand-in (58.88; 81.77 without); Hanover discretion (42.71 or weak repeal 15).
 5. **Assumptions:** Pomona 4 storeys; Berkeley C-DMU 0.75; Boise C-5 for old P-1; Albuquerque downtown prior.
 6. **Hand-digitising:** Trenton downtown parking districts (PDF only), Penndel overlay (only on file at the borough).
 7. **Boise:** assumed dose (1.24); C-5 stands in for P-1. The 2017 code map could be traced, and the 2023 legacy table read if a copy turns up.
@@ -112,4 +112,13 @@ GIS layers and Census files: `data/raw/parking_dose/<reform_id>/` (git-ignored; 
 
 ## Freeze
 
-Not frozen yet. When the Spokane event is chosen: run `uv run python scripts/build_parking_doses.py --spokane-event <2023|2024>` (about an hour), then add the hash line for reference/parking_doses.csv here and commit both files together.
+**Ryan's decisions (2026-11-12, relayed by the coordinator):**
+- 18:44 UTC: Spokane 2024 is the event (dose 8.52, increment); Spokane 2023 event_used = no.
+- 18:47 UTC: state transit laws count as prior everywhere; this is the main `dose`, with the old values in `dose_without_state_law_prior` (San Jose 99.55 → 44.89, Tigard 99.01 → 43.23, Bakersfield 84.85 → 84.26).
+- 18:47 UTC: Albany OR keeps the staff reading (10.96); the strict reading (97.04) is in `dose_check_alt`.
+- 18:47 UTC: unlicensed layers allowed for derived shares only (office-hours question 30); `dose_if_unlicensed_refused` is a record column.
+- 18:47 UTC: the "assumed dose" rows stay as they are.
+
+Built with `uv run python scripts/build_parking_doses.py` (script at afc5c427; default `--spokane-event 2024`). Frozen before any effect (audit fix 6); any later dose change is a sensitivity only.
+
+reference/parking_doses.csv sha256 39a331352e27bc18c2ee1fb578120c83414f331408338835df196f9719ebf3cf

@@ -1555,7 +1555,7 @@
   ],
   "dose_override": null,
   "dose_source": "computable",
-  "eligibility": "yes",
+  "eligibility": "no as an event (Ryan 2026-11-12 18:44 chose Spokane 2024); dose kept for the record",
   "event_used": "yes",
   "event_year": 2023,
   "fallback_class": "TOD",
@@ -1599,7 +1599,7 @@
   ],
   "dose_override": null,
   "dose_source": "computable",
-  "eligibility": "changed: event is the 2023 step (C9); this row is the increment only",
+  "eligibility": "yes (Ryan 2026-11-12 18:44: Spokane 2024 is the event; dose = increment net of the 2023 transit area)",
   "event_used": "no (C9: first housing step is 2023, oth_spokane_2023)",
   "event_year": 2024,
   "fallback_class": "TOD",
@@ -1946,6 +1946,26 @@
     "where": "all"
    }
   ],
+  "check_alt": {
+   "label": "Albany OR strict CFEC (3)(c) reading: Campus Connector only (Ryan 2026-11-12 kept the staff reading as main)",
+   "prior": [
+    {
+     "label": "STRICT reading of OAR 660-012-0440(3)(c): only the Campus Connector (most frequent route) counts as the corridor",
+     "removal": 1.0,
+     "where": {
+      "near": "cfec_corridor_albany_ats_2022_campusconnector.json",
+      "radius_m": 804.67
+     }
+    },
+    {
+     "label": "Downtown Off-Street Parking Assessment District: no minimum (ADC 9.020(6); in force 2021-01-01 or earlier)",
+     "removal": 1.0,
+     "where": {
+      "layer": "downtown_parking_assessment_district.geojson"
+     }
+    }
+   ]
+  },
   "dose_override": null,
   "dose_source": "computable",
   "eligibility": "yes",
@@ -1963,7 +1983,7 @@
    "public domain",
    "City of Albany layers: no licence stated"
   ],
-  "notes": "C4 increment. Prior = areas exempt/reduced the day before the repeal took effect (ADC amendments (DC-02-23) adopted 2023-06-14, effective 2023-07-01 (city CFEC page); after 2022-12-31, so CFEC is prior). GTFS: Albany Transit/Loop GTFS archived 2022-09-10 (Wayback), feed 2022-06-24 to 2022-11-01; service date 2022-10-25 (Tue). CFEC transit areas derived with the method file cfec_freq_method.py.txt (copy of the helper script; not run from here): OAR 660-012-0440(2) rail: 3/4 mile (1207.01 m, straight line) of stops served by MAX/WES/streetcar trips; (3)(b): 1/2 mile (804.67 m) of corridors where one route+direction has >=4 distinct scheduled trips departing a stop in one clock hour of 7,8,16,17 h on the service date (untimed stops take the previous timepoint time), corridor = straight links between consecutive qualifying stops; (3)(c): only if no (3)(b) corridor in the city (stop within 50 m of the 2020 TIGER place polygon), the route(s) with the highest such count, if >=1/hour, whole route links; 'community' read as the city (broad reading). Straight-line distance per 0440(4). Block internal point in buffer stands in for 'lot that includes lands within' (slight under-count at edges). Corridors = all Albany Transit bus routes serving the city in the Oct-2022 feed (ATS 1-3, Campus Connector, US 20 Commuter, Heart-to-Hub), because city staff (2023-02-13 joint work session, pilot file plc_20230213_agd_special.pdf) said all routes meet the rule and mapped 1/2 mile of every route; strict (3)(c) test would give only the Campus Connector (3 trips/hour) - sensitivity in the report. 1/unit cap: no effect (old minimum 1/unit, ADC Table 9.020-1). Reduced rates in HD/CB/DMU/WF (about 67% of base, ADC 9.020(7)) not counted (all inside the buffer). Not mapped (note only): OAR 660-012-0430(3) from 2022-12-31 also barred minimums for units under 750 sq ft, income-restricted affordable units, SROs, shelters, care facilities etc.; many 1-BR units in the standard building are under 750 sq ft, so the true prior removal is larger than coded. Sensitivity (2026-11-12): strict (3)(c) Campus Connector only -> dose 97.04 (prior share 0.0296); pilot 2026 routes A-D -> 17.2.",
+  "notes": "C4 increment. Prior = areas exempt/reduced the day before the repeal took effect (ADC amendments (DC-02-23) adopted 2023-06-14, effective 2023-07-01 (city CFEC page); after 2022-12-31, so CFEC is prior). GTFS: Albany Transit/Loop GTFS archived 2022-09-10 (Wayback), feed 2022-06-24 to 2022-11-01; service date 2022-10-25 (Tue). CFEC transit areas derived with the method file cfec_freq_method.py.txt (copy of the helper script; not run from here): OAR 660-012-0440(2) rail: 3/4 mile (1207.01 m, straight line) of stops served by MAX/WES/streetcar trips; (3)(b): 1/2 mile (804.67 m) of corridors where one route+direction has >=4 distinct scheduled trips departing a stop in one clock hour of 7,8,16,17 h on the service date (untimed stops take the previous timepoint time), corridor = straight links between consecutive qualifying stops; (3)(c): only if no (3)(b) corridor in the city (stop within 50 m of the 2020 TIGER place polygon), the route(s) with the highest such count, if >=1/hour, whole route links; 'community' read as the city (broad reading). Straight-line distance per 0440(4). Block internal point in buffer stands in for 'lot that includes lands within' (slight under-count at edges). Corridors = all Albany Transit bus routes serving the city in the Oct-2022 feed (ATS 1-3, Campus Connector, US 20 Commuter, Heart-to-Hub), because city staff (2023-02-13 joint work session, pilot file plc_20230213_agd_special.pdf) said all routes meet the rule and mapped 1/2 mile of every route; strict (3)(c) test would give only the Campus Connector (3 trips/hour) - sensitivity in the report. 1/unit cap: no effect (old minimum 1/unit, ADC Table 9.020-1). Reduced rates in HD/CB/DMU/WF (about 67% of base, ADC 9.020(7)) not counted (all inside the buffer). Not mapped (note only): OAR 660-012-0430(3) from 2022-12-31 also barred minimums for units under 750 sq ft, income-restricted affordable units, SROs, shelters, care facilities etc.; many 1-BR units in the standard building are under 750 sq ft, so the true prior removal is larger than coded. Sensitivity (2026-11-12): strict (3)(c) Campus Connector only -> dose 97.04 (prior share 0.0296); pilot 2026 routes A-D -> 17.2. | Ryan 2026-11-12: staff reading kept as main; strict reading in dose_check_alt.",
   "prior": [
    {
     "label": "CFEC OAR 660-012-0440(3): 1/2 mile of frequent transit corridors - all bus routes serving the city (ATS 1, ATS 2, ATS 3, Campus Connector, Heart-to-Hub Uniter, US 20 Commuter), as the city applied it, from 2022-12-31",
