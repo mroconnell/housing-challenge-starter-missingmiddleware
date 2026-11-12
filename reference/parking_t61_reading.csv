@@ -1,0 +1,9 @@
+outcome,traits,benchmark,judged,main_meets_rule,D_meets_rule,forest_beats_benchmark,reading
+all_homes,3 traits (judged),one weighted average,False,False,False,False,"reported only: these traits, dose included, don't predict a city's effect better than the benchmark"
+all_homes,3 traits (judged),dose-scaled average (beta x dose),False,False,False,False,"reported only: these traits, dose included, don't predict a city's effect better than the benchmark"
+all_homes,"4 traits (extra, + rate before)",one weighted average,False,False,False,False,"reported only: these traits, dose included, don't predict a city's effect better than the benchmark"
+all_homes,"4 traits (extra, + rate before)",dose-scaled average (beta x dose),False,False,False,False,"reported only: these traits, dose included, don't predict a city's effect better than the benchmark"
+units_2_4,3 traits (judged),one weighted average,True,False,False,False,"FAIL: these traits, dose included, don't predict a city's effect better than the benchmark"
+units_2_4,3 traits (judged),dose-scaled average (beta x dose),False,False,False,False,"reported only: these traits, dose included, don't predict a city's effect better than the benchmark"
+units_2_4,"4 traits (extra, + rate before)",one weighted average,False,False,False,False,"reported only: these traits, dose included, don't predict a city's effect better than the benchmark"
+units_2_4,"4 traits (extra, + rate before)",dose-scaled average (beta x dose),False,False,False,False,"reported only: these traits, dose included, don't predict a city's effect better than the benchmark"
