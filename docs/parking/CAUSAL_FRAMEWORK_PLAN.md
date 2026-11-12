@@ -1849,6 +1849,7 @@ Ryan, 01:23–01:26 UTC:
   - Only new outcome columns, the size slope, the event-study years for 2–4, and the Poisson check are new code. That code is committed and audited before the count.
 - **Guards kept from the earlier blocks:** the flag window overlap; Oregon; no post-treatment controls; the collider fix; the regression-to-the-mean report; the 52g spillover rerun; the 52a balance check.
 - **Wisconsin:** display only. Any use needs Ryan's OK and the 25% rule.
+- **Ryan's go (01:40:51 UTC):** "go on 56 I suppose". The run starts only after the code commit is audited.
 
 ## Test 57: staggered waves inside one city: San Francisco and New York (DRAFT PLAN 2026-11-12, before any wave result is read; Ryan 01:36–01:39 UTC)
 
