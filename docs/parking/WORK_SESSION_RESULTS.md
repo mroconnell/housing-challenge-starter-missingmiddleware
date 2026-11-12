@@ -1331,3 +1331,41 @@ Five helpers coded three places each from public sources, following a written br
 - With 74 places and a very noisy screen, the fail means traits can't be shown to predict held-out cities here. It does not show that no trait matters.
 - Main's best repeat reached +11.7%, but the mean is +0.9%. That one repeat is noise, not a partial pass.
 - As locked, the write-up recommends ending the trait search. The parking estimate stays one average for all places.
+
+## Test 56: small projects (2–4 unit homes), place size, 74 places (run 2026-11-12, commits 068e3648 code, 22bb77d2 outputs)
+
+Locked in CAUSAL_FRAMEWORK_PLAN.md ("Test 56: one reading at lock"). Ryan's go was at 01:40 UTC. The code audit cleared it, with a dry run on all homes. The counts and MDE were committed first (72df2af5) and cleared before any result was opened. The overall cells repeat earlier work on a new outcome; only the size-slope cells are new. Method 2 D has no pace trait, so "matches on pace" applies to the main method only.
+
+Units are homes per 1,000 existing homes a year. 90% ranges. Wisconsin homes = rate × 13,343.385 (2027–2031; display only).
+
+**Can the test see an effect?** Yes. 53 of 74 places had some 2–4 permits before repeal (14 of 26 under 25,000; 39 of 48 at 25,000+). The minimum detectable overall effect is 0.354 (4,727 Wisconsin homes over 5 years).
+
+| Headline cell | Estimate | 90% range | Excludes 0 |
+|---|---|---|---|
+| H1 main, overall 2–4 effect | −0.067 (−899 homes) | −0.295 to +0.177 (−3,930 to +2,360) | No |
+| H7 D, overall 2–4 effect | −0.007 (−91 homes) | −0.230 to +0.376 (−3,065 to +5,016) | No |
+| H2 main, size slope (per 10× population) | −0.278 | −0.440 to −0.104 | Yes |
+| H8 D, size slope | +0.119 | −0.230 to +0.392 | No |
+
+**Reading (mechanical, parking_t56_reading.csv):**
+- **Overall 2–4 effect:** does not count. Neither range excludes 0.
+- **Size slope:** does not count. Main is negative and excludes 0 (smaller places did relatively better on 2–4 homes). D points the other way and includes 0. The 25,000 gaps do not agree in sign with the slopes as the rule requires.
+- **Headline cells excluding 0:** 1 of 4, which is plausible by chance.
+- **Pre-trend label: ON.** Lead −4 excludes 0 under both methods (main +0.079, +0.018 to +0.149). All D leads (−5 to −2) are positive and exclude 0: before repeal, D's places ran above their pools on 2–4 homes. So D's 2–4 level comparison is not clean.
+- **Scale rule:**
+  - Main: no flag.
+  - D: "don't know". Its level range includes 0, but the Poisson check excludes 0: ×1.88, range ×1.30 to ×2.64, 64 stacks. Main's Poisson is ×0.97, range ×0.75 to ×1.38, 60 stacks.
+- **"Too few to read":** not triggered for any group.
+
+**Checks:**
+- The main size slope holds without flagged places (−0.308, −0.491 to −0.086), without Oregon (−0.280, −0.451 to −0.096) and on reported-only data (−0.252, −0.411 to −0.081). D's slope includes 0 in all three.
+- Placebo dates (−2 and −4 years) include 0 under both methods.
+- Long set (13 places): main −0.013 (−0.104 to +0.514); D +0.655 (−0.216 to +2.945).
+- Spillover pools (D +0.002) and date-aware pools (D −0.006) leave D's overall effect unchanged.
+- 1-unit and 5+ outcomes: no overall effect excludes 0. Three non-headline 5+ D cells exclude 0: the target-state gap (+3.048) and the equal-weight slope (+1.737) and gap (+4.222). They are not headline and not read.
+
+**Plain reading:**
+- Removing parking minimums did not measurably change 2–4 unit building in these 74 places.
+- The test could have seen an effect of about 4,700 Wisconsin homes over 5 years. The range runs from about 3,900 fewer to 2,400 more (main), or 3,100 fewer to 5,000 more (D).
+- Whether small places gained more depends on the method, so it is not a finding.
+- The scenario line is unchanged.
