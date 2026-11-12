@@ -1349,9 +1349,9 @@ Units are homes per 1,000 existing homes a year. 90% ranges. Wisconsin homes = r
 
 **Reading (mechanical, parking_t56_reading.csv):**
 - **Overall 2–4 effect:** does not count. Neither range excludes 0.
-- **Size slope:** does not count. Main is negative and excludes 0 (smaller places did relatively better on 2–4 homes). D points the other way and includes 0. The 25,000 gaps do not agree in sign with the slopes as the rule requires.
+- **Size slope:** does not count. Main is negative and excludes 0 (smaller places did relatively better on 2–4 homes). D points the other way and includes 0, so the slope does not count. Main's 25,000 gap agrees with its slope (−0.241 vs −0.278); D's does not (gap −0.168, slope +0.119).
 - **Headline cells excluding 0:** 1 of 4, which is plausible by chance.
-- **Pre-trend label: ON.** Lead −4 excludes 0 under both methods (main +0.079, +0.018 to +0.149). All D leads (−5 to −2) are positive and exclude 0: before repeal, D's places ran above their pools on 2–4 homes. So D's 2–4 level comparison is not clean.
+- **Pre-trend label: ON.** Lead −4 excludes 0 under both methods (main +0.079, +0.018 to +0.149). Relative to year −1, all of D's event-study years sit about +0.24 to +0.49 higher, the after-years included. The after-years look like the before-years. That fits a low year −1 as well as a pre-repeal trend; the label stays on either way.
 - **Scale rule:**
   - Main: no flag.
   - D: "don't know". Its level range includes 0, but the Poisson check excludes 0: ×1.88, range ×1.30 to ×2.64, 64 stacks. Main's Poisson is ×0.97, range ×0.75 to ×1.38, 60 stacks.
@@ -1365,7 +1365,7 @@ Units are homes per 1,000 existing homes a year. 90% ranges. Wisconsin homes = r
 - 1-unit and 5+ outcomes: no overall effect excludes 0. Three non-headline 5+ D cells exclude 0: the target-state gap (+3.048) and the equal-weight slope (+1.737) and gap (+4.222). They are not headline and not read.
 
 **Plain reading:**
-- Removing parking minimums did not measurably change 2–4 unit building in these 74 places.
-- The test could have seen an effect of about 4,700 Wisconsin homes over 5 years. The range runs from about 3,900 fewer to 2,400 more (main), or 3,100 fewer to 5,000 more (D).
+- We can't tell whether removing parking minimums changed 2–4 unit building in these 74 places. Both ranges include 0, and a pre-repeal lead failed, so the result is not read as an effect either way.
+- The test could have seen an effect of about 4,700 Wisconsin homes over 5 years or more. The range runs from about 3,900 fewer to 2,400 more (main), or 3,100 fewer to 5,000 more (D).
 - Whether small places gained more depends on the method, so it is not a finding.
 - The scenario line is unchanged.
