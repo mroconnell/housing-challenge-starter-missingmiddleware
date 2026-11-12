@@ -1369,3 +1369,39 @@ Units are homes per 1,000 existing homes a year. 90% ranges. Wisconsin homes = r
 - The test could have seen an effect of about 4,700 Wisconsin homes over 5 years or more. The range runs from about 3,900 fewer to 2,400 more (main), or 3,100 fewer to 5,000 more (D).
 - Whether small places gained more depends on the method, so it is not a finding.
 - The scenario line is unchanged.
+
+## Test 58: 1–4 unit homes, 74 places (post hoc; run 2026-11-12, outputs 22f271e5)
+
+**Post hoc.** Planned after the 1-unit and 2–4 results (Test 56) were seen, at Ryan's ask (06:13 UTC). The design and code are Test 56's, with outcome units_1_4. The counts and MDE were committed first (e59eef36) and cleared by the audit.
+
+Units: homes per 1,000 existing homes a year, with 90% ranges. Wisconsin homes = rate × 13,343.385 (2027–2031, display only).
+
+**Can the test see an effect?**
+- 70 of 74 places had some 1–4 permits before repeal (22 of 26 under 25,000; 48 of 48 at 25,000+).
+- MDE 1.505 (20,086 Wisconsin homes over 5 years).
+- The placebo half-width is 0.999, about 4 times the 2–4 width (0.236), because 1-unit permits are much noisier. **So the 1–4 range is wider than Test 56's 2–4 range, not narrower.**
+
+| Cell | Estimate | 90% range | Excludes 0 |
+|---|---|---|---|
+| Main, overall 1–4 effect | −0.047 (−631 homes) | −0.952 to +1.047 (−12,698 to +13,972) | No |
+| D, overall 1–4 effect | −0.219 (−2,928 homes) | −1.781 to +0.564 (−23,770 to +7,528) | No |
+| Main, size slope (descriptive) | −1.251 | −2.911 to +0.494 | No |
+| D, size slope (descriptive) | +0.318 | −0.705 to +2.426 | No |
+
+**Reading:**
+- **The overall effect does not count:** both ranges include 0.
+- **Pre-trend label is ON.**
+  - Lead −4 excludes 0 under both methods (main +0.933, +0.174 to +1.709; D +1.024, +0.065 to +2.275).
+  - Main's lead −5 also excludes 0 (+1.364).
+  - D's placebo dates exclude 0 (−2: −1.325, −2.766 to −0.352; −4: −1.671, −3.138 to −0.389). Main's do not, so the placebo-date rule (both methods) is not met.
+  - Before repeal, these places' 1–4 building ran above their comparison towns 4–5 years out and fell toward them by year −1.
+
+**Shown only:**
+- Poisson: main ×0.98 (×0.79 to ×1.25, theta −0.017); D ×1.15 (×0.99 to ×1.30).
+- Long set (13 places): main −0.008 (−0.526 to +1.436); D +1.787 (−1.765 to +12.738).
+- Spillover pools: D −0.197. Date-aware pools: D −0.219.
+
+**Plain reading:**
+- We can't tell whether removing parking minimums changed 1–4 unit building in these 74 places. Both ranges include 0, and a pre-repeal lead failed.
+- The 1–4 range is about 4 times as wide as the 2–4 range, because single-home building swings a lot from year to year.
+- The scenario line is unchanged.
