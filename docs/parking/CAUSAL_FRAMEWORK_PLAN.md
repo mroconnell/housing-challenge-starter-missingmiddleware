@@ -1992,3 +1992,28 @@ Ryan, 01:36–01:39 UTC:
 - **NY primary outcome:** all DOB new-building units (legacy file plus DOB NOW, no seam, ALT-CO left out), labelled "possibly diluted toward 0" because the 2016 rule removed parking only for income-restricted and affordable senior units. All leads (−5 to −2) and both placebo dates run.
 - **NY alongside (not headline):** HPD affordable units (hg8x-zxpr). Before-years 2014–2015 only, so only lead −2 against −1 runs; no −5 to −3 leads and no −4 placebo. 2015 is a 421-a rush year, and only HPD-financed projects are covered.
 - Everything else as set above. No count has been read.
+
+## Test 58: 1–4 unit homes (post hoc; plan written 2026-11-12 06:16 UTC, before any 1–4 count)
+
+**Ryan's ask:** "Can we run it for 1-4 units in parking reform places vs no reform places? And placebo test?" (06:13:44 UTC, cmsg_01C3Z6G8h32D4UwCcjcGMM7qSWuDRfKmUjDj16hfH641Hz)
+
+**This test is post hoc.** The 1-unit and 2–4 results (Test 56) were seen before it was planned. For the main method, the 1–4 effect is close to the sum of the two seen effects (+0.020 and −0.067), so its middle is largely known in advance. The new information is the placebo range for the combined outcome. The result is labelled "post hoc" everywhere and does not change the scenario line.
+
+**Design:** the same as Test 56, with the outcome MM_BPS_OUTCOME=units_1_4 (1-unit + 2-unit + 3–4 unit homes) and the same 74 places, pools, windows and seeds.
+- Runner: `scripts/run_parking_t56.sh units_1_4 extras`.
+
+**Cells (exactly 8):**
+
+| Cells | Count |
+|---|---|
+| Overall effect: main and D | 2 |
+| Size slope (log10 population): main and D | 2 |
+| Placebo dates (repeal moved 2 years and 4 years early): main and D | 4 |
+
+- The event study, long set, Poisson check and pool rules also run. They are shown only as checks, not read.
+
+**Reading:**
+- "Counts" only if both overall ranges exclude 0 with the same sign.
+- A placebo date whose range excludes 0 under both methods turns on the pre-trend label.
+- Wisconsin display = rate × 13,343.385.
+- "Too few to read" is not expected, because 1-unit permits are common. The count of places with any 1–4 permits before is reported first, with the MDE.

@@ -113,6 +113,7 @@ BPS_OUTCOMES = {  # Test 56: MM_BPS_OUTCOME value -> (building-size groups kept,
     "units_2_4": (("2units", "3_4units"), ""), "1unit_units": (("1unit",), ""), "5plus_units": (("5plus",), ""),
     "units_2_4_rep": (("2units", "3_4units"), "_rep"), "1unit_units_rep": (("1unit",), "_rep"),
     "5plus_units_rep": (("5plus",), "_rep"),
+    "units_1_4": (("1unit", "2units", "3_4units"), ""),  # Test 58 (post hoc)
 }
 
 
