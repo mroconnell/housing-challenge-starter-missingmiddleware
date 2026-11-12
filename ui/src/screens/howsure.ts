@@ -18,17 +18,25 @@ const ADU_INPUT_GROUPS: { label: string; ids: string[]; names: Record<string, st
 ];
 const ADU_INPUT_SINGLE = [
   "madison-on-the-path-of-similar-cities-in", "leave-california-out-of-the-typical-leve", "a-stricter-correction-for-california-s-a",
-  "count-washington-s-law-years-from-enactm", "leave-out-vermont-s-2024-count--changed-", "every-comparison-year-read-against-2020-",
+  "count-washington-s-law-years-from-enactm", "comparison-state-counts-and-coding-as-at", "lower-scenario-at-the-10th-percentile-of", "leave-out-vermont-s-2024-count--changed-", "every-comparison-year-read-against-2020-",
   "law-years-coded-as-before-aq-065--vermon", "maine-s-reporting-share-as-a-homes-share", "leave-vermont-out-of-the-comparison-stat",
   "no-slow-start--full-effect-from-2027", "rural-places-and-small-communities-held-", "let-small-high-value-villages-keep-their",
   "no-ramp-for-recently-liberalized-places-", "milwaukee-rises-to-madison-s-rate-after-", "wisconsin-s-baseline-rises-like-no-law-p",
 ];
-/** Ambiguous cases, kept in "Other ways" and flagged in the classification doc. */
-const ADU_OTHER_NOTE: Record<string, string> = {
-  "lower-scenario-at-the-10th-percentile-of": "Sets the old lower scenario; typical adoption does not move.",
-  "comparison-state-counts-and-coding-as-at": "An earlier set of many inputs at once, not one input.",
-  "count-per-eligible-property--not-per-sin": "Changes what a rate is measured per, across the whole model.",
+/** Input rows that need their own label, setting name or note (ADU thread review, 2026-11-11). */
+const ADU_INPUT_LABEL: Record<string, string> = { "comparison-state-counts-and-coding-as-at": "Three data settings at once (as at Gate 4)" };
+const ADU_INPUT_SETTING: Record<string, string> = { "comparison-state-counts-and-coding-as-at": "as at Gate 4" };
+const ADU_INPUT_NOTE: Record<string, string> = {
+  "comparison-state-counts-and-coding-as-at": "no scale-up for non-reporting towns, Washington from enactment, Massachusetts at 11/12",
+  "lower-scenario-at-the-10th-percentile-of": "changes only the OR & RI side line (6,321 → 5,401)",
 };
+/** Other ways: notes. */
+const ADU_OTHER_NOTE: Record<string, string> = {
+  "count-per-eligible-property--not-per-sin": "a separate model with its own baseline (636)",
+};
+/** How-sure-only side lines that are other ways to estimate it. whatif_791 and whatif_2255 are already the
+ *  "multiplies" and "California's cities" cases, so they are not repeated. */
+const ADU_SIDE_OTHERS = ["drift_main", "drift_heat_only", "drift_equal_weight", "ca_high", "bias_corrected"];
 
 export function aduWhatIfs(ctx: Ctx): { inputs: InputRow[]; others: OtherRow[]; pivot: number } {
   const u = ctx.b.uncertainty;
@@ -38,12 +46,16 @@ export function aduWhatIfs(ctx: Ctx): { inputs: InputRow[]; others: OtherRow[]; 
   for (const v of ctx.b.unknown.variants) val[`unknown:${v.id}`] = v.additional_total.central;
   const inputs: InputRow[] = [
     ...ADU_INPUT_GROUPS.filter((g) => g.ids.every((id) => id in val)).map((g) => ({ ids: g.ids, label: g.label, settings: g.ids.map((id) => ({ name: g.names[id], value: val[id] })) })),
-    ...ADU_INPUT_SINGLE.filter((id) => id in val).map((id) => ({ ids: [id], label: lab[id], settings: [{ name: "with this change", value: val[id] }] })),
+    ...ADU_INPUT_SINGLE.filter((id) => id in val).map((id) => ({ ids: [id], label: ADU_INPUT_LABEL[id] ?? lab[id],
+      settings: [{ name: ADU_INPUT_SETTING[id] ?? "with this change", value: val[id] }], note: ADU_INPUT_NOTE[id] })),
   ];
   const used = new Set(inputs.flatMap((r) => r.ids));
   // Every remaining case of the former chart (the addition group, adopted model aside) is an other way.
   const others: OtherRow[] = u.sensitivity_cases.filter((c) => c.id !== "adopted-model--the-scenarios" && !used.has(c.id) && (c.group === "addition" || c.group === "local"))
-    .sort((a, b) => b.central - a.central).map((c) => ({ id: c.id, label: c.label, value: c.central, note: ADU_OTHER_NOTE[c.id] }));
+    .map((c): OtherRow => ({ id: c.id, label: c.label, value: c.central, note: ADU_OTHER_NOTE[c.id] }))
+    .concat(ADU_SIDE_OTHERS.map((id) => ctx.b.state.side_lines.find((x) => x.id === id)).filter((x) => x !== undefined)
+      .map((x) => ({ id: `side:${x.id}`, label: x.label, value: x.value, low: x.low, high: x.high, note: /post hoc/i.test(x.label) ? "post hoc" : undefined })))
+    .sort((a, b) => (b.value ?? b.high!) - (a.value ?? a.high!));
   return { inputs, others, pivot };
 }
 

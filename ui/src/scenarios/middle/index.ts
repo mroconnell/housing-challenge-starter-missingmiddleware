@@ -30,7 +30,7 @@ interface Statewide {
 }
 interface Scope { in: { name: string; kind: string; area: string; role: string; note?: string }[]; out: { name: string; kind: string; reason: string }[]; source: string }
 interface Area extends Range { area_id: string; name: string; sf_homes: number }
-interface HowSure { bars: { id: string; label: string; central?: number; low?: number; high?: number; note?: string }[]; notes: string[] }
+interface HowSure { bars: { id: string; label: string; chart?: string; central?: number; low?: number; high?: number; note?: string }[]; notes: string[] }
 interface Why { evidence: { label: string; url: string }[]; cannot_tell: string[] }
 interface Manifest { run_id: string; outcome: { short: string; rate_units: string }; dates: { last_observed_year: number }; repo_url: string }
 export interface MiddleBundle { manifest: Manifest; statewide: Statewide; areas: Area[]; howsure: HowSure; why: Why; homes: WiHomes }
@@ -132,10 +132,12 @@ function where(b: MiddleBundle, main: HTMLElement): void {
 }
 
 /** Middle housing's what-ifs split for How sure's two charts (docs/shared/HOWSURE_TORNADO_CLASSIFICATION.md). The
- *  range is built on the four-state result (core central), so that is the pivot. Input: the timing (measured slow
- *  start or the same effect every year). The rest change what is counted (add-ons, 5–6 unit buildings, a stronger
- *  law) or how the result is converted; they are other ways, the first three flagged as ambiguous. */
-const MID_INPUT_IDS = ["flat_timing"];
+ *  range is built on the four-state result (core central), so that is the pivot. Inputs: the timing (measured slow
+ *  start or the same effect every year) and every bar the bundle marks `"chart": "Inputs"` (comparison matching,
+ *  Oregon's before years, filled-in counts, leave one state out, 2027 share); a bar with its own low and high gives
+ *  both settings. The rest change what is counted (add-ons, 5–6 unit buildings, a stronger law) or how the result is
+ *  converted; they are other ways, the first three flagged as ambiguous. */
+const isMidInput = (x: { id: string; chart?: string }) => x.id === "flat_timing" || x.chart === "Inputs";
 const MID_FLAG: Record<string, string> = {
   townhouses: "Counts more kinds of homes than the range does.",
   five_six: "Counts 5–6 unit buildings, which the range leaves out.",
@@ -143,10 +145,12 @@ const MID_FLAG: Record<string, string> = {
 };
 export function middleWhatIfs(b: MiddleBundle): { inputs: InputRow[]; others: OtherRow[]; pivot: number } {
   const pivot = b.statewide.core.central;
-  const inputs: InputRow[] = b.howsure.bars.filter((x) => MID_INPUT_IDS.includes(x.id) && x.central !== undefined)
-    .map((x) => ({ ids: [x.id], label: x.id === "flat_timing" ? "Timing: measured slow start, or the same effect every year" : x.label,
-      settings: [{ name: x.id === "flat_timing" ? "same effect every year" : "this what-if", value: x.central! }] }));
-  const others: OtherRow[] = b.howsure.bars.filter((x) => !MID_INPUT_IDS.includes(x.id))
+  const inputs: InputRow[] = b.howsure.bars.filter(isMidInput)
+    .map((x) => ({ ids: [x.id], label: x.id === "flat_timing" ? "Timing: measured slow start, or the same effect every year" : x.label, note: x.note,
+      settings: x.central !== undefined
+        ? [{ name: x.id === "flat_timing" ? "same effect every year" : "with this change", value: x.central }]
+        : [{ name: "lowest reading", value: x.low! }, { name: "highest reading", value: x.high! }] }));
+  const others: OtherRow[] = b.howsure.bars.filter((x) => !isMidInput(x))
     .map((x) => ({ id: x.id, label: x.label, value: x.central, low: x.low, high: x.high, note: [MID_FLAG[x.id], x.note].filter(Boolean).join(" ") || undefined }))
     .sort((a, z) => (z.value ?? z.high!) - (a.value ?? a.high!));
   return { inputs, others, pivot };

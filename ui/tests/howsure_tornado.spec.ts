@@ -82,3 +82,74 @@ for (const c of CASES) {
     expect(box!.x + box!.width).toBeLessThanOrEqual(375);
   });
 }
+
+// Placement reviews (2026-11-11): the ADU thread's review, middle housing's input what-ifs, parking's measured averages.
+const ids = async (page: Page, testid: string, sel: string) =>
+  (await page.getByTestId(testid).locator(sel).evaluateAll((els) => els.map((e) => e.getAttribute("data-whatif")!))).flatMap((s) => s.split("|"));
+
+test("ADU How sure: review placements, counts and the side lines in Other ways", async ({ page }) => {
+  const d = await run(page, "runs/");
+  const st = await get(page, `${d}state.json`);
+  await page.goto("#/how-sure");
+  await expect(page.getByTestId("adu-inputs")).toBeVisible();
+  const bars = await ids(page, "adu-inputs", ".tn-row"), flat = await ids(page, "adu-inputs", ".tn-flat [data-whatif]"), other = await ids(page, "adu-other", "[data-whatif]");
+  // the lower scenario is tested and leaves the total alone; it only moves the OR & RI side line
+  expect(flat).toContain("lower-scenario-at-the-10th-percentile-of");
+  await expect(page.getByTestId("adu-inputs").locator(".tn-flat")).toContainText("changes only the OR & RI side line (6,321 → 5,401)");
+  // Gate 4's three data settings are one bar at 8,402
+  expect(bars).toContain("comparison-state-counts-and-coding-as-at");
+  const g4 = page.getByTestId("adu-inputs").locator('.tn-row[data-whatif="comparison-state-counts-and-coding-as-at"]');
+  await expect(g4).toContainText("Three data settings at once (as at Gate 4)");
+  await expect(g4).toContainText("8,402");
+  await expect(page.getByTestId("adu-inputs")).toContainText("no scale-up for non-reporting towns, Washington from enactment, Massachusetts at 11/12");
+  // no slow start stays an input
+  expect([...bars, ...flat]).toContain("no-slow-start--full-effect-from-2027");
+  // other ways: count per eligible property (with its note) and the five How-sure-only side lines, not the two that repeat cases
+  expect(other).toContain("count-per-eligible-property--not-per-sin");
+  for (const id of ["drift_main", "drift_heat_only", "drift_equal_weight", "ca_high", "bias_corrected"]) expect(other.filter((x) => x === `side:${id}`), id).toHaveLength(1);
+  expect(other).not.toContain("side:whatif_791");
+  expect(other).not.toContain("side:whatif_2255");
+  const want: Record<string, string> = { drift_main: "11,318", drift_heat_only: "10,441", drift_equal_weight: "10,746", ca_high: "19,784", bias_corrected: "7,517 to 13,318" };
+  for (const [id, v] of Object.entries(want)) {
+    const r = page.getByTestId("adu-other").locator(`[data-whatif="side:${id}"]`);
+    await expect(r).toContainText(st.side_lines.find((s: { id: string }) => s.id === id).label);
+    await expect(r).toContainText(v);
+  }
+  // the corrected range is a bar from its low to its high, not a dot
+  await expect(page.getByTestId("adu-other").locator('[data-whatif="side:bias_corrected"] .vs-span')).toHaveCount(1);
+  await expect(page.getByTestId("adu-other").locator('[data-whatif="side:bias_corrected"] .vs-dot')).toHaveCount(0);
+  // counts: 13 + 2 moved = 15 former rows in Inputs, 3 former rows + 5 side lines in Other ways
+  expect(other).toHaveLength(8);
+  await page.getByTestId("adu-other").getByText("Show as a table").click();
+  await expect(page.getByTestId("adu-other-table")).toContainText("a separate model with its own baseline (636)");
+  await expect(page.getByTestId("adu-other-table")).toContainText("post hoc");
+});
+
+test("Middle housing How sure: the bundle's input what-ifs are bars around 1,570", async ({ page }) => {
+  await page.goto("#/middle/how-sure");
+  await expect(page.getByTestId("mid-inputs")).toBeVisible();
+  const want: Record<string, string> = { match_nationally: "1,560 to 1,570", oregon_before: "1,454 to 1,570", census_filled: "−382 to 1,570",
+    leave_one_state: "788 to 1,984", first_year_share: "1,515 to 1,658", flat_timing: "to" };
+  for (const [id, v] of Object.entries(want)) await expect(page.getByTestId("mid-inputs").locator(`.tn-row[data-whatif="${id}"]`), id).toContainText(v);
+  await expect(page.getByTestId("mid-inputs")).toContainText("failed the fake-years check");
+  expect(await ids(page, "mid-inputs", "[data-whatif]")).toHaveLength(6);
+  expect(await ids(page, "mid-other", "[data-whatif]")).toHaveLength(4);
+});
+
+test("Parking How sure: measured averages, and the cleaned-data rounds as inputs", async ({ page }) => {
+  await page.goto("#/parking/how-sure");
+  const inputs = page.getByTestId("pk-inputs");
+  await expect(inputs).toBeVisible();
+  await expect(inputs).not.toContainText("Scaled from");
+  const bar = (id: string) => inputs.locator(`.tn-row[data-whatif*="${id}"]`);
+  const want: [string, string][] = [["High end, with towns left out", "−15,380 to −10,760"], ["Near-benchmark places at the full rate", "−15,472 to −15,380"],
+    ["Cleaned data, undated reforms kept as comparisons (placebo)", "−15,380 to −11,035"], ["Cleaned data, strict comparison cleaning (placebo)", "−15,380 to −3,691"],
+    ["Cleaned data, only apartment-scale reforms disqualify comparisons (placebo)", "−15,380 to −5,389"],
+    ["As above, plus state laws in California, Oregon and Washington (placebo)", "−15,380 to −7,073"]];
+  for (const [id, v] of want) await expect(bar(id), id).toContainText(v);
+  // the two strict-cleaning readings share one average and one bar
+  await expect(inputs.locator('.tn-row[data-whatif="Cleaned data, strict comparison cleaning (placebo)|Cleaned data, strict comparison cleaning (resampling)"]')).toHaveCount(1);
+  await expect(inputs.locator(".tn-row").filter({ hasText: "earlier 76-place sample (73 matched)" })).toHaveCount(4);
+  expect(await ids(page, "pk-inputs", ".tn-row")).toHaveLength(7);
+  expect(await ids(page, "pk-other", "[data-whatif]")).toHaveLength(6);
+});

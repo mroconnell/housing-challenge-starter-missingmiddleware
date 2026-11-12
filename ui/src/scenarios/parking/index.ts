@@ -28,7 +28,7 @@ interface Areas {
   benchmark_places: { name: string; rating: string; adopted: string | null }[];
 }
 interface HowSure {
-  sensitivities: { case: string; moves: string; value: number; description: string }[];
+  sensitivities: { case: string; moves: string; value: number; description: string; measured_average?: number | null }[];
   robustness: { check: string; places: number; effect: number; p05: number | null; p95: number | null }[];
   leave_one_state: { min: number; max: number; min_state: string; max_state: string };
   event_path: { year_since: number; places: number; effect: number; median: number }[];
@@ -325,33 +325,39 @@ function where(b: ParkingBundle, env: ShellEnv, params: URLSearchParams, main: H
   });
 }
 
-/** Parking's what-ifs split for How sure's two charts (docs/shared/HOWSURE_TORNADO_CLASSIFICATION.md). Inputs: towns
- *  in or out, and the conditional-repeal places at the full rate. The bundle gives these as high ends only; with one
- *  rate for every place the total is that rate times the homes it applies to, so the measured average moves by the
- *  same ratio as the high end. Current-law what-ifs leave the law's extra homes unchanged (the bundle says so). Every
- *  other case is an other way: other estimators, samples or cleaned-data rounds, each giving its own high end. */
-const PK_SCALED_INPUTS: Record<string, string> = {
+/** Parking's what-ifs split for How sure's two charts (docs/shared/HOWSURE_TORNADO_CLASSIFICATION.md). Inputs: every
+ *  case the bundle gives a measured average for (towns in or out, the conditional-repeal places at the full rate, and
+ *  the four cleaned-data rounds), drawn as a bar from the pivot to that measured average. The two strict-cleaning
+ *  readings share one average and so one bar. Current-law what-ifs leave the law's extra homes unchanged (the bundle
+ *  says so). Every other case is an other way: other estimators or samples, each giving its own high end. */
+const PK_INPUT_LABEL: Record<string, string> = {
   "High end, with towns left out": "Towns covered or left out",
   "Near-benchmark places at the full rate": "Places that removed minimums with conditions: part rate or full rate",
 };
-const PK_FLAG: Record<string, string> = {
-  "Cleaned data, undated reforms kept as comparisons (placebo)": "A data fix; only its high end was computed.",
-  "Cleaned data, strict comparison cleaning (placebo)": "A data fix; only its high end was computed.",
-  "Cleaned data, only apartment-scale reforms disqualify comparisons (placebo)": "A data fix; only its high end was computed.",
-  "As above, plus state laws in California, Oregon and Washington (placebo)": "A data fix; only its high end was computed.",
-};
+const PK_SETTING: Record<string, string> = { "High end, with towns left out": "towns left out", "Near-benchmark places at the full rate": "full rate" };
+/** Cleaned-data rounds: run on the earlier sample, not the 74 places of the pivot. */
+const PK_ROUND_SAMPLE = "earlier 76-place sample (73 matched)";
+/** "As above" reads wrongly once rows are sorted by swing; name the round in full. */
+const PK_ROUND_NAME: Record<string, string> = { "As above, plus state laws in California, Oregon and Washington (placebo)": "Cleaned data, only apartment-scale reforms disqualify comparisons, plus state laws in California, Oregon and Washington" };
+const PK_SHARED: Record<string, string> = { "Cleaned data, strict comparison cleaning (resampling)": "Cleaned data, strict comparison cleaning (placebo)" };
 export function parkingWhatIfs(b: ParkingBundle): { inputs: InputRow[]; others: OtherRow[]; pivot: number } {
-  const R = b.statewide.range90;
   const pivot = b.statewide.side_lines.find((x) => x.id === "measured_average")!.value!;
   const cases = b.howsure.sensitivities.filter((x) => !/\(headline\)/.test(x.case));
+  const hasAvg = (x: { measured_average?: number | null }) => x.measured_average !== undefined && x.measured_average !== null;
+  const avgCases = cases.filter(hasAvg);
   const inputs: InputRow[] = [
-    ...cases.filter((x) => x.case in PK_SCALED_INPUTS).map((x) => ({ ids: [x.case], label: PK_SCALED_INPUTS[x.case],
-      settings: [{ name: x.case === "High end, with towns left out" ? "towns left out" : "full rate", value: pivot * (x.value / R.high) }],
-      note: `Scaled from this what-if's high end (${num(x.value)} against ${num(R.high)}): every place gets the same rate, so the average moves by the same share.` })),
+    ...avgCases.filter((x) => !(x.case in PK_SHARED)).map((x) => {
+      const round = !(x.case in PK_INPUT_LABEL);
+      const mates = avgCases.filter((y) => PK_SHARED[y.case] === x.case);
+      return { ids: [x.case, ...mates.map((y) => y.case)],
+        label: round ? `${(PK_ROUND_NAME[x.case] ?? x.case).replace(/ \(placebo\)$/, "")}: ${PK_ROUND_SAMPLE}` : PK_INPUT_LABEL[x.case],
+        settings: [{ name: round ? "this round's measured average" : PK_SETTING[x.case], value: x.measured_average! }],
+        note: mates.length ? `The placebo and resampling readings of this round share one measured average (${mates.map((y) => y.case).join("; ")}).` : undefined };
+    }),
     ...cases.filter((x) => x.moves === "current law only").map((x) => ({ ids: [x.case], label: x.case, settings: [{ name: "with this change", value: pivot }] })),
   ];
-  const others: OtherRow[] = cases.filter((x) => !(x.case in PK_SCALED_INPUTS) && x.moves !== "current law only").sort((a, z) => z.value - a.value)
-    .map((x) => ({ id: x.case, label: x.case, value: x.value, note: PK_FLAG[x.case] }));
+  const others: OtherRow[] = cases.filter((x) => !hasAvg(x) && x.moves !== "current law only").sort((a, z) => z.value - a.value)
+    .map((x) => ({ id: x.case, label: x.case, value: x.value }));
   return { inputs, others, pivot };
 }
 
