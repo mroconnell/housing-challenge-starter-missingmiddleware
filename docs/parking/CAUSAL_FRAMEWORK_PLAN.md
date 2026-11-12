@@ -1993,7 +1993,7 @@ Ryan, 01:36–01:39 UTC:
 - **NY alongside (not headline):** HPD affordable units (hg8x-zxpr). Before-years 2014–2015 only, so only lead −2 against −1 runs; no −5 to −3 leads and no −4 placebo. 2015 is a 421-a rush year, and only HPD-financed projects are covered.
 - Everything else as set above. No count has been read.
 
-## Test 58: 1–4 unit homes (post hoc; plan written 2026-11-12 06:16 UTC, before any 1–4 count)
+## Test 58: 1–4 unit homes (post hoc; plan committed 2026-11-12 06:14:14 UTC, before any 1–4 count)
 
 **Ryan's ask:** "Can we run it for 1-4 units in parking reform places vs no reform places? And placebo test?" (06:13:44 UTC, cmsg_01C3Z6G8h32D4UwCcjcGMM7qSWuDRfKmUjDj16hfH641Hz)
 
@@ -2010,10 +2010,15 @@ Ryan, 01:36–01:39 UTC:
 | Size slope (log10 population): main and D | 2 |
 | Placebo dates (repeal moved 2 years and 4 years early): main and D | 4 |
 
-- The event study, long set, Poisson check and pool rules also run. They are shown only as checks, not read.
+- **Audit fixes (06:15 UTC review). These override the lines above and below.**
+  - **Cells: exactly 30, in scripts/summarise_parking_t58.py:**
+    - **8 read:** overall effect (main, D); size slope (main, D), **descriptive only, with no reading rule**; placebo dates −2 and −4 (main, D).
+    - **16 read for the pre-trend label:** the event study, years −5 to −2 and 0 to +3, reference year −1, main and D.
+    - **6 shown only:** Poisson check (main, D); long set (main, D); spillover pools (D); date-aware pools (D).
+  - **Pre-trend label:** Test 56's rule. It is on if any lead (−5 to −2) or placebo date excludes 0 under both methods.
+  - **Order:** `--first` (places with any 1–4 permits before, and the MDE) is committed before any result is opened.
 
 **Reading:**
 - "Counts" only if both overall ranges exclude 0 with the same sign.
-- A placebo date whose range excludes 0 under both methods turns on the pre-trend label.
 - Wisconsin display = rate × 13,343.385.
 - "Too few to read" is not expected, because 1-unit permits are common. The count of places with any 1–4 permits before is reported first, with the MDE.
