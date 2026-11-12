@@ -1792,3 +1792,27 @@ Ryan, 01:23–01:26 UTC:
 7. **Spillovers:** the out-of-metro pool check (52g) is rerun for the 2–4 unit outcome under method 2.
 8. **Inference:** place-level resampling (clustered by place) and the placebo spread, as before.
 9. **Subgroups (ch. 10):** a blank result in small or large places does not mean no effect in the other. Each size group is reported with its own range.
+
+**Test 56 audit fixes (01:29 UTC review of 1d36367, before any count). These override the text above.**
+1. **Already seen.**
+   - The 2–4 unit outcome itself was tested before, on the earlier 76-place sample: −0.065 homes per 1,000 existing homes a year (−0.14 to +0.03), 27th percentile among fake repeals (MECHANISM_RESULTS.md).
+   - Also seen:
+     - the 2–4 unit **building** count in H2: −0.03 buildings per 1,000 (−0.07 to +0.02);
+     - the decomposition (total −1.07, apartments −1.01, about −0.06 left for 2–4);
+     - 5+ unit homes: −1.03 (−2.74 to +0.89);
+     - 2+ unit homes on the expanded sample: −1.09 (−2.89 to +0.94);
+     - single-family homes: +0.00 (−0.83 to +0.76), plus 52d's 1-unit results;
+     - Test 53's size readings for all homes.
+   - My first answer to Ryan said 2–4 unit buildings had never been tested on their own. That was wrong and has been corrected in the thread.
+   - **What is new:** this outcome by city size, as a continuous slope and a size split, on the 74-place sample.
+2. **How it differs from Tests 53 and 54:** those found no robust sorting by city type or size for **all homes**, and no held-out predictor. This test uses a different outcome (2–4 unit homes) and a single pre-set moderator (2010 population) on the same 74 places. It is not a fresh sample.
+3. **Headline cells, named now:** these are the only four cells that can make a result count.
+   - The 2–4 unit overall effect, under the main method and under method 2 D.
+   - The 2–4 unit size slope, under both methods.
+   - All four use the main weights (homes × after-years), the estimate columns and all places.
+   - Every other cell is a sensitivity and cannot make a result count alone. That covers: equal weights; the reported-only (`_rep`) columns; 1-unit and 5+ outcomes; the 25,000 split; flag/drop runs; Oregon; Poisson; the long set; leads; spillover; date-aware pools.
+   - The chance line refers to the 4 headline cells: with 4, one range excluding 0 by chance is plausible.
+4. **Leads:** if the years −3 to −1 lead range for the 2–4 outcome excludes 0 under both methods, the result is read as "pre-trend, not an effect", for either sign.
+5. **Conventions, and counts first:** "fewer than 10 places" and "25,000 people" are conventions. Before any effect is shown, the write-up reports the number of places with any 2–4 unit permits in the **before** window, overall and in each size group, together with the minimum detectable effect.
+6. **Sign agreement:** a 25,000 gap of exactly 0, or one whose sign differs from the slope's, counts as "does not agree".
+7. **Flag window:** the ±3-year flag window overlaps the 1–3 year after-window. That is acceptable as a with/without split. Any Wisconsin figure is display only, and needs Ryan's OK and the 25% rule.
