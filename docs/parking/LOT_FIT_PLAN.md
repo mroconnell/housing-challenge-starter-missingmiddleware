@@ -94,7 +94,7 @@ Stalls per dwelling unit, minimum. "Verified" = read from official text (code, c
 | Eau Claire | 2 | 2 | 2 | GR, NR | Verified, LDO Table 17.08.05(C) (code replaced 2025-10-01) | eauclairewi.gov DocumentCenter 1033 |
 | Oshkosh | 2 | 1 + 1 guest per 4 units (4 total) | 5 total | TR-10, MR-12 | Verified, §30-75 | hosting.civiclinq.com/oshkoshwi |
 | Germantown (village) | 2, 1 in garage | 2, 1 in garage | same | Rd-2, Rm-1 to Rm-3 | Verified with caveat: June 2023 review copy | germantownwi.gov DocumentCenter 7658 |
-| Green Bay | — | — | — | R1, R2 | Blocked (Municode 403); late-2025 reforms reported by press, parking unknown | — |
+| Green Bay | 2 per unit, 1 enclosed (garage) | 5 total, 2 enclosed | 6 total, 2 enclosed | R1, R2 (district list to confirm) | Verified from a code PDF Ryan supplied (2026-11-12; Supplement No. 10, Oct 2026), §44-1726 Figure 2. Downtown (D): residential needs only evidence of 1 available space per unit. Narrow-lot exception §44-1747(c). Stalls 8 × 15 ft for 1–4 units (§44-1747(b)(1)); driveways do not count toward the minimum (§44-1747(b)(2)) | Green Bay Municipal Code Ch. 44 (Municode); PDF not committed |
 | Kenosha | — | — | — | — | Blocked (city PDF 403) | — |
 | Racine | — | — | — | — | Blocked (Municode 403) | — |
 | Janesville | — | — | — | — | Blocked (city site, Municode, zoning hub 403) | — |
