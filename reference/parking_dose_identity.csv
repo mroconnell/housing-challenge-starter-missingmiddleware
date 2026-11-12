@@ -1,0 +1,91 @@
+outcome,check,got,target,diff,tolerance,passed
+all_homes,"main average, 74 at dose 100 vs today's figure",-1.152617,-1.1526,-1.7e-05,0.0001,True
+all_homes,main average vs this copy's placebo summary,-1.152617,-1.1526,-1.7e-05,0.0001,True
+all_homes,main range low vs placebo summary,-3.467529,-3.4675,-2.9e-05,0.002,True
+all_homes,main range high vs placebo summary,1.472626,1.4726,2.6e-05,0.002,True
+all_homes,placebo set draws rebuilt (max abs diff),2.5e-05,0.0,2.5e-05,0.002,True
+all_homes,"D average, 74 at dose 100 vs today's figure",-0.964756,-0.9647,-5.6e-05,0.0001,True
+all_homes,D average vs this copy's method 2 results,-0.964756,-0.9647,-5.6e-05,0.0001,True
+all_homes,D range low (seed 20261104) vs method 2 results,-3.340324,-3.3403,-2.4e-05,0.002,True
+all_homes,D range high (seed 20261104) vs method 2 results,0.363804,0.3638,4e-06,0.002,True
+all_homes,lead -5 main vs Test 56 event study,-1.730944,-1.730944,0.0,0.0001,True
+all_homes,lead -5 main range low,-3.571891,-3.571891,-0.0,0.002,True
+all_homes,lead -5 main range high,0.217558,0.217558,-0.0,0.002,True
+all_homes,lead -4 main vs Test 56 event study,-1.491478,-1.491478,0.0,0.0001,True
+all_homes,lead -4 main range low,-3.216892,-3.216892,0.0,0.002,True
+all_homes,lead -4 main range high,0.51361,0.51361,0.0,0.002,True
+all_homes,lead -3 main vs Test 56 event study,-1.129239,-1.129239,-0.0,0.0001,True
+all_homes,lead -3 main range low,-3.881987,-3.881987,-0.0,0.002,True
+all_homes,lead -3 main range high,1.160035,1.160035,0.0,0.002,True
+all_homes,lead -2 main vs Test 56 event study,-1.045524,-1.045524,0.0,0.0001,True
+all_homes,lead -2 main range low,-2.957457,-2.957457,-0.0,0.002,True
+all_homes,lead -2 main range high,0.83743,0.83743,-0.0,0.002,True
+all_homes,lead -5 D vs Test 56 event study,2.3794,2.3794,-0.0,0.0001,True
+all_homes,lead -5 D range low,-0.496942,-0.496942,-0.0,0.002,True
+all_homes,lead -5 D range high,6.642034,6.642034,-0.0,0.002,True
+all_homes,lead -4 D vs Test 56 event study,0.298738,0.298738,0.0,0.0001,True
+all_homes,lead -4 D range low,-1.135818,-1.135818,-0.0,0.002,True
+all_homes,lead -4 D range high,3.791592,3.791592,-0.0,0.002,True
+all_homes,lead -3 D vs Test 56 event study,2.909729,2.909729,0.0,0.0001,True
+all_homes,lead -3 D range low,0.417543,0.417543,0.0,0.002,True
+all_homes,lead -3 D range high,6.470977,6.470977,-0.0,0.002,True
+all_homes,lead -2 D vs Test 56 event study,-0.406428,-0.406428,0.0,0.0001,True
+all_homes,lead -2 D range low,-1.899478,-1.899478,0.0,0.002,True
+all_homes,lead -2 D range high,1.864732,1.864732,-0.0,0.002,True
+all_homes,placebo date -2 main vs Test 56,1.224822,1.2248,2.2e-05,0.0001,True
+all_homes,placebo date -2 main range low,-0.775277,-0.7753,2.3e-05,0.002,True
+all_homes,placebo date -2 main range high,3.242149,3.2421,4.9e-05,0.002,True
+all_homes,placebo date -2 D vs Test 56,-2.127489,-2.1275,1.1e-05,0.0002,True
+all_homes,placebo date -2 D range low,-4.444555,-4.4446,4.5e-05,0.002,True
+all_homes,placebo date -2 D range high,-0.211428,-0.2114,-2.8e-05,0.002,True
+all_homes,placebo date -4 main vs Test 56,1.756874,1.7569,-2.6e-05,0.0001,True
+all_homes,placebo date -4 main range low,-0.594721,-0.5947,-2.1e-05,0.002,True
+all_homes,placebo date -4 main range high,4.269495,4.2695,-5e-06,0.002,True
+all_homes,placebo date -4 D vs Test 56,-2.179466,-2.1795,3.4e-05,0.0002,True
+all_homes,placebo date -4 D range low,-5.901059,-5.9011,4.1e-05,0.002,True
+all_homes,placebo date -4 D range high,1.683635,1.6836,3.5e-05,0.002,True
+units_2_4,"main average, 74 at dose 100 vs today's figure",-0.067424,-0.0674,-2.4e-05,0.0001,True
+units_2_4,main average vs this copy's placebo summary,-0.067424,-0.0674,-2.4e-05,0.0001,True
+units_2_4,main range low vs placebo summary,-0.294518,-0.2945,-1.8e-05,0.002,True
+units_2_4,main range high vs placebo summary,0.176907,0.1769,7e-06,0.002,True
+units_2_4,placebo set draws rebuilt (max abs diff),2.2e-05,0.0,2.2e-05,0.002,True
+units_2_4,"D average, 74 at dose 100 vs today's figure",-0.006771,-0.0068,2.9e-05,0.0001,True
+units_2_4,D average vs this copy's method 2 results,-0.006771,-0.0068,2.9e-05,0.0001,True
+units_2_4,D range low (seed 20261104) vs method 2 results,-0.229722,-0.2297,-2.2e-05,0.002,True
+units_2_4,D range high (seed 20261104) vs method 2 results,0.375863,0.3759,-3.7e-05,0.002,True
+units_2_4,lead -5 main vs Test 56 event study,0.014401,0.014401,-0.0,0.0001,True
+units_2_4,lead -5 main range low,-0.08911,-0.08911,-0.0,0.002,True
+units_2_4,lead -5 main range high,0.122614,0.122614,0.0,0.002,True
+units_2_4,lead -4 main vs Test 56 event study,0.079001,0.079001,-0.0,0.0001,True
+units_2_4,lead -4 main range low,0.01807,0.01807,-0.0,0.002,True
+units_2_4,lead -4 main range high,0.148517,0.148517,0.0,0.002,True
+units_2_4,lead -3 main vs Test 56 event study,0.041614,0.041614,0.0,0.0001,True
+units_2_4,lead -3 main range low,-0.035316,-0.035316,0.0,0.002,True
+units_2_4,lead -3 main range high,0.119397,0.119397,0.0,0.002,True
+units_2_4,lead -2 main vs Test 56 event study,0.055256,0.055256,0.0,0.0001,True
+units_2_4,lead -2 main range low,-0.02603,-0.02603,0.0,0.002,True
+units_2_4,lead -2 main range high,0.143313,0.143313,0.0,0.002,True
+units_2_4,lead -5 D vs Test 56 event study,0.450543,0.450543,-0.0,0.0001,True
+units_2_4,lead -5 D range low,0.040738,0.040738,0.0,0.002,True
+units_2_4,lead -5 D range high,1.055723,1.055723,-0.0,0.002,True
+units_2_4,lead -4 D vs Test 56 event study,0.388808,0.388808,0.0,0.0001,True
+units_2_4,lead -4 D range low,0.095182,0.095182,-0.0,0.002,True
+units_2_4,lead -4 D range high,0.643571,0.643571,-0.0,0.002,True
+units_2_4,lead -3 D vs Test 56 event study,0.489483,0.489483,-0.0,0.0001,True
+units_2_4,lead -3 D range low,0.160098,0.160097,1e-06,0.002,True
+units_2_4,lead -3 D range high,1.001032,1.001032,-0.0,0.002,True
+units_2_4,lead -2 D vs Test 56 event study,0.314221,0.314221,0.0,0.0001,True
+units_2_4,lead -2 D range low,0.011202,0.011202,0.0,0.002,True
+units_2_4,lead -2 D range high,0.551799,0.551799,-0.0,0.002,True
+units_2_4,placebo date -2 main vs Test 56,-0.058789,-0.0588,1.1e-05,0.0001,True
+units_2_4,placebo date -2 main range low,-0.226908,-0.2269,-8e-06,0.002,True
+units_2_4,placebo date -2 main range high,0.149911,0.1499,1.1e-05,0.002,True
+units_2_4,placebo date -2 D vs Test 56,-0.027661,-0.0277,3.9e-05,0.0002,True
+units_2_4,placebo date -2 D range low,-0.322356,-0.3223,-5.6e-05,0.002,True
+units_2_4,placebo date -2 D range high,0.248576,0.2486,-2.4e-05,0.002,True
+units_2_4,placebo date -4 main vs Test 56,-0.040134,-0.0401,-3.4e-05,0.0001,True
+units_2_4,placebo date -4 main range low,-0.19358,-0.1936,2e-05,0.002,True
+units_2_4,placebo date -4 main range high,0.153817,0.1538,1.7e-05,0.002,True
+units_2_4,placebo date -4 D vs Test 56,0.048196,0.0482,-4e-06,0.0002,True
+units_2_4,placebo date -4 D range low,-0.166929,-0.1669,-2.9e-05,0.002,True
+units_2_4,placebo date -4 D range high,0.237163,0.2372,-3.7e-05,0.002,True
