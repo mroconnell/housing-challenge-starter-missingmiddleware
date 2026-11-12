@@ -1987,3 +1987,8 @@ Ryan, 01:36–01:39 UTC:
   1. **Same-zoning edge:** only cells on line segments where both sides have the same zoning district. The about 25% of the land line that follows a zoning change is left out.
   2. **Legacy-only window:** after-window ends 2020, legacy DOB file only, so the March 2021 system switch is not in the window.
 - **Balance** is reported for the 50–400 m bands (lot centroids in band), which is the test area.
+
+**Test 57 LOCK (Ryan, 06:08:24 UTC 2026-11-12, cmsg_01C3Z6G8h32D4UwCcjcGMM7q6F15vyiuiPAxDqhboDsr22: "B and a alongside"). Audit LOCK OK at b13b8912.**
+- **NY primary outcome:** all DOB new-building units (legacy file plus DOB NOW, no seam, ALT-CO left out), labelled "possibly diluted toward 0" because the 2016 rule removed parking only for income-restricted and affordable senior units. All leads (−5 to −2) and both placebo dates run.
+- **NY alongside (not headline):** HPD affordable units (hg8x-zxpr). Before-years 2014–2015 only, so only lead −2 against −1 runs; no −5 to −3 leads and no −4 placebo. 2015 is a 421-a rush year, and only HPD-financed projects are covered.
+- Everything else as set above. No count has been read.
