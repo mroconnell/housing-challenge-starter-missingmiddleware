@@ -1,0 +1,31 @@
+cell,group,outcome,method,weighting,statistic,estimate,p05,p95,excludes_0,use,places_used,multiplicative_effect,mult_p05,mult_p95,status,estimate_wisconsin_homes_5yr,p05_wisconsin_homes_5yr,p95_wisconsin_homes_5yr
+O-main,overall effect,1-4 unit homes (post hoc),main,homes x after-years,overall effect,-0.0473,-0.9516,1.0471,False,read,,,,,,-631.14211,-12697.565166,13971.858434
+S-main,size slope,1-4 unit homes (post hoc),main,homes x after-years,size slope (per 10x population),-1.251372,-2.91125,0.493963,False,descriptive only,,,,,,,,
+O-D,overall effect,1-4 unit homes (post hoc),D,target-state mix,overall effect,-0.2194,-1.7814,0.5642,False,read,,,,,,-2927.538669,-23769.906039,7528.337817
+S-D,size slope,1-4 unit homes (post hoc),D,target-state mix,size slope (per 10x population),0.318286,-0.704986,2.426349,False,descriptive only,,,,,,,,
+PD-main-2,placebo date,1-4 unit homes (post hoc),main,homes x after-years,repeal moved 2 years early,-0.8931,-1.819,0.2187,False,read (pre-trend label),72.0,,,,,-11916.977144,-24271.617315,2918.1983
+PD-D-2,placebo date,1-4 unit homes (post hoc),D,target-state mix,repeal moved 2 years early,-1.3253,-2.7665,-0.3524,True,read (pre-trend label),73.0,,,,,-17683.98814,-36914.474603,-4702.208874
+PD-main-4,placebo date,1-4 unit homes (post hoc),main,homes x after-years,repeal moved 4 years early,-1.1484,-2.3394,0.3289,False,read (pre-trend label),67.0,,,,,-15323.543334,-31215.514869,4388.639327
+PD-D-4,placebo date,1-4 unit homes (post hoc),D,target-state mix,repeal moved 4 years early,-1.6711,-3.1375,-0.3891,True,read (pre-trend label),67.0,,,,,-22298.130674,-41864.870438,-5191.911104
+E-main--5,event study (reference year -1),1-4 unit homes (post hoc),main,homes,year -5,1.364282,0.660941,2.079141,True,read (pre-trend label),72.0,,,,,,,
+E-main--4,event study (reference year -1),1-4 unit homes (post hoc),main,homes,year -4,0.933459,0.174266,1.709128,True,read (pre-trend label),74.0,,,,,,,
+E-main--3,event study (reference year -1),1-4 unit homes (post hoc),main,homes,year -3,0.165775,-0.594384,0.871757,False,read (pre-trend label),74.0,,,,,,,
+E-main--2,event study (reference year -1),1-4 unit homes (post hoc),main,homes,year -2,0.225712,-0.206792,0.682381,False,read (pre-trend label),74.0,,,,,,,
+E-main-+0,event study (reference year -1),1-4 unit homes (post hoc),main,homes,year +0,-0.01177,-0.66674,0.593549,False,shown only,72.0,,,,,,,
+E-main-+1,event study (reference year -1),1-4 unit homes (post hoc),main,homes,year +1,0.392423,-0.293586,1.093843,False,shown only,74.0,,,,,,,
+E-main-+2,event study (reference year -1),1-4 unit homes (post hoc),main,homes,year +2,0.631667,-0.035106,1.599282,False,shown only,55.0,,,,,,,
+E-main-+3,event study (reference year -1),1-4 unit homes (post hoc),main,homes,year +3,0.491975,0.091895,1.090702,True,shown only,36.0,,,,,,,
+E-D--5,event study (reference year -1),1-4 unit homes (post hoc),D,target-state mix (base = homes),year -5,0.739308,-0.113947,3.344024,False,read (pre-trend label),72.0,,,,,,,
+E-D--4,event study (reference year -1),1-4 unit homes (post hoc),D,target-state mix (base = homes),year -4,1.024192,0.064547,2.274942,True,read (pre-trend label),74.0,,,,,,,
+E-D--3,event study (reference year -1),1-4 unit homes (post hoc),D,target-state mix (base = homes),year -3,0.501586,-0.526258,1.444003,False,read (pre-trend label),74.0,,,,,,,
+E-D--2,event study (reference year -1),1-4 unit homes (post hoc),D,target-state mix (base = homes),year -2,0.07677,-0.674153,0.922598,False,read (pre-trend label),74.0,,,,,,,
+E-D-+0,event study (reference year -1),1-4 unit homes (post hoc),D,target-state mix (base = homes),year +0,0.243508,-0.696644,1.277017,False,shown only,74.0,,,,,,,
+E-D-+1,event study (reference year -1),1-4 unit homes (post hoc),D,target-state mix (base = homes),year +1,0.351633,-1.360574,1.636342,False,shown only,74.0,,,,,,,
+E-D-+2,event study (reference year -1),1-4 unit homes (post hoc),D,target-state mix (base = homes),year +2,0.042136,-1.133133,1.280773,False,shown only,55.0,,,,,,,
+E-D-+3,event study (reference year -1),1-4 unit homes (post hoc),D,target-state mix (base = homes),year +3,0.759874,-0.841679,2.605756,False,shown only,36.0,,,,,,,
+P-main,Poisson count check (stacked two-period per place (changed from Tests 38–39 panel)),1-4 unit homes (post hoc),main,counts (Poisson),log rate ratio (theta),-0.016977,-0.234652,0.222436,False,shown only,72.0,-0.016834,-0.209154,0.249115,ok,,,
+P-D,Poisson count check (stacked two-period per place (changed from Tests 38–39 panel)),1-4 unit homes (post hoc),D,counts (Poisson),log rate ratio (theta),0.137768,-0.006066,0.266242,False,shown only,72.0,0.147709,-0.006048,0.305051,ok,,,
+L-main,long set,1-4 unit homes (post hoc),main,homes x 5,long-set effect (after-years 1-5),-0.007726,-0.526022,1.436107,False,shown only,13.0,,,,,-103.090993,-7018.914064,19162.528602
+L-D,long set,1-4 unit homes (post hoc),D,target-state mix (base = homes x 5),long-set effect (after-years 1-5),1.787073,-1.764915,12.737566,False,shown only,13.0,,,,,23845.603062,-23549.940337,169962.247101
+SP-D,spillover (out-of-metro pools),1-4 unit homes (post hoc),D,target-state mix,overall effect,-0.1968,-1.433,0.6316,False,shown only,,,,,,-2625.978168,-19121.070705,8427.681966
+DA-D,date-aware pools (52h.1),1-4 unit homes (post hoc),D,target-state mix,overall effect,-0.2188,-1.7644,0.5689,False,shown only,,,,,,-2919.532638,-23543.068494,7591.051726
