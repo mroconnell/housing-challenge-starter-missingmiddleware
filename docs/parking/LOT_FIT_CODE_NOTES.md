@@ -309,3 +309,16 @@ The other 8 places were fetched but not loaded.
 - The audit's 50% rule is set on the 2–4 unit total. That total is not labelled under either bound.
 - The 3-unit and 4-unit rows are labelled under the upper bound.
 - Most "could not fit" cases fail step 1 (lot minimums and the building box), not parking.
+
+## Audit rulings on the results (2026-11-12 17:34 UTC)
+
+- **Code fixed after the first output; the fix restores lower ≤ upper.**
+  - In the first --go run, the lower bound (every lot has an alley) blocked more lots than the upper bound in Oshkosh and Kenosha, which is impossible by definition.
+  - Fix d254ba8b lets alley lots also use a driveway layout. The upper bound is unchanged by it.
+  - The first run's outputs were deleted before their figures were recorded. They were not kept and can't be recovered.
+- **The Milwaukee sanity label applies to the 2–4 unit total only.**
+  - That total is 22.5% (8,397 of 37,393 existing buildings could not fit, upper bound), so there is no label.
+  - Plain note, not the locked label: the 3-unit row is 53.0% and the 4-unit row is 50.5%.
+- **Why the sanity check fails:** most failures come from lot and building rules, not parking (upper bound: 7,768 of 8,397). So the building model may be strict on lot rules, which shrinks the denominator.
+- **Scope:** the shares cover the 11 tested places, weighted by lot. They are not results for all of Wisconsin.
+- **Spans** are spans of assumptions. The "no parking in the rear setback" variant drives most of the high end; Racine reaches 70%.
