@@ -1,0 +1,169 @@
+section,item,arm,value,unit,note
+layers,2016 DCP Transit Zone area,,212.625,km2,nyctransitzones_201601 (Bytes archive via Wayback)
+layers,current Transit Zone area,,212.793,km2,dpnc-b2hd
+rebuild,"E 241 St (N 180084 ZRX, eff. 2019-02-13, Map 1): amendment blocks inside current zone",,1.21,ha,blocks [5087]
+rebuild,E 241 St: of which outside the 2016 DCP zone (added land),,1.21,ha,
+rebuild,E 241 St: of which inside the 2016 DCP zone (over-removed by block rule),,0.0,ha,
+rebuild,"Innovative Urban Village (N 220313 ZRK, eff. 2022-11-22, Map 12): amendment blocks inside current zone",,4.48,ha,"blocks [4430, 4431, 4434]"
+rebuild,Innovative Urban Village: of which outside the 2016 DCP zone (added land),,4.48,ha,
+rebuild,Innovative Urban Village: of which inside the 2016 DCP zone (over-removed by block rule),,0.0,ha,
+rebuild,"Bronx Metro-North (Eastchester-East Tremont) (N 240016 ZRX, eff. 2024-08-15, Map Key, 2, 3): amendment blocks inside current zone",,8.99,ha,"blocks [4042, 4045, 4046, 4058, 4060, 4061, 4062, 4063, 4091]"
+rebuild,Bronx Metro-North (Eastchester-East Tremont): of which outside the 2016 DCP zone (added land),,8.01,ha,
+rebuild,Bronx Metro-North (Eastchester-East Tremont): of which inside the 2016 DCP zone (over-removed by block rule),,0.98,ha,
+rebuild,"Brooklyn Yards (N 230183 ZRK, eff. 2024-11-21, Map 13, 14): amendment blocks inside current zone",,5.83,ha,"blocks [5509, 5516, 5523]"
+rebuild,Brooklyn Yards: of which outside the 2016 DCP zone (added land),,5.83,ha,
+rebuild,Brooklyn Yards: of which inside the 2016 DCP zone (over-removed by block rule),,0.0,ha,
+rebuild,current minus 2016: all added pixels,,25.73,ha,190 pieces
+rebuild,current minus 2016: pieces >= 1 ha,,4,pieces,5.9 ha explained; 5.5 ha explained; 8.2 ha explained; 1.4 ha explained
+rebuild,current minus 2016: unexplained added area (no amendment block),,6.2,ha,slivers along the line (re-digitising)
+rebuild,2016 minus current: removed area,,8.66,ha,no amendment removed land; these are slivers
+rebuild,rebuilt not in 2016: all,,6.2,ha,
+rebuild,rebuilt not in 2016: wider than ~100 ft,,0.7,ha,
+rebuild,2016 not in rebuilt: all,,9.64,ha,
+rebuild,2016 not in rebuilt: wider than ~100 ft,,1.18,ha,
+map check,Appendix I Map 1,,pass,pass/fix/drop,"page fit score 0.948 at 21.75 ft/px; adopted page vs 2016 GIS agree 97.57% of map pixels (vs current GIS 97.54%); mismatch wider than ~13 m: 18.2 ha; rebuild vs 2016 GIS (wider than ~100 ft): 0.0 ha extra, 0.0 ha missing; amendments on map: E 241 St"
+map check,"Map 1: adopted-page agreement, 2016 GIS",,0.9757,share of page map pixels,
+map check,"Map 1: adopted-page agreement, current GIS",,0.9754,share of page map pixels,
+map check,"Map 1: adopted grey not in 2016 GIS, wider than ~13 m",,14.06,ha,
+map check,"Map 1: 2016 GIS not grey on adopted page, wider than ~13 m",,4.1,ha,
+map check,Appendix I Map 2,,pass,pass/fix/drop,"page fit score 0.939 at 21.25 ft/px; adopted page vs 2016 GIS agree 98.84% of map pixels (vs current GIS 98.58%); mismatch wider than ~13 m: 2.6 ha; rebuild vs 2016 GIS (wider than ~100 ft): 0.0 ha extra, 0.9 ha missing; amendments on map: Bronx Metro-North (Eastchester-East Tremont)"
+map check,"Map 2: adopted-page agreement, 2016 GIS",,0.9884,share of page map pixels,
+map check,"Map 2: adopted-page agreement, current GIS",,0.9858,share of page map pixels,
+map check,"Map 2: adopted grey not in 2016 GIS, wider than ~13 m",,1.34,ha,
+map check,"Map 2: 2016 GIS not grey on adopted page, wider than ~13 m",,1.29,ha,
+map check,Appendix I Map 3,,fix,pass/fix/drop,"page fit score 0.931 at 20.75 ft/px; adopted page vs 2016 GIS agree 98.55% of map pixels (vs current GIS 98.25%); mismatch wider than ~13 m: 6.6 ha; rebuild vs 2016 GIS (wider than ~100 ft): 0.0 ha extra, 1.2 ha missing; amendments on map: Bronx Metro-North (Eastchester-East Tremont); FIX: the 2016 DCP file is used for this map (it matches the adopted page at least as well as the current layer)"
+map check,"Map 3: adopted-page agreement, 2016 GIS",,0.9855,share of page map pixels,
+map check,"Map 3: adopted-page agreement, current GIS",,0.9825,share of page map pixels,
+map check,"Map 3: adopted grey not in 2016 GIS, wider than ~13 m",,3.62,ha,
+map check,"Map 3: 2016 GIS not grey on adopted page, wider than ~13 m",,2.96,ha,
+map check,Appendix I Map 4,,pass,pass/fix/drop,"page fit score 0.953 at 20.75 ft/px; adopted page vs 2016 GIS agree 98.45% of map pixels (vs current GIS 98.45%); mismatch wider than ~13 m: 11.5 ha; rebuild vs 2016 GIS (wider than ~100 ft): 0.0 ha extra, 0.0 ha missing; amendments on map: none"
+map check,"Map 4: adopted-page agreement, 2016 GIS",,0.9845,share of page map pixels,
+map check,"Map 4: adopted-page agreement, current GIS",,0.9845,share of page map pixels,
+map check,"Map 4: adopted grey not in 2016 GIS, wider than ~13 m",,9.52,ha,
+map check,"Map 4: 2016 GIS not grey on adopted page, wider than ~13 m",,2.01,ha,
+map check,Appendix I Map 5,,pass,pass/fix/drop,"page fit score 0.937 at 20.75 ft/px; adopted page vs 2016 GIS agree 98.22% of map pixels (vs current GIS 98.22%); mismatch wider than ~13 m: 16.6 ha; rebuild vs 2016 GIS (wider than ~100 ft): 0.0 ha extra, 0.0 ha missing; amendments on map: none"
+map check,"Map 5: adopted-page agreement, 2016 GIS",,0.9822,share of page map pixels,
+map check,"Map 5: adopted-page agreement, current GIS",,0.9822,share of page map pixels,
+map check,"Map 5: adopted grey not in 2016 GIS, wider than ~13 m",,6.95,ha,
+map check,"Map 5: 2016 GIS not grey on adopted page, wider than ~13 m",,9.69,ha,
+map check,Appendix I Map 6,,pass,pass/fix/drop,"page fit score 0.965 at 20.75 ft/px; adopted page vs 2016 GIS agree 98.32% of map pixels (vs current GIS 98.32%); mismatch wider than ~13 m: 10.9 ha; rebuild vs 2016 GIS (wider than ~100 ft): 0.0 ha extra, 0.0 ha missing; amendments on map: none"
+map check,"Map 6: adopted-page agreement, 2016 GIS",,0.9832,share of page map pixels,
+map check,"Map 6: adopted-page agreement, current GIS",,0.9832,share of page map pixels,
+map check,"Map 6: adopted grey not in 2016 GIS, wider than ~13 m",,8.62,ha,
+map check,"Map 6: 2016 GIS not grey on adopted page, wider than ~13 m",,2.27,ha,
+map check,Appendix I Map 7,,pass,pass/fix/drop,"page fit score 0.959 at 21.00 ft/px; adopted page vs 2016 GIS agree 98.42% of map pixels (vs current GIS 98.42%); mismatch wider than ~13 m: 9.2 ha; rebuild vs 2016 GIS (wider than ~100 ft): 0.0 ha extra, 0.0 ha missing; amendments on map: none"
+map check,"Map 7: adopted-page agreement, 2016 GIS",,0.9842,share of page map pixels,
+map check,"Map 7: adopted-page agreement, current GIS",,0.9842,share of page map pixels,
+map check,"Map 7: adopted grey not in 2016 GIS, wider than ~13 m",,6.81,ha,
+map check,"Map 7: 2016 GIS not grey on adopted page, wider than ~13 m",,2.36,ha,
+map check,Appendix I Map 8,,pass,pass/fix/drop,"page fit score 0.955 at 20.75 ft/px; adopted page vs 2016 GIS agree 98.04% of map pixels (vs current GIS 98.04%); mismatch wider than ~13 m: 13.9 ha; rebuild vs 2016 GIS (wider than ~100 ft): 0.0 ha extra, 0.0 ha missing; amendments on map: none"
+map check,"Map 8: adopted-page agreement, 2016 GIS",,0.9804,share of page map pixels,
+map check,"Map 8: adopted-page agreement, current GIS",,0.9804,share of page map pixels,
+map check,"Map 8: adopted grey not in 2016 GIS, wider than ~13 m",,7.89,ha,
+map check,"Map 8: 2016 GIS not grey on adopted page, wider than ~13 m",,5.98,ha,
+map check,Appendix I Map 9,,pass,pass/fix/drop,"page fit score 0.962 at 21.00 ft/px; adopted page vs 2016 GIS agree 98.72% of map pixels (vs current GIS 98.72%); mismatch wider than ~13 m: 15.7 ha; rebuild vs 2016 GIS (wider than ~100 ft): 0.0 ha extra, 0.0 ha missing; amendments on map: none"
+map check,"Map 9: adopted-page agreement, 2016 GIS",,0.9872,share of page map pixels,
+map check,"Map 9: adopted-page agreement, current GIS",,0.9872,share of page map pixels,
+map check,"Map 9: adopted grey not in 2016 GIS, wider than ~13 m",,6.15,ha,
+map check,"Map 9: 2016 GIS not grey on adopted page, wider than ~13 m",,9.5,ha,
+map check,Appendix I Map 10,,pass,pass/fix/drop,"page fit score 0.958 at 22.00 ft/px; adopted page vs 2016 GIS agree 99.34% of map pixels (vs current GIS 99.34%); mismatch wider than ~13 m: 0.5 ha; rebuild vs 2016 GIS (wider than ~100 ft): 0.0 ha extra, 0.0 ha missing; amendments on map: none"
+map check,"Map 10: adopted-page agreement, 2016 GIS",,0.9934,share of page map pixels,
+map check,"Map 10: adopted-page agreement, current GIS",,0.9934,share of page map pixels,
+map check,"Map 10: adopted grey not in 2016 GIS, wider than ~13 m",,0.54,ha,
+map check,"Map 10: 2016 GIS not grey on adopted page, wider than ~13 m",,0.0,ha,
+map check,Appendix I Map 11,,pass,pass/fix/drop,"page fit score 0.935 at 20.75 ft/px; adopted page vs 2016 GIS agree 99.21% of map pixels (vs current GIS 99.22%); mismatch wider than ~13 m: 3.2 ha; rebuild vs 2016 GIS (wider than ~100 ft): 0.0 ha extra, 0.0 ha missing; amendments on map: none"
+map check,"Map 11: adopted-page agreement, 2016 GIS",,0.9921,share of page map pixels,
+map check,"Map 11: adopted-page agreement, current GIS",,0.9922,share of page map pixels,
+map check,"Map 11: adopted grey not in 2016 GIS, wider than ~13 m",,2.82,ha,
+map check,"Map 11: 2016 GIS not grey on adopted page, wider than ~13 m",,0.37,ha,
+map check,Appendix I Map 12,,pass,pass/fix/drop,"page fit score 0.912 at 20.75 ft/px; adopted page vs 2016 GIS agree 98.83% of map pixels (vs current GIS 98.62%); mismatch wider than ~13 m: 12.6 ha; rebuild vs 2016 GIS (wider than ~100 ft): 0.7 ha extra, 0.0 ha missing; amendments on map: Innovative Urban Village"
+map check,"Map 12: adopted-page agreement, 2016 GIS",,0.9883,share of page map pixels,
+map check,"Map 12: adopted-page agreement, current GIS",,0.9862,share of page map pixels,
+map check,"Map 12: adopted grey not in 2016 GIS, wider than ~13 m",,3.88,ha,
+map check,"Map 12: 2016 GIS not grey on adopted page, wider than ~13 m",,8.76,ha,
+map check,Appendix I Map 13,,pass,pass/fix/drop,"page fit score 0.922 at 20.75 ft/px; adopted page vs 2016 GIS agree 98.80% of map pixels (vs current GIS 98.65%); mismatch wider than ~13 m: 11.0 ha; rebuild vs 2016 GIS (wider than ~100 ft): 0.0 ha extra, 0.0 ha missing; amendments on map: Brooklyn Yards"
+map check,"Map 13: adopted-page agreement, 2016 GIS",,0.988,share of page map pixels,
+map check,"Map 13: adopted-page agreement, current GIS",,0.9865,share of page map pixels,
+map check,"Map 13: adopted grey not in 2016 GIS, wider than ~13 m",,6.1,ha,
+map check,"Map 13: 2016 GIS not grey on adopted page, wider than ~13 m",,4.87,ha,
+map check,Appendix I Map 14,,pass,pass/fix/drop,"page fit score 0.893 at 20.75 ft/px; adopted page vs 2016 GIS agree 98.06% of map pixels (vs current GIS 97.86%); mismatch wider than ~13 m: 17.2 ha; rebuild vs 2016 GIS (wider than ~100 ft): 0.0 ha extra, 0.0 ha missing; amendments on map: Brooklyn Yards"
+map check,"Map 14: adopted-page agreement, 2016 GIS",,0.9806,share of page map pixels,
+map check,"Map 14: adopted-page agreement, current GIS",,0.9786,share of page map pixels,
+map check,"Map 14: adopted grey not in 2016 GIS, wider than ~13 m",,6.45,ha,
+map check,"Map 14: 2016 GIS not grey on adopted page, wider than ~13 m",,10.75,ha,
+map check,Appendix I Map 15,,pass,pass/fix/drop,"page fit score 0.952 at 20.75 ft/px; adopted page vs 2016 GIS agree 98.82% of map pixels (vs current GIS 98.82%); mismatch wider than ~13 m: 1.8 ha; rebuild vs 2016 GIS (wider than ~100 ft): 0.0 ha extra, 0.0 ha missing; amendments on map: none"
+map check,"Map 15: adopted-page agreement, 2016 GIS",,0.9882,share of page map pixels,
+map check,"Map 15: adopted-page agreement, current GIS",,0.9882,share of page map pixels,
+map check,"Map 15: adopted grey not in 2016 GIS, wider than ~13 m",,1.19,ha,
+map check,"Map 15: 2016 GIS not grey on adopted page, wider than ~13 m",,0.62,ha,
+text check,CD 109 ('all of' in adopted text): share of land inside 2016 GIS,,0.9999,share of CD land pixels,
+text check,CD 110 ('all of' in adopted text): share of land inside 2016 GIS,,0.9999,share of CD land pixels,
+text check,CD 111 ('all of' in adopted text): share of land inside 2016 GIS,,0.6443,share of CD land pixels,
+text check,CD 112 ('all of' in adopted text): share of land inside 2016 GIS,,0.9994,share of CD land pixels,
+text check,CD 201 ('all of' in adopted text): share of land inside 2016 GIS,,0.9973,share of CD land pixels,
+text check,CD 202 ('all of' in adopted text): share of land inside 2016 GIS,,0.9696,share of CD land pixels,
+text check,CD 204 ('all of' in adopted text): share of land inside 2016 GIS,,0.9994,share of CD land pixels,Bronx CD 204 is missing from the 4/5/16 web text but hatched on the key map (erratum fixed 3/6/17)
+text check,CD 205 ('all of' in adopted text): share of land inside 2016 GIS,,0.9986,share of CD land pixels,
+text check,CD 206 ('all of' in adopted text): share of land inside 2016 GIS,,0.9999,share of CD land pixels,
+text check,CD 207 ('all of' in adopted text): share of land inside 2016 GIS,,0.9993,share of CD land pixels,
+text check,CD 301 ('all of' in adopted text): share of land inside 2016 GIS,,0.9982,share of CD land pixels,
+text check,CD 302 ('all of' in adopted text): share of land inside 2016 GIS,,0.9927,share of CD land pixels,
+text check,CD 303 ('all of' in adopted text): share of land inside 2016 GIS,,1.0,share of CD land pixels,
+text check,CD 304 ('all of' in adopted text): share of land inside 2016 GIS,,0.9997,share of CD land pixels,
+text check,CD 306 ('all of' in adopted text): share of land inside 2016 GIS,,0.9829,share of CD land pixels,
+text check,CD 307 ('all of' in adopted text): share of land inside 2016 GIS,,0.9875,share of CD land pixels,
+text check,CD 308 ('all of' in adopted text): share of land inside 2016 GIS,,0.9999,share of CD land pixels,
+text check,CD 309 ('all of' in adopted text): share of land inside 2016 GIS,,0.9999,share of CD land pixels,
+text check,CD 316 ('all of' in adopted text): share of land inside 2016 GIS,,1.0,share of CD land pixels,
+text check,Bronx CD 203 (Council removed from 'all of'; Morrisania white on Map 3): share of land inside 2016 GIS,,0.7188,share of CD land pixels,
+text check,Brooklyn CD 312 (Council removed): share of land inside 2016 GIS,,0.6752,share of CD land pixels,
+text check,Brooklyn CD 313 (Council removed; Coney Island): share of land inside 2016 GIS,,0.2328,share of CD land pixels,
+text check,Queens CD 414 (Rockaways; never in zone): share inside 2016 GIS,,0.0,share of CD land pixels,
+line type,"2016 line length, all",,310.0,km,
+line type,2016 line: water or city edge on one side,,0.3177,share of all line length,
+line type,2016 land line length (both sides city land),,211.5,km,
+line type,land line along a borough line,,0.0259,share of land line length,
+line type,land line along a community-district line (incl. borough lines),,0.202,share of land line length,
+line type,"land line along a zoning-district change (16v1 lots, modal ZoneDist1 each side)",,0.2883,share of land line length,approximate: lot centroids within 300 ft each side
+line type,land line along a zoning change and not a CD line,,0.2503,share of land line length,
+line type,land line along neither a CD line nor a zoning change,,0.5477,share of land line length,line cuts through a district and its zoning
+line type,"land line with no lots on one side within 300 ft (parks, rail yards)",,0.3264,share of land line length,
+cells,500 m cell parts in the 50-400 m band,inside (Transit Zone),773,cell parts,
+cells,500 m cell parts in the band with >= 1 ha of land,inside (Transit Zone),667,cell parts,
+cells,band land area,inside (Transit Zone),7484.3,ha,
+cells,500 m cell parts in the 50-400 m band,outside,712,cell parts,
+cells,500 m cell parts in the band with >= 1 ha of land,outside,583,cell parts,
+cells,band land area,outside,6175.2,ha,
+cells,cells split by the line (a part in each arm),,427,cells,
+cells,500 m cell parts citywide (no band),inside (Transit Zone),1133,cell parts,
+cells,500 m cell parts citywide (no band),outside,2197,cell parts,
+balance,tax lots (centroid in band),inside (Transit Zone),98165,lots,
+balance,lot area,inside (Transit Zone),12202.0,acres,
+balance,median lot area,inside (Transit Zone),2450.0,sq ft,
+balance,mean lot area,inside (Transit Zone),5415.0,sq ft,
+balance,zoning mix: C (commercial),inside (Transit Zone),0.0392,share of lot area,"ZoneDist1, PLUTO 16v1"
+balance,zoning mix: M (manufacturing),inside (Transit Zone),0.2006,share of lot area,"ZoneDist1, PLUTO 16v1"
+balance,zoning mix: R1-R5 (low density residence),inside (Transit Zone),0.4009,share of lot area,"ZoneDist1, PLUTO 16v1"
+balance,zoning mix: R6-R10 (higher density residence),inside (Transit Zone),0.3144,share of lot area,"ZoneDist1, PLUTO 16v1"
+balance,"zoning mix: other (park, BPC, blank)",inside (Transit Zone),0.0449,share of lot area,"ZoneDist1, PLUTO 16v1"
+balance,existing residential units (March 2016 stock),inside (Transit Zone),545108,units,
+balance,existing units per lot acre,inside (Transit Zone),44.7,units per acre,
+balance,units in buildings built before 1940,inside (Transit Zone),0.5378,share of units with a year built,
+balance,"median year built (lots with units, unit-weighted)",inside (Transit Zone),1935.0,year,
+balance,lots with any housing,inside (Transit Zone),0.8857,share of lots,
+balance,cell parts with >= 2.5 lot acres: median units per lot acre,inside (Transit Zone),39.7,units per acre (median over cell parts),602 cell parts
+balance,tax lots (centroid in band),outside,75357,lots,
+balance,lot area,outside,9298.0,acres,
+balance,median lot area,outside,2500.0,sq ft,
+balance,mean lot area,outside,5375.0,sq ft,
+balance,zoning mix: C (commercial),outside,0.0431,share of lot area,"ZoneDist1, PLUTO 16v1"
+balance,zoning mix: M (manufacturing),outside,0.1289,share of lot area,"ZoneDist1, PLUTO 16v1"
+balance,zoning mix: R1-R5 (low density residence),outside,0.5636,share of lot area,"ZoneDist1, PLUTO 16v1"
+balance,zoning mix: R6-R10 (higher density residence),outside,0.1447,share of lot area,"ZoneDist1, PLUTO 16v1"
+balance,"zoning mix: other (park, BPC, blank)",outside,0.1196,share of lot area,"ZoneDist1, PLUTO 16v1"
+balance,existing residential units (March 2016 stock),outside,264067,units,
+balance,existing units per lot acre,outside,28.4,units per acre,
+balance,units in buildings built before 1940,outside,0.4392,share of units with a year built,
+balance,"median year built (lots with units, unit-weighted)",outside,1948.0,year,
+balance,lots with any housing,outside,0.9236,share of lots,
+balance,cell parts with >= 2.5 lot acres: median units per lot acre,outside,28.6,units per acre (median over cell parts),445 cell parts
