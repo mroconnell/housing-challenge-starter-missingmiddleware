@@ -1,5 +1,7 @@
 # Policy Scenario Comparison
 
+**Parking reform is off the tool (owner, 2026-11-12, AQ-081).** It was studied but is not modelled, because every test reads "we can't tell". See [PARKING_STUDIED_NOT_MODELLED.md](parking/PARKING_STUDIED_NOT_MODELLED.md). The parking material below is kept for the record.
+
 Missing Middleware, Wisconsin, 2027–2031. Assembled 2026-10-27 from the three reform sessions' adopted results. Methods and assumptions are in the [Model & Assumptions Overview](MODEL_AND_ASSUMPTIONS.md).
 
 # Scenarios Addressed
