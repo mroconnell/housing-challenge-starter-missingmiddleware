@@ -471,3 +471,5 @@ These go to the audit before any count.
    - placebo dates −2 and −4, using the same through-origin fit on lead or shifted-date effects.
    
    The pre-trend label is on if any lead or placebo date excludes 0 under both methods.
+
+**Ryan (18:44:39 UTC, cmsg_01C3Z6G8h32D4UwCcjcGMM7qAjXUmwHMKrMBh5q7qdu7fz):** "Spokane, A" (2024 event with the C4 increment dose, 8.52; 2023 not used). "map licences, sure": the unlicensed city layers are allowed for derived coverage shares only (office-hours question 30). State-law prior and Albany OR are pending.
