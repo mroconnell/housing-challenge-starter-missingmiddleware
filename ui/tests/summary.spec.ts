@@ -65,7 +65,7 @@ for (const id of ["adu", "middle", "tod"]) {
     await expect(card.getByTestId("range-high")).toHaveText(num(r.R.high));
     await expect(card).toContainText("Low end");
     await expect(card).toContainText("High end");
-    await expect(card.getByTestId("range-unit")).toContainText("2027–2031 (90% range)");
+    await expect(card.getByTestId("range-unit")).toContainText("2027–2031 (projected range, 90%)");
     await expect(page.getByTestId("summary-how")).toContainText("How we count.");
     // only one row of links under the chart
     const links = page.getByTestId("summary-links").locator("a");

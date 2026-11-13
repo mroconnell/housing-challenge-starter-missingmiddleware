@@ -66,8 +66,8 @@ const MIDDLE_IN_OUT_ID = "middle-in-out";
 
 /** Words after each side line's value in the Summary's chart key (owner, 2026-11-11 20:41). */
 const SIDE_NOTES: Record<string, string> = {
-  "1_4": "(adds 1-unit homes such as split-lot homes and townhouses. Too noisy to include in predicted range because Census mixes them with ordinary single-family homes.)",
-  "1_6": "(the 1–4 unit figure plus our estimate for 5 and 6 unit buildings. Too noisy to include in predicted range because Census mixes 5 and 6 unit projects with all 5+ unit projects.)",
+  "1_4": "(adds 1-unit homes such as split-lot homes and townhouses. Too noisy to include in projected range because Census mixes them with ordinary single-family homes.)",
+  "1_6": "(the 1–4 unit figure plus our estimate for 5 and 6 unit buildings. Too noisy to include in projected range because Census mixes 5 and 6 unit projects with all 5+ unit projects.)",
 };
 
 /** The Summary: the shared component. Current law is homes in 2–4 unit buildings, the same unit as the range (owner,
@@ -111,24 +111,24 @@ function details(b: MiddleBundle): string {
   <p data-testid="mid-headline">${esc(s.headline)}</p>
   ${rangeCardHTML({ title: "Homes in 2–4 unit buildings, 2027–2031", range: R, baselineTotal: ALL_HOUSING_BASELINE_2027_2031, testid: "range-card", headingLevel: 3 })}
   <section class="card" aria-labelledby="h-mid-timing"><h3 id="h-mid-timing">Timing</h3>
-    <p>${esc(s.timing.label)}: ${num(R.low)} to ${num(R.high)}. ${esc(s.timing.toggle_off_label)}: <span data-testid="flat-range">${num(F.low)} to ${num(F.high)}</span> extra homes in 2–4 unit buildings over 2027–2031 (90% range).</p>
+    <p>${esc(s.timing.label)}: ${num(R.low)} to ${num(R.high)}. ${esc(s.timing.toggle_off_label)}: <span data-testid="flat-range">${num(F.low)} to ${num(F.high)}</span> extra homes in 2–4 unit buildings over 2027–2031 (projected range).</p>
     <p class="small muted">${esc(s.timing.note)}</p></section>
   <section class="card" aria-labelledby="h-mid-years"><h3 id="h-mid-years">Extra 2–4 unit homes each year</h3>
-    <div class="table-wrap"><table class="data" data-testid="compare-table"><caption>Extra homes in 2–4 unit buildings by year, 90% range, with each timing</caption>
+    <div class="table-wrap"><table class="data" data-testid="compare-table"><caption>Extra homes in 2–4 unit buildings by year, projected range, with each timing</caption>
       <thead><tr><th scope="col">Year</th><th scope="col" class="num">${esc(s.timing.label)}: low end</th><th scope="col" class="num">${esc(s.timing.label)}: high end</th><th scope="col" class="num">${esc(s.timing.toggle_off_label)}: low end</th><th scope="col" class="num">${esc(s.timing.toggle_off_label)}: high end</th></tr></thead>
       <tbody>${R.years.map((y, i) => `<tr><th scope="row">${y.year}</th>${row(y)}${row(F.years[i])}</tr>`).join("")}
       <tr><th scope="row">2027–2031</th><td class="num" data-testid="table-range-low">${num(R.low)}</td><td class="num" data-testid="table-range-high">${num(R.high)}</td><td class="num">${num(F.low)}</td><td class="num">${num(F.high)}</td></tr></tbody></table></div>
     <p class="small muted">${esc(R.years_method ?? "")} Yearly rows may not add exactly to the totals because of rounding.</p></section>
-  <section class="card" aria-labelledby="h-mid-side"><h3 id="h-mid-side">Comparison scenarios</h3>${sideLinesHTML(chartLines, "extra homes, 2027–2031", "side-lines", "All but the last are drawn on the Summary chart; the all-building-sizes scenario is far above its scale. None changes the 90% range.")}</section>`;
+  <section class="card" aria-labelledby="h-mid-side"><h3 id="h-mid-side">Comparison scenarios</h3>${sideLinesHTML(chartLines, "extra homes, 2027–2031", "side-lines", "All but the last are drawn on the Summary chart; the all-building-sizes scenario is far above its scale. None changes the projected range.")}</section>`;
 }
 
 function where(b: MiddleBundle, main: HTMLElement): void {
   const top = [...b.areas].sort((a, c) => c.sf_homes - a.sf_homes).slice(0, 25);
   main.innerHTML = `
   <h1>Where the extra homes would be</h1>
-  <p class="lede">Every place gets the same measured rate per single-family home, so each place's range is the statewide 90% range times its share of Wisconsin's single-family homes. Nothing here is measured place by place.</p>
+  <p class="lede">Every place gets the same measured rate per single-family home, so each place's range is the statewide projected range times its share of Wisconsin's single-family homes. Nothing here is measured place by place.</p>
   <section class="card"><h2>25 places with the most single-family homes</h2><div class="table-wrap"><table class="data">
-    <caption class="sr-only">Extra 2–4 unit homes, 2027–2031, 90% range, by place</caption>
+    <caption class="sr-only">Extra 2–4 unit homes, 2027–2031, projected range, by place</caption>
     <thead><tr><th scope="col">Place</th><th scope="col" class="num">Single-family homes</th><th scope="col" class="num">Low end</th><th scope="col" class="num">High end</th></tr></thead>
     <tbody>${top.map((a) => `<tr><th scope="row">${esc(a.name)}</th><td class="num">${int(a.sf_homes)}</td><td class="num">${num(a.lower)}</td><td class="num">${num(a.upper)}</td></tr>`).join("")}</tbody></table></div>
     <p class="small muted">${b.areas.length.toLocaleString("en-US")} places in all. Single-family homes from ACS 2020–2024 (detached and attached).</p></section>`;
@@ -165,9 +165,9 @@ function howSure(b: MiddleBundle, main: HTMLElement): void {
   const w = middleWhatIfs(b);
   main.innerHTML = `
   <h1>How sure we are</h1>
-  <p class="lede">90% range for 2–4 unit homes: ${num(R.low)} to ${num(R.high)} extra homes over 2027–2031. ${esc(R.coverage)}</p>
+  <p class="lede">Projected range (90%) for 2–4 unit homes: ${num(R.low)} to ${num(R.high)} extra homes over 2027–2031. ${esc(R.coverage)}</p>
   ${howSureChartsHTML({ prefix: "mid", unit: "Extra homes in 2–4 unit buildings, 2027–2031", range: R,
-    pivot: w.pivot, pivotName: "as used (measured slow start)", pivotLabel: `The number the 90% range is built on: ${num(w.pivot)} (the four-state result)`,
+    pivot: w.pivot, pivotName: "as used (measured slow start)", pivotLabel: `The number the projected range is built on: ${num(w.pivot)} (the four-state result)`,
     inputs: w.inputs, others: w.others })}
   <section class="card"><h2>Possibilities beyond what was measured</h2>${sideLinesHTML(hs, "extra homes, 2027–2031", "howsure-lines")}</section>
   <section class="card"><h2>Notes</h2><ul class="plain"><li data-testid="building-count-note">${esc(BUILDING_COUNT_NOTE)}</li>${b.howsure.notes.map((n) => `<li>${esc(n)}</li>`).join("")}</ul></section>

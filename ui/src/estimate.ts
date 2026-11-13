@@ -5,7 +5,7 @@ import { esc, int } from "./format";
 import { HOW_WE_COUNT, type ReformKey } from "./howwecount";
 import { num } from "./range";
 
-export const ESTIMATE_TITLE = "The estimate, 2027–2031 (90% range)";
+export const ESTIMATE_TITLE = "Projected range, 2027–2031 (90%)";
 
 /** A range that dips below zero shows a sign on both ends (minus and plus); otherwise plain whole numbers. */
 function ends(low: number, high: number): [string, string] {

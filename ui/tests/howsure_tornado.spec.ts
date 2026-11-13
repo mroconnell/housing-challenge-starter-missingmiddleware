@@ -41,11 +41,11 @@ for (const c of CASES) {
     // both charts come before every other card on the page, and before Details
     const card = page.getByTestId(`${c.prefix}-whatifs`);
     expect(await card.evaluate((el) => !el.previousElementSibling || el.previousElementSibling.matches("h1, p.lede"))).toBe(true);
-    await expect(card.getByRole("heading", { name: "What moves the estimate: model inputs" })).toBeVisible();
+    await expect(card.getByRole("heading", { name: "What moves the projected range: model inputs" })).toBeVisible();
     await expect(card.getByRole("heading", { name: "Other ways to estimate it" })).toBeVisible();
     // the pivot: its plain label and value
     const pv = page.getByTestId(`${c.prefix}-pivot`);
-    await expect(pv).toHaveText(`The number the 90% range is built on: ${fmt(pivot)} ${c.pivotWords}`);
+    await expect(pv).toHaveText(`The number the projected range is built on: ${fmt(pivot)} ${c.pivotWords}`);
     expect(Number(await pv.getAttribute("data-value"))).toBeCloseTo(pivot, 6);
     // rows sorted by swing, largest first (the flat rows, swing 0, come last)
     const swings = (await inputs.locator("[data-swing]").evaluateAll((els) => els.map((e) => Number(e.getAttribute("data-swing")))));

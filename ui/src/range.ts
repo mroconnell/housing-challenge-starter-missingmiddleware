@@ -37,7 +37,7 @@ export function num(v: number): string {
 /** Visible names for the side lines (owner, 2026-11-12, after Terner Center, Brookings, AEI and Pew): "comparison
  *  scenarios". Internal ids, field names (side_lines) and CSS classes keep the old name. */
 export const SCENARIOS_HEADING = "Comparison scenarios";
-export const SCENARIOS_NOTE = "Real cases and other estimates, shown for comparison. None of them is the estimate; they do not change the 90% range.";
+export const SCENARIOS_NOTE = "Real cases and other estimates, shown for comparison. Some use the same data as our projected range. Showing or hiding them does not change the range.";
 /** A side line's number: one value, or its own low to high. */
 export function sideValue(s: SideLine): string {
   return s.value !== undefined ? num(s.value) : `${num(s.low!)} to ${num(s.high!)}`;
@@ -58,7 +58,7 @@ export function rangeCardHTML(o: { title: string; range: Range90; baselineTotal:
     <p class="range-ends"><span class="range-end"><span class="range-end-label">Low end</span><span class="range-end-num" data-testid="range-low">${num(R.low)}</span></span>
       <span class="range-to" aria-hidden="true">to</span>
       <span class="range-end"><span class="range-end-label">High end</span><span class="range-end-num" data-testid="range-high">${num(R.high)}</span></span></p>
-    <p class="range-unit" data-testid="range-unit">${esc(R.unit)} (90% range)</p>
+    <p class="range-unit" data-testid="range-unit">${esc(R.unit)} (projected range)</p>
     ${o.scopeNote ? `<p class="small"><strong>${esc(o.scopeNote)}</strong></p>` : ""}
     <ul class="plain small range-shares" data-testid="range-shares">
       <li>Low end: ${shareOf(R.low)}.</li>
@@ -115,7 +115,7 @@ export function drawRangeChart(container: HTMLElement, o: {
   xyChart(container, {
     title: o.title,
     desc: `${extra ? `Current law is the zero line. ` : `Current law: ${int(sum(o.base.central))} ${o.noun} over 2027–2031 (range ${int(sum(o.base.low))} to ${int(sum(o.base.high))}), shaded grey. `}`
-      + `The law's 90% range, shaded green: ${num(R.low)} to ${num(R.high)} extra ${o.noun} over 2027–2031${extra ? "" : ", on top of current law"}. `
+      + `The law's projected range, shaded green: ${num(R.low)} to ${num(R.high)} extra ${o.noun} over 2027–2031${extra ? "" : ", on top of current law"}. `
       + `Comparison scenarios over 2027–2031: ${o.sideLines.filter((s) => s.value !== undefined).map((s) => `${s.label} ${num(s.value!)}`).join("; ")}. No centre line is drawn. The table below has the yearly values.`,
     yLabel: o.yLabel, xTicks: o.xTicks ?? yrs, xPad: 0.4, yFormat: o.yFormat, vline: o.vline, height: o.height, onDraw: o.onDraw,
     bands, series,
@@ -124,7 +124,7 @@ export function drawRangeChart(container: HTMLElement, o: {
     ...(extra ? [{ name: "Current law: the zero line", color: CURRENT_LAW_COLOR, dash: "7 5" }] : [
       { name: "Current law (range shaded grey)", color: CURRENT_LAW_COLOR, dash: "7 5" },
     ]),
-    { name: `With the law: 90% range, ${num(R.low)} to ${num(R.high)} extra ${o.noun}, 2027–2031${extra ? "" : " (on top of current law)"}`, color: BAND_COLOR, kind: "band" as const },
+    { name: `With the law: projected range, ${num(R.low)} to ${num(R.high)} extra ${o.noun}, 2027–2031${extra ? "" : " (on top of current law)"}`, color: BAND_COLOR, kind: "band" as const },
     ...o.sideLines.filter((s) => s.value !== undefined).map((s, i) => ({ name: `${s.label}: ${num(s.value!)} over 2027–2031`, color: sideStyle(i).color, dash: sideStyle(i).dash, width: 1.5 })),
   ]);
 }
@@ -136,8 +136,8 @@ export function againstBandHTML(rows: { label: string; value: number }[], R: Ran
   const min = scale?.min ?? lo, max = scale?.max ?? hi;
   const P = (x: number) => ((x - min) / (max - min || 1)) * 100;
   const inside = (v: number) => v >= R.low && v <= R.high;
-  const name = `${unit}. The 90% range, ${num(R.low)} to ${num(R.high)}, is shaded. ` + rows.map((r) => `${r.label}: ${num(r.value)}${inside(r.value) ? "" : " (outside the range)"}`).join("; ");
-  const label = name.length <= 800 ? name : `${unit}, ${rows.length} what-ifs against the 90% range ${num(R.low)} to ${num(R.high)}; every value is in the table below.`;
+  const name = `${unit}. The projected range, ${num(R.low)} to ${num(R.high)}, is shaded. ` + rows.map((r) => `${r.label}: ${num(r.value)}${inside(r.value) ? "" : " (outside the range)"}`).join("; ");
+  const label = name.length <= 800 ? name : `${unit}, ${rows.length} what-ifs against the projected range ${num(R.low)} to ${num(R.high)}; every value is in the table below.`;
   return `<div class="vs-band" role="img" aria-label="${esc(label)}" data-testid="${esc(testid)}">${rows.map((r) => `<div class="vs-row" aria-hidden="true"><span class="vs-label">${esc(r.label)}</span><span class="vs-track"><span class="vs-band-fill" style="left:${P(R.low)}%;width:${P(R.high) - P(R.low)}%"></span><span class="vs-zero" style="left:${P(0)}%"></span><span class="vs-bar" style="left:${Math.min(P(0), P(r.value))}%;width:${Math.abs(P(r.value) - P(0))}%"></span><span class="vs-dot${inside(r.value) ? "" : " out"}" style="left:${P(r.value)}%"></span></span><span class="vs-val">${num(r.value)}${inside(r.value) ? "" : " <span class=\"vs-out\">outside</span>"}</span></div>`).join("")}</div>`;
 }
 export function againstBandScale(R: Range90, values: number[]): { min: number; max: number } {

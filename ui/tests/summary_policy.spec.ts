@@ -42,7 +42,7 @@ async function modeled(page: Page, id: string): Promise<string[]> {
 // Owner 2026-11-11 20:05 (ADU) and 20:23 (all four): "The policy" holds only the owner's text; no opening sentence;
 // what we modeled and the handbook's benchmark sit in one card under the chart, before the row of links. On wide
 // screens "The policy" and the range card share one row (20:21).
-const ADU_POLICY = "Allowing one 600+ sq. ft. ADU (detached or semi-detached) on parcels with existing single-family buildings. No additional parking is required. No owner-occupant requirement.";
+const ADU_POLICY = "Allowing one ADU (detached or semi-detached) on parcels with existing single-family buildings. Cities must allow ADUs of up to at least 600 sq ft. No additional parking is required. No owner-occupant requirement.";
 
 /** The owner's policy text for each reform; TOD's numbers are read from its bundle's district fields. */
 async function policyText(page: Page, id: string): Promise<string> {
@@ -310,15 +310,15 @@ const HEADING: Record<string, string> = {
 };
 
 for (const id of ["adu", "middle", "tod"]) {
-  test(`${id} Summary: "Our estimate is between:", the chart heading, and comparison scenarios show / hide`, async ({ page }) => {
+  test(`${id} Summary: "Projected range:", the chart heading, and comparison scenarios show / hide`, async ({ page }) => {
     await page.goto(`#${PRE[id]}/summary?show=totals`);
     const card = page.getByTestId("summary-range");
     await expect(card.getByRole("heading")).toHaveCount(0);
     await expect(page.locator("main")).not.toContainText("The 90% range, 2027–2031");
-    await expect(card.locator(".range-lead")).toHaveText("Our estimate is between:");
+    await expect(card.locator(".range-lead")).toHaveText("Projected range:");
     await expect(card).toContainText("Low end");
     await expect(card).toContainText("High end");
-    await expect(card.getByTestId("range-unit")).toContainText("(90% range)");
+    await expect(card.getByTestId("range-unit")).toContainText("(projected range, 90%)");
     await expect(page.locator("#sum-chart-h")).toHaveText(HEADING[id]);
     // side lines: shown by default, hidden with lines=off; the band, current law and their legend entries stay
     const svg = page.locator("#sum-chart svg");
@@ -327,7 +327,7 @@ for (const id of ["adu", "middle", "tod"]) {
     // owner 2026-11-12: visible name "comparison scenarios" (Terner Center, Brookings, AEI, Pew); the toggle is "Scenarios: Show / Hide"
     await expect(lines.locator("legend")).toHaveText("Scenarios");
     await expect(page.getByTestId("summary-scenarios-h")).toHaveText("Comparison scenarios");
-    await expect(page.getByTestId("summary-scenarios-note")).toHaveText("Real cases and other estimates, shown for comparison. None of them is the estimate; they do not change the 90% range.");
+    await expect(page.getByTestId("summary-scenarios-note")).toHaveText("Real cases and other estimates, shown for comparison. Some use the same data as our projected range. Showing or hiding them does not change the range.");
     await expect(page.locator("main")).not.toContainText(/side lines?|lines across the range/i);
     expect(await svg.locator('path[data-series^="side-"]').count()).toBeGreaterThan(0);
     await lines.getByLabel("Hide").check();
@@ -341,7 +341,7 @@ for (const id of ["adu", "middle", "tod"]) {
     const legend = page.getByTestId("summary-legend");
     await expect(legend.locator("li")).toHaveCount(2);
     await expect(legend).toContainText("Current law");
-    await expect(legend).toContainText("With the law: 90% range");
+    await expect(legend).toContainText("With the law: projected range");
     await page.reload();
     await expect(page.getByTestId("toggle-lines").getByLabel("Hide")).toBeChecked();
     await page.getByTestId("toggle-lines").getByLabel("Show").check();
@@ -358,7 +358,7 @@ test("ADU Summary legend: the owner's labels, numbers from the bundle, no Typica
   const items = page.getByTestId("summary-legend").locator("li");
   await expect(items).toHaveText([
     "Current law (ADU permits without statewide reform)",
-    `With the law: 90% range, ${n(st.range90.low)} to ${n(st.range90.high)} extra ADU permits (on top of current law)`,
+    `With the law: projected range, ${n(st.range90.low)} to ${n(st.range90.high)} extra ADU permits (on top of current law)`,
     `Median path of the 8 statewide-law states: ${n(v("median8"))}`,
     `Like OR & RI (lowest statewide adoption): ${n(v("slow2"))}`,
     `Like CA (highest statewide adoption): ${n(v("like_california"))}`,
@@ -373,7 +373,7 @@ test("ADU Summary legend: the owner's labels, numbers from the bundle, no Typica
   const typ = (st.side_lines as { id: string; label: string }[]).find((s) => s.id === "typical")!;
   await page.goto("#/how-sure");
   await expect(page.getByTestId("summary-hidden-lines")).toContainText(`${typ.label}: ${n(v("typical"))}`);
-  await expect(page.getByTestId("summary-hidden-lines")).toContainText("The 90% range is built around typical adoption.");
+  await expect(page.getByTestId("summary-hidden-lines")).toContainText("The projected range is built around typical adoption.");
 });
 
 // Summary chart key (owner, 2026-11-11 20:37): one item per row at every width, every swatch the same width, so every

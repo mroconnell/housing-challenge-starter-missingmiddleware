@@ -151,7 +151,7 @@ test("brief carries the headline numbers", async ({ page }) => {
   const b = await bundle(page);
   await page.goto("#/brief");
   await expect(page.getByTestId("brief-headline")).toContainText(`${fmt(b.state.range90.low)} to ${fmt(b.state.range90.high)}`);
-  await expect(page.getByTestId("brief-headline")).toContainText("90% range");
+  await expect(page.getByTestId("brief-headline")).toContainText("projected range");
   const t = page.getByTestId("brief-table");
   for (const s of b.state.scenarios) await expect(t).toContainText(fmt(s.additional_total));
   await expect(page.locator(".brief")).toContainText(b.run_id);
@@ -184,7 +184,7 @@ test("chart key, tables and brief use the bundle's labels", async ({ page }) => 
   const L = b.state.labels;
   await page.goto("#/summary");
   const legend = page.getByTestId("summary-legend");
-  await expect(legend).toContainText("90% range");
+  await expect(legend).toContainText("projected range");
   // the Summary chart's own ADU labels (display only, owner 2026-11-11); "typical" is left off the chart
   const own: Record<string, string> = { median8: "Median path of the 8 statewide-law states", slow2: "Like OR & RI (lowest statewide adoption)", like_california: "Like CA (highest statewide adoption)" };
   for (const s of b.state.side_lines.filter((x: { where: string; id: string }) => x.where === "chart" && x.id !== "typical")) await expect(legend).toContainText(own[s.id] ?? s.label);
@@ -444,9 +444,9 @@ test("ADU How sure and Where carry the 90% range, its coverage note and the How-
 test("Where map key: its title states what is mapped and the unit, and follows Show and Measure (owner 2026-11-11)", async ({ page }) => {
   await page.goto("#/where");
   const t = page.getByTestId("map-legend-title");
-  await expect(t).toHaveText("ADU permits added by the law, 2027–2031, low end of the 90% range (per area)");
+  await expect(t).toHaveText("ADU permits added by the law, 2027–2031, low end of the projected range (per area)");
   await page.getByRole("radio", { name: "Per 1,000 homes per year" }).check();
-  await expect(t).toHaveText("ADU permits added by the law, 2027–2031, low end of the 90% range, per 1,000 single-family homes per year");
+  await expect(t).toHaveText("ADU permits added by the law, 2027–2031, low end of the projected range, per 1,000 single-family homes per year");
   await page.getByRole("radio", { name: "Permits", exact: true }).check();
   await expect(t).toContainText("(per area)");
   await page.getByRole("radio", { name: "Baseline growth" }).check();

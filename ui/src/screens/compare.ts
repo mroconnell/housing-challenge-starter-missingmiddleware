@@ -34,7 +34,7 @@ function whyDiffer(ctx: Ctx, totalCtx: number, homesCtx: number): string {
 /** The ADU range card and its chart side lines (shared with the brief and How sure). */
 export const ADU_SCOPE = "These are ADU permits: second homes on single-family lots, not all homes.";
 export function aduRangeCard(ctx: Ctx, headingLevel: 2 | 3 = 2, testid = "range-card"): string {
-  return rangeCardHTML({ title: "Extra ADU permits from the law: the 90% range", range: ctx.b.state.range90, baselineTotal: ALL_HOUSING_BASELINE_2027_2031, scopeNote: ADU_SCOPE, testid, headingLevel, caveatInCard: false });
+  return rangeCardHTML({ title: "Extra ADU permits from the law: the projected range (90%)", range: ctx.b.state.range90, baselineTotal: ALL_HOUSING_BASELINE_2027_2031, scopeNote: ADU_SCOPE, testid, headingLevel, caveatInCard: false });
 }
 
 /** The former Statewide comparison, now How sure's "Details" (owner, 2026-11-11): the range card, the side lines, the
@@ -56,16 +56,16 @@ export function aduDetailsHTML(ctx: Ctx): string {
   <section class="card" aria-labelledby="h-side">
     <h3 id="h-side">Comparison scenarios</h3>
     ${sideLinesHTML(chartLines, "ADU permits over 2027–2031", "side-lines", "Drawn on the Summary chart. Scenarios can sit outside the range; they do not change it.")}
-    ${offSummary.length ? sideLinesHTML(offSummary, "ADU permits over 2027–2031", "summary-hidden-lines", "Listed here, not drawn on the Summary chart (owner, 2026-11-11). The 90% range is built around typical adoption.") : ""}
-    ${sideLinesHTML(s.side_lines.filter((x) => x.where === "howsure"), "ADU permits over 2027–2031", "howsure-side-lines", "Shown here only, not on the chart. None changes the 90% range.")}
+    ${offSummary.length ? sideLinesHTML(offSummary, "ADU permits over 2027–2031", "summary-hidden-lines", "Listed here, not drawn on the Summary chart (owner, 2026-11-11). The projected range is built around typical adoption.") : ""}
+    ${sideLinesHTML(s.side_lines.filter((x) => x.where === "howsure"), "ADU permits over 2027–2031", "howsure-side-lines", "Shown here only, not on the chart. None changes the projected range.")}
     ${rangeCaveatHTML(R)}
   </section>
 
   <section class="card" aria-labelledby="h-tbl">
     <h3 id="h-tbl">Permits by year</h3>
-    <p class="summary" data-testid="compare-summary">Over 2027–2031, the law adds <strong>${num(R.low)} to ${num(R.high)}</strong> ADU permits (90% range) on top of <strong>${int(base.total)}</strong> without statewide reform (range ${int(base.low_total)} to ${int(base.high_total)}).</p>
+    <p class="summary" data-testid="compare-summary">Over 2027–2031, the law adds <strong>${num(R.low)} to ${num(R.high)}</strong> ADU permits (projected range) on top of <strong>${int(base.total)}</strong> without statewide reform (range ${int(base.low_total)} to ${int(base.high_total)}).</p>
     <div class="table-wrap">
-    <table class="data" data-testid="compare-table"><caption>Second-home (ADU) permits by year: current law, and the law's extra permits as a 90% range</caption>
+    <table class="data" data-testid="compare-table"><caption>Second-home (ADU) permits by year: current law, and the law's extra permits as a projected range</caption>
       <thead><tr><th scope="col">Year</th><th scope="col" class="num">${esc(L.baseline)}</th><th scope="col" class="num">Current law: low</th><th scope="col" class="num">Current law: high</th><th scope="col" class="num">Extra with the law: low end</th><th scope="col" class="num">Extra with the law: high end</th></tr></thead>
       <tbody>${YEARS.map((y, i) => `<tr><th scope="row">${y}</th><td class="num">${int(base.by_year[i])}</td><td class="num">${int(base.low_by_year[i])}</td><td class="num">${int(base.high_by_year[i])}</td><td class="num">${int(R.years[i].low)}</td><td class="num">${int(R.years[i].high)}</td></tr>`).join("")}</tbody>
       <tfoot><tr><th scope="row">2027–2031</th><td class="num">${int(base.total)}</td><td class="num">${int(base.low_total)}</td><td class="num">${int(base.high_total)}</td><td class="num" data-testid="table-range-low">${num(R.low)}</td><td class="num" data-testid="table-range-high">${num(R.high)}</td></tr></tfoot>
@@ -76,7 +76,7 @@ export function aduDetailsHTML(ctx: Ctx): string {
       <thead><tr><th scope="col">Year</th><th scope="col" class="num">${esc(L.baseline)}</th><th scope="col" class="num">Extra with the law: low end</th><th scope="col" class="num">Extra with the law: high end</th></tr></thead>
       <tbody>${YEARS.map((y, i) => `<tr><th scope="row">${y}</th><td class="num">${dec(base.by_year[i] / homesK)}</td><td class="num">${dec(R.years[i].low / homesK)}</td><td class="num">${dec(R.years[i].high / homesK)}</td></tr>`).join("")}</tbody></table></div>`)}
     ${details("How the range and the comparison scenarios are made", `<ul class="plain small" data-testid="scenario-method">
-      <li><strong>The 90% range.</strong> ${esc(R.method)} ${esc(R.coverage)}</li>
+      <li><strong>The projected range.</strong> ${esc(R.method)} ${esc(R.coverage)}</li>
       ${s.side_lines.filter((x) => x.where === "chart").map((x) => `<li><strong>${esc(x.label)}.</strong> ${esc(x.note)}</li>`).join("")}
       <li><strong>The law never subtracts.</strong> ${esc(ctx.b.manifest.terms.never_subtracts ?? "")}</li>
       <li><strong>Madison.</strong> ${esc(ctx.b.areas.munis.find((a) => a.note)?.note ?? "")} See <a href="${ctx.link("/pilot/madison")}">the Madison pilot</a>.</li></ul>
@@ -85,9 +85,9 @@ export function aduDetailsHTML(ctx: Ctx): string {
 
   <section class="card" aria-labelledby="h-ctx">
     <h3 id="h-ctx">By type of place</h3>
-    <p class="muted">Extra ADU permits over 2027–2031 by type of place. Each type's range is the statewide 90% range times its fixed share of the statewide addition.</p>
+    <p class="muted">Extra ADU permits over 2027–2031 by type of place. Each type's range is the statewide projected range times its fixed share of the statewide addition.</p>
     <div class="table-wrap"><table class="data" data-testid="context-table"><caption class="sr-only">Extra permits by type of place</caption>
-      <thead><tr><th scope="col">Type of place</th><th scope="col" class="num">Single-family homes</th><th scope="col" class="num">Share of homes</th><th scope="col" class="num">${esc(L.baseline)}</th><th scope="col" class="num">Share of the extra permits</th><th scope="col" class="num">Extra permits, 90% range</th></tr></thead>
+      <thead><tr><th scope="col">Type of place</th><th scope="col" class="num">Single-family homes</th><th scope="col" class="num">Share of homes</th><th scope="col" class="num">${esc(L.baseline)}</th><th scope="col" class="num">Share of the extra permits</th><th scope="col" class="num">Extra permits, projected range</th></tr></thead>
       <tbody>${s.contexts.map((c) => { const sh = c.additional_central / totalCtx; return `<tr><th scope="row">${esc(c.label)}</th><td class="num">${int(c.homes)}</td><td class="num">${pct(c.homes / homesCtx)}</td><td class="num">${int(c.baseline)}</td><td class="num">${pct(sh)}</td><td class="num">${int(sh * R.low)} to ${int(sh * R.high)}</td></tr>`; }).join("")}</tbody>
       <tfoot><tr><th scope="row">Wisconsin</th><td class="num">${int(homesCtx)}</td><td class="num">100%</td><td class="num">${int(base.total)}</td><td class="num">100%</td><td class="num">${num(R.low)} to ${num(R.high)}</td></tr></tfoot>
     </table></div>
@@ -103,8 +103,8 @@ const ADU_SUMMARY_LABELS: Record<string, string> = {
   like_california: "Like CA (highest statewide adoption)",
 };
 /** Side lines left off the Summary chart (owner, 2026-11-11); still listed on How sure → Details. */
-/** "The policy" on the ADU Summary: the owner's text, word for word (2026-11-11 20:05). */
-export const ADU_POLICY_TEXT = "Allowing one 600+ sq. ft. ADU (detached or semi-detached) on parcels with existing single-family buildings. No additional parking is required. No owner-occupant requirement.";
+/** "The policy" on the ADU Summary: the owner's text (2026-11-11 20:05); size sentence reworded with the owner's OK (2026-11-13). */
+export const ADU_POLICY_TEXT = "Allowing one ADU (detached or semi-detached) on parcels with existing single-family buildings. Cities must allow ADUs of up to at least 600 sq ft. No additional parking is required. No owner-occupant requirement.";
 const ADU_SUMMARY_HIDDEN = new Set(["typical"]);
 
 /** The ADU Summary: the shared Summary component fed from the ADU bundle. */

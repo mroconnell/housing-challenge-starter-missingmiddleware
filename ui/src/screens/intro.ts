@@ -71,9 +71,9 @@ export function renderIntro(main: HTMLElement, n: IntroNumbers): void {
     <h2 id="intro-see-h">What you'll see</h2>
     <ul class="intro-see">
       <li>How many permits we expect from each reform, with a low and high end.</li>
-      <li>Comparison scenarios plotted across the timeline, in addition to our estimate.</li>
+      <li>Comparison scenarios plotted across the timeline, in addition to our projected range.</li>
       <li>A map showing where the extra homes might go across Wisconsin.</li>
-      <li>Sensitivity charts that show the biggest factors in our estimate, and charts that show how other ways of estimating compare.</li>
+      <li>Sensitivity charts that show the biggest factors in our projected range, and charts that show how other ways of estimating compare.</li>
     </ul>
     ${introCarouselHTML()}
   </section>
@@ -82,7 +82,7 @@ export function renderIntro(main: HTMLElement, n: IntroNumbers): void {
     <h2 id="intro-how-h">How we got there</h2>
     <ol class="intro-steps">
       <li data-testid="intro-step-1"><strong>Pick a state.</strong> <span class="intro-state" data-testid="intro-state">Wisconsin</span></li>
-      <li data-testid="intro-step-2"><strong>Set a baseline in Wisconsin.</strong> We estimate what the state would permit under current law. For Wisconsin that is about <span data-testid="intro-baseline">${int(b.central)}</span> homes over 2027–2031 (90% range <span data-testid="intro-baseline-range">${int(b.low)} to ${int(b.high)}</span>). <a href="${L.today}" data-testid="intro-link-today">Wisconsin Today</a></li>
+      <li data-testid="intro-step-2"><strong>Set a baseline in Wisconsin.</strong> We estimate what the state would permit under current law. For Wisconsin that is about <span data-testid="intro-baseline">${int(b.central)}</span> homes over 2027–2031 (projected range, 90%: <span data-testid="intro-baseline-range">${int(b.low)} to ${int(b.high)}</span>). <a href="${L.today}" data-testid="intro-link-today">Wisconsin Today</a></li>
       <li data-testid="intro-step-3"><strong>Define the proposed policies.</strong>
         <ul class="intro-reform-links" aria-label="The modelled law for each reform">
           <li><a href="${L.adu}" data-testid="intro-link-adu">ADU reform<span class="sr-only">: the modelled law and what it adds</span></a></li>

@@ -48,7 +48,7 @@ function mount(env: ShellEnv, data: unknown): MountedReform {
       // range's low and high multipliers), as on the How sure tiles.
       const R = b.state.range90, typ = ctx.scen("central").additional_total, lo = R.low / typ, hi = R.high / typ;
       const add = v.additional_total.central;
-      ctx.announce(`Places with uncoded rules treated ${v.label.toLowerCase()}. Over 2027 to 2031: ${int(v.baseline_total)} permits without the law; the law adds ${int(add * lo)} to ${int(add * hi)} permits (90% range); ${int(v.baseline_total + add * lo)} to ${int(v.baseline_total + add * hi)} permits in total with the law.`);
+      ctx.announce(`Places with uncoded rules treated ${v.label.toLowerCase()}. Over 2027 to 2031: ${int(v.baseline_total)} permits without the law; the law adds ${int(add * lo)} to ${int(add * hi)} permits (projected range); ${int(v.baseline_total + add * lo)} to ${int(v.baseline_total + add * hi)} permits in total with the law.`);
     },
     setSpread(s: Spread) {
       ui.spread = s;
