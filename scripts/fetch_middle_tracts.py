@@ -66,12 +66,13 @@ def main() -> None:
         "acsdt5y2024-b25127.dat", man)
     get("https://www2.census.gov/programs-surveys/acs/summary_file/2024/table-based-SF/documentation/Geos20245YR.txt",
         "Geos20245YR.txt", man)
+    get("https://api.census.gov/data/2024/acs/acs5/groups/B25127.json?", "B25127_labels.json", man)
     get("https://www2.census.gov/geo/docs/maps-data/data/rel/trf_txt/us2010trf.txt", "us2010trf.txt", man)
     get("https://www2.census.gov/geo/docs/maps-data/data/rel2020/tract/tab20_tract20_tract10_natl.txt",
         "tab20_tract20_tract10_natl.txt", man)
     for st in STATES:
-        get(f"https://api.census.gov/data/2000/dec/sf3?get=H030001,H030004,H030005&for=tract:*&in=state:{st}&in=county:*",
-            f"sf3_2000_h030_{st}.json", man, api=True)
+        get(f"https://api.census.gov/data/2000/dec/sf3?get=H032001,H032005,H032006,H032016,H032017&for=tract:*&in=state:{st}&in=county:*",
+            f"sf3_2000_h032_{st}.json", man, api=True)
         get(f"https://www2.census.gov/geo/docs/maps-data/data/baf2020/BlockAssign_ST{st}_{ABBR[st]}.zip",
             f"BlockAssign_ST{st}_{ABBR[st]}.zip", man)
         cp = get(f"https://api.census.gov/data/2020/dec/pl?get=NAME&for=county:*&in=state:{st}", f"pl_counties_{st}.json", man, api=True)
