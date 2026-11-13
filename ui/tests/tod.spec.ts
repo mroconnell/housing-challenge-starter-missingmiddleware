@@ -179,10 +179,12 @@ test("TOD styles leave the ADU Where sort headers unchanged", async ({ page }) =
   await expect(btn).toBeVisible();
   // the Where table re-renders once its data loads; read the style after it settles (poll), not mid-render
   const read = () => btn.evaluate((e) => { const s = getComputedStyle(e); return { pad: s.paddingTop, display: s.display, width: e.getBoundingClientRect().width, th: e.parentElement!.getBoundingClientRect().width }; });
-  await expect.poll(async () => (await read()).pad).toBe("8px");
-  const st = await read();
-  expect(st.display).toBe("block");
-  expect(Math.abs(st.width - st.th)).toBeLessThan(20);
+  // check all three in one poll: a later re-render can detach the button between two reads, and a
+  // detached button reports display "" (CI run 43454731895)
+  await expect.poll(async () => {
+    const s = await read();
+    return { pad: s.pad, display: s.display, fillsHeader: Math.abs(s.width - s.th) < 20 };
+  }).toEqual({ pad: "8px", display: "block", fillsHeader: true });
 });
 
 test("an unknown TOD pilot shows a not-found message", async ({ page }) => {
