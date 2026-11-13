@@ -264,8 +264,13 @@ type Level = "place" | "county" | "assembly" | "senate";
 const LEVELS: [Level, string][] = [["place", "Cities, villages and towns"], ["county", "Counties"], ["assembly", "Assembly districts"], ["senate", "Senate districts"]];
 const VIEWS: [string, string][] = [["milwaukee", "Milwaukee area"], ["madison", "Madison area"], ["kenosha", "Kenosha"]];
 
+/** Where page scenario names (owner, 2026-11-13): numbered 1–3 in SCEN_IDS order (rezoned lots only, then the
+ *  11-place average, then scaled to 15%); each toggle shows its statewide total from the bundle, and keeps the full
+ *  scenario name as its accessible name. */
+const WHERE_NAMES: Record<ScenId, string> = { little: "rezoned lots only", typical: "the 11-place average", strong: "scaled to 15%" };
+const whereNo = (id: ScenId): string => `Scenario ${SCEN_IDS.indexOf(id) + 1}`;
 function scenRadios(b: TodBundle, name: string, current: ScenId): string {
-  return `<fieldset class="seg"><legend>Scenario</legend>${SCEN_IDS.map((id) => `<label><input type="radio" name="${name}" value="${id}" ${current === id ? "checked" : ""}> ${esc(scen(b, id).label)}</label>`).join("")}</fieldset>`;
+  return `<fieldset class="seg"><legend>Scenario</legend>${SCEN_IDS.map((id) => `<label><input type="radio" name="${name}" value="${id}" ${current === id ? "checked" : ""} aria-label="${esc(`${whereNo(id)}, ${WHERE_NAMES[id]}: ${int(scen(b, id).additional_total)} extra homes`)}"> ${esc(whereNo(id))} (${int(scen(b, id).additional_total)} extra homes)</label>`).join("")}</fieldset>`;
 }
 
 export function where(b: TodBundle, env: ShellEnv, params: URLSearchParams, main: HTMLElement): void {
@@ -290,7 +295,7 @@ export function where(b: TodBundle, env: ShellEnv, params: URLSearchParams, main
   rows.sort((a, z) => { const x = val(a), y = val(z); const c = typeof x === "string" ? x.localeCompare(y as string) : (x as number) - (y as number); return dir === "asc" ? c : -c; });
   const cols: [string, string, boolean][] = [["name", level === "place" ? "Place" : level === "county" ? "County" : "District", false]];
   if (level === "place") cols.push(["homes", "Homes near stops", true]);
-  cols.push(["baseline", "Permitted near stops, current law", true], ["add", `Extra homes (${lcFirst(sc.label).replace(" response", "")})`, true]);
+  cols.push(["baseline", "Permitted near stops, current law", true], ["add", `Extra homes (${whereNo(sid)})`, true]);
   const head = cols.map(([k, label, num]) => {
     const on = sortKey === k;
     return `<th scope="col" class="${num ? "num" : ""}"${on ? ` aria-sort="${dir === "asc" ? "ascending" : "descending"}"` : ""}><button type="button" class="tod-sort-btn" id="sort-${k}" data-sort="${k}">${esc(label)}<span class="tod-sort-ind" aria-hidden="true">${on ? (dir === "asc" ? "▲" : "▼") : "↕"}</span></button></th>`;
@@ -304,14 +309,29 @@ export function where(b: TodBundle, env: ShellEnv, params: URLSearchParams, main
   const MIN_ALL = 5;
   const sharedCell = (r: Row) => { const a = r.add / 5, all = r.all / 5; return `<td class="num">${small(a)} <span class="small muted">of ${small(all)}${all >= MIN_ALL ? ` (+${sharePct(a / all)})` : ""}</span></td>`; };
   const labels = A.munis.slice(0, 10).map((m) => m.name);
+  // the intro's land shares: each place's lot acres within ¼ mile of rail and rapid stops, largest first
+  const landPlaces = A.munis.filter((m: Muni) => m.quarter_acres > 0).sort((x: Muni, y: Muni) => y.quarter_acres - x.quarter_acres);
+  const landTotal = landPlaces.reduce((a: number, m: Muni) => a + m.quarter_acres, 0);
+  const landTop = landPlaces.slice(0, 4), landRest = landPlaces.length - landTop.length;
+  const landTxt = (m: Muni) => `${esc(m.name.replace(/ (city|village|town)$/, ""))} (${Math.round((m.quarter_acres / landTotal) * 100)}%)`;
+  const io = b.why.in_out;
+  const shMin = Math.min(...io.places.map((p) => p.share)), shMax = Math.max(...io.places.map((p) => p.share));
   main.innerHTML = `
-  <h1>Where the extra homes would be</h1>
-  <p class="lede">The district goes on land within ¼ mile of rail and rapid stops, which is all in the Milwaukee and Madison areas and Kenosha. Each place gets extra homes in proportion to its land there. Pick a scenario; every table on this page follows it. Totals are 2027–2031.</p>
-  <p class="small" data-testid="where-range-note">Each area's projected range is the statewide projected range (${num(b.statewide.range90.low)} to ${num(b.statewide.range90.high)} extra homes, 2027–2031) times the area's share, because the model spreads homes across places by fixed shares of land.</p>
-  <form class="card" id="tod-where-scen">${scenRadios(b, "tod-scen", sid)}</form>
+  <h1>Where we expect the extra homes</h1>
+  <p class="lede" data-testid="where-intro">The law would require cities to zone an apartment district on ${sharePct(b.statewide.district.share)} of the land within ¼ mile of rail and rapid-transit stops. Most of that land is in ${landTop.slice(0, 2).map(landTxt).join(" and ")}. The rest is in ${landTop.slice(2, 4).map(landTxt).join(", ")}${landRest ? ` and ${landRest} smaller ${landRest === 1 ? "place" : "places"}` : ""}. Each place gets the same share of the extra homes as its share of that land (in lot acres). Totals are 2027–2031.</p>
+  <section class="card" data-testid="where-scenarios"><h2>Three scenarios</h2>
+    <p>To build our projected range, we studied ${io.places.length} places that zoned a mapped apartment district within ¼ mile of their stops. Their districts covered about ${sharePct(io.mean_share)} of that land on average (from ${Math.round(shMin * 100)}% to ${Math.round(shMax * 100)}%). We also looked at ${io.out_broad.length} places that upzoned half or more of the land near their stops, but left them out, because the law zones a district, not most of the land.</p>
+    <p>Pick a scenario to see the extra homes in each place:</p>
+    <ul>
+      <li><strong>${whereNo("little")}, rezoned lots only (${int(scen(b, "little").additional_total)} extra homes):</strong> only the gain on the rezoned lots themselves. We measured it just inside versus just outside district edges, in ${io.edge.places.length} places. A low-end check.</li>
+      <li><strong>${whereNo("typical")}, the ${io.places.length}-place average (${int(scen(b, "typical").additional_total)} extra homes):</strong> how the ${io.places.length} district places did on average, at their ${sharePct(io.mean_share)} of land. Our projected range is built on this number.</li>
+      <li><strong>${whereNo("strong")}, scaled to ${sharePct(b.statewide.district.share)} (${int(scen(b, "strong").additional_total)} extra homes):</strong> the same average, scaled up because the law covers ${sharePct(b.statewide.district.share)} of the land.</li>
+    </ul>
+    <p class="small muted">All figures are extra homes permitted over 2027–2031.</p>
+  <form id="tod-where-scen">${scenRadios(b, "tod-scen", sid)}</form></section>
   <section class="card"><h2>Two metro areas and the rest of the state</h2>
     <div class="table-wrap"><table class="data" data-testid="metro-table"><caption>Homes near stops, current-law permits and extra homes by area, 2027–2031</caption>
-      <thead><tr><th scope="col">Area</th><th scope="col" class="num">Homes near stops (2020 census)</th><th scope="col" class="num">Permitted near stops, current law</th>${SCEN_IDS.map((id) => `<th scope="col" class="num">${id === sid ? "<strong>" : ""}Extra: ${esc(lcFirst(scen(b, id).label))}${id === sid ? "</strong>" : ""}</th>`).join("")}</tr></thead>
+      <thead><tr><th scope="col">Area</th><th scope="col" class="num">Homes near stops (2020 census)</th><th scope="col" class="num">Permitted near stops, current law</th>${SCEN_IDS.map((id) => `<th scope="col" class="num">${id === sid ? "<strong>" : ""}Extra: ${esc(whereNo(id))}${id === sid ? "</strong>" : ""}</th>`).join("")}</tr></thead>
       <tbody>${A.metros.map((m) => `<tr><th scope="row">${esc(m.name)}<br><span class="small muted">${esc(m.counties.join(", "))}; ${m.places} ${m.places === 1 ? "place" : "places"} with qualifying stops</span></th><td class="num">${int(m.homes_near)}</td><td class="num">${small(m.baseline)}</td>${SCEN_IDS.map((id) => `<td class="num">${small(m.add[id])}</td>`).join("")}</tr>`).join("")}
       <tr><th scope="row">Wisconsin</th><td class="num">${int(A.metros.reduce((a, m) => a + m.homes_near, 0))}</td><td class="num">${int(b.statewide.baseline.total)}</td>${SCEN_IDS.map((id) => `<td class="num">${int(scen(b, id).additional_total)}</td>`).join("")}</tr></tbody></table></div>
     <p class="small muted">Metro areas as the federal government defines them (Milwaukee, Waukesha, Ozaukee and Washington counties; Dane, Columbia, Green and Iowa counties).</p></section>
@@ -322,19 +342,20 @@ export function where(b: TodBundle, env: ShellEnv, params: URLSearchParams, main
     <p class="small muted">Stops from the federal National Transit Map. Place outlines are simplified. The map shows where the law would apply, not where homes will be built.</p></section>
   <section class="card"><h2>By place and district</h2>
     <form id="tod-where-level"><fieldset class="seg"><legend>Show by</legend>${LEVELS.map(([l, t]) => `<label><input type="radio" name="tod-level" value="${l}" ${level === l ? "checked" : ""}> ${t}</label>`).join("")}</fieldset></form>
-    <div class="table-wrap"><table class="data" data-testid="where-table"><caption>Extra homes, ${esc(lcFirst(sc.label))}, by ${esc(LEVELS.find(([l]) => l === level)![1].toLowerCase())}, 2027–2031 (statewide total ${int(sc.additional_total)}). Select a column heading to sort.</caption>
+    <div class="table-wrap"><table class="data" data-testid="where-table"><caption>Extra homes, ${esc(whereNo(sid))}, by ${esc(LEVELS.find(([l]) => l === level)![1].toLowerCase())}, 2027–2031 (statewide total ${int(sc.additional_total)}). Select a column heading to sort.</caption>
       <thead><tr>${head.join("")}</tr></thead>
       <tbody>${rows.map((r) => `<tr><th scope="row">${esc(r.name)}</th>${level === "place" ? `<td>${esc(r.county ?? "")}<br><span class="small muted">${esc(r.metro ?? "")}</span></td><td class="num">${int(r.qacres ?? 0)}</td><td class="num">${int(r.homes)}</td>` : ""}<td class="num">${small(r.baseline)}</td><td class="num">${small(r.add)}</td>${rangeCell(r)}${sharedCell(r)}</tr>`).join("")}</tbody></table></div>
     ${A.few_homes_places.length ? `<p class="small" data-testid="few-homes-note">Some places get extra homes though few or no homes are near their stops today (${esc(A.few_homes_places.map((n) => n.replace(/ (city|village|town)$/, " ($1)")).join(", "))}). Extra homes are placed in proportion to land within ¼ mile of rail and rapid stops, which includes vacant and commercial land, not in proportion to existing homes.</p>` : ""}
     ${A.low_permit_places.length ? `<p class="small" data-testid="low-permit-note">Current-law permits come from Census building-permit counts. ${A.low_permit_places.map((x) => `${esc(x.name.replace(/ (city|village|town)$/, ""))} reported ${x.units.map((u) => int(u)).join(", ")} new homes a year in ${x.years[0]}–${x.years[x.years.length - 1]}, ${x.units_5plus ? `${int(x.units_5plus)} of them apartments` : "none of them apartments"}`).join("; ")}. Those low figures make current law there very small next to the law's extra homes, and may be an under-count like the one found for Milwaukee's apartments.</p>` : ""}
-    <p class="small muted">${others ? `The other ${others} ${level === "county" ? "counties" : "districts"} have no qualifying stops and are left out. ` : ""}Each place's share of the statewide extra homes is its share of Wisconsin's land (lot acres) within ¼ mile of rail and rapid stops, because the model spreads the district at random over that land. District figures split each place's numbers as its detached homes are split, an approximation. The last column compares the extra homes a year with all the homes the area is expected to permit a year under current law (the statewide all-housing forecast, ${int(b.statewide.state_baseline_per_year)} a year); no percentage is shown where fewer than ${MIN_ALL} a year are expected. "under 1" means more than zero but less than half a home. Rows may not add exactly because of rounding.</p></section>`;
+    <p class="small muted">${others ? `The other ${others} ${level === "county" ? "counties" : "districts"} have no qualifying stops and are left out. ` : ""}Each place's share of the statewide extra homes is its share of Wisconsin's land (lot acres) within ¼ mile of rail and rapid stops, because the model spreads the district at random over that land. District figures split each place's numbers as its detached homes are split, an approximation. The last column compares the extra homes a year with all the homes the area is expected to permit a year under current law (the statewide all-housing forecast, ${int(b.statewide.state_baseline_per_year)} a year); no percentage is shown where fewer than ${MIN_ALL} a year are expected. "under 1" means more than zero but less than half a home. Rows may not add exactly because of rounding.</p>
+    <p class="small muted" data-testid="where-range-note">Each area's projected range is the statewide projected range (${num(b.statewide.range90.low)} to ${num(b.statewide.range90.high)} extra homes, 2027–2031) times the area's share.</p></section>`;
   const setQ = (k: string, v: string, msg: string) => {
     const q = new URLSearchParams(params);
     q.set(k, v);
     if (k === "level") { q.delete("sort"); q.delete("dir"); }
     env.replaceQuery(q); env.refresh(); env.announce(msg);
   };
-  main.querySelectorAll<HTMLInputElement>('input[name="tod-scen"]').forEach((i) => i.addEventListener("change", () => setQ("s", i.value, `Scenario: ${scen(b, i.value as ScenId).label}. Extra homes statewide ${int(scen(b, i.value as ScenId).additional_total)}.`)));
+  main.querySelectorAll<HTMLInputElement>('input[name="tod-scen"]').forEach((i) => i.addEventListener("change", () => setQ("s", i.value, `${whereNo(i.value as ScenId)}, ${WHERE_NAMES[i.value as ScenId]}. Extra homes statewide ${int(scen(b, i.value as ScenId).additional_total)}.`)));
   main.querySelectorAll<HTMLInputElement>('input[name="tod-view"]').forEach((i) => i.addEventListener("change", () => setQ("view", i.value, `Map: ${VIEWS.find(([v]) => v === i.value)![1]}.`)));
   main.querySelectorAll<HTMLInputElement>('input[name="tod-level"]').forEach((i) => i.addEventListener("change", () => setQ("level", i.value, `Table: ${LEVELS.find(([l]) => l === i.value)![1]}.`)));
   main.querySelectorAll<HTMLButtonElement>("button[data-sort]").forEach((btn) => btn.addEventListener("click", () => {
