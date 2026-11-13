@@ -20,10 +20,10 @@ In Oregon, California, Maine and Vermont, did places with more "stopped" middle 
 
 | Piece | Source | Why this one |
 | --- | --- | --- |
-| 2–4 unit homes by decade built, per tract | ACS 2019–2023 5-year, table B25127 (occupied homes; owner plus renter) | Every tract in every state; one consistent source for law and comparison states |
+| 2–4 unit homes by decade built, per tract | ACS 2020–2024 5-year, table B25127 (occupied homes; owner plus renter), from the Census table-based summary file (same vintage as Test 1's denominator) | Every tract in every state; one consistent source for law and comparison states |
 | 2–4 unit homes standing in 2000, per tract | 2000 Census SF3, table H030 (rows 4 and 5: 2 units, 3 or 4 units; all homes) | Survival check: what stood then vs what ACS counts as built before 2000 now |
 | 2000 → 2010 → 2020 tract links | Census tract relationship files | Puts 2000 counts on 2020 tracts (split by land area share) |
-| Tract → place | 2020 block assignment files plus 2020 block housing-unit counts (PL 94-171, H1) | Tracts cross place lines; each tract's homes go to places by its blocks' housing units |
+| Tract → place | 2020 block assignment files (incorporated place and county subdivision) plus 2020 block housing-unit counts (PL 94-171, H1) | Tracts cross place lines; each tract's homes go to places by its blocks' housing units. Census permit places in New Jersey, New York, Pennsylvania, Maine and Vermont are towns and townships (county subdivisions), so both links are kept and matched to each permit place the way Test 1 names it |
 | Permits, comparisons, windows | Exactly as Test 1 (locked plan) | Same outcome M2, same places, same windows, same matching |
 
 - 1990 tract data are not on the Census API; 1970 and 1980 need NHGIS (account, own terms). Left out.
@@ -36,7 +36,7 @@ In Oregon, California, Maine and Vermont, did places with more "stopped" middle 
   after windows).
 - **Stopped tract:** old 2–4 homes are at least **10%** of the tract's occupied homes, and new 2–4 homes are at most
   **10%** of its old 2–4 homes.
-- **Place score:** share of the place's occupied homes (2020 blocks, weighted) that sit in stopped tracts.
+- **Place score:** share of the place's 2020 housing units (blocks, PL 94-171 H1) that sit in stopped tracts.
 - **High / low places:** within each law state, places at or above the state's median score that are above 0 are
   "high"; places with score 0 are "low"; the rest are "middle" and are reported but not in the main contrast. If a state
   has fewer than 10 high or 10 low places, it is left out of the contrast and this is reported.
@@ -80,3 +80,7 @@ In Oregon, California, Maine and Vermont, did places with more "stopped" middle 
 `scripts/middle_test8_stopped.py`; `reference/middle_test8_tract_scores.csv`, `reference/middle_test8_place_scores.csv`,
 `reference/middle_test8_summary.csv`; results in `docs/middle/TEST8_RESULTS.md`. Raw downloads under
 `data/raw/middle_tracts/` (gitignored).
+
+## Changes before lock
+
+- 2026-11-13: ACS vintage set to 2020–2024 (table-based summary file; the API needs a key per call); county-subdivision link added for the five states whose permit places are towns. No tract counts read yet.
