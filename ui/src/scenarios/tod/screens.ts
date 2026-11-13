@@ -315,6 +315,8 @@ export function where(b: TodBundle, env: ShellEnv, params: URLSearchParams, main
   const landTop = landPlaces.slice(0, 4), landRest = landPlaces.length - landTop.length;
   const landTxt = (m: Muni) => `${esc(m.name.replace(/ (city|village|town)$/, ""))} (${Math.round((m.quarter_acres / landTotal) * 100)}%)`;
   const io = b.why.in_out;
+  // places in a metro with land within ¼ mile of rail and rapid stops (where the law's district can go), from the bundle
+  const lawPlaces = (metro: string) => A.munis.filter((x: Muni) => x.metro === metro && x.quarter_acres > 0).length;
   const shMin = Math.min(...io.places.map((p) => p.share)), shMax = Math.max(...io.places.map((p) => p.share));
   main.innerHTML = `
   <h1>Where we expect the extra homes</h1>
@@ -332,7 +334,7 @@ export function where(b: TodBundle, env: ShellEnv, params: URLSearchParams, main
   <section class="card"><h2>Two metro areas and the rest of the state</h2>
     <div class="table-wrap"><table class="data" data-testid="metro-table"><caption>Homes near stops, current-law permits and extra homes by area, 2027–2031</caption>
       <thead><tr><th scope="col">Area</th><th scope="col" class="num">Homes near stops (2020 census)</th><th scope="col" class="num">Permitted near stops, current law</th>${SCEN_IDS.map((id) => `<th scope="col" class="num">${id === sid ? "<strong>" : ""}Extra: ${esc(whereNo(id))}${id === sid ? "</strong>" : ""}</th>`).join("")}</tr></thead>
-      <tbody>${A.metros.map((m) => `<tr><th scope="row">${esc(m.name)}<br><span class="small muted">${esc(m.counties.join(", "))}; ${m.places} ${m.places === 1 ? "place" : "places"} with qualifying stops</span></th><td class="num">${int(m.homes_near)}</td><td class="num">${small(m.baseline)}</td>${SCEN_IDS.map((id) => `<td class="num">${small(m.add[id])}</td>`).join("")}</tr>`).join("")}
+      <tbody>${A.metros.map((m) => `<tr><th scope="row">${esc(m.name)}<br><span class="small muted">${esc(m.counties.join(", "))}; ${m.places} ${m.places === 1 ? "place" : "places"} near major transit stops; ${lawPlaces(m.id)} with land within ¼ mile of rail or rapid stops, where the law applies</span></th><td class="num">${int(m.homes_near)}</td><td class="num">${small(m.baseline)}</td>${SCEN_IDS.map((id) => `<td class="num">${small(m.add[id])}</td>`).join("")}</tr>`).join("")}
       <tr><th scope="row">Wisconsin</th><td class="num">${int(A.metros.reduce((a, m) => a + m.homes_near, 0))}</td><td class="num">${int(b.statewide.baseline.total)}</td>${SCEN_IDS.map((id) => `<td class="num">${int(scen(b, id).additional_total)}</td>`).join("")}</tr></tbody></table></div>
     <p class="small muted">Metro areas as the federal government defines them (Milwaukee, Waukesha, Ozaukee and Washington counties; Dane, Columbia, Green and Iowa counties).</p></section>
   <section class="card"><h2>Station areas on a map</h2>
