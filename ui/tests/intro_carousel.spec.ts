@@ -41,7 +41,7 @@ test("three slides render from the bundle, each one link to its screen", async (
   await expect(page.locator('[data-thumb="sens"] .vs-row')).toHaveCount(cases.length);
   // links and their names
   const links: [string, string, string][] = [
-    ["range", "#/summary", "The ADU 90% range, with its comparison scenarios — open Summary"],
+    ["range", "#/summary", "The ADU projected range, with its comparison scenarios — open Summary"],
     ["map", "#/where", "Where ADUs might go: an illustration — open Where"],
     ["sens", "#/how-sure", "What-ifs against the ADU range — open How sure"],
   ];

@@ -150,7 +150,7 @@ function stateValue(ctx: Ctx): string {
   const ss = stateSeries(ctx);
   const v = ws.layer === "baseline" ? thru(ss.base) : thru(ss.add) * ends(ctx).lo;
   const hiV = thru(ss.add) * ends(ctx).hi;
-  if (ws.layer === "additional") return ws.measure === "count" ? `${int(v)} to ${int(hiV)} (90% range; map shows the low end)` : `${dec((v / homes / nYears()) * 1000)} to ${dec((hiV / homes / nYears()) * 1000)} (90% range; map shows the low end)`;
+  if (ws.layer === "additional") return ws.measure === "count" ? `${int(v)} to ${int(hiV)} (projected range; map shows the low end)` : `${dec((v / homes / nYears()) * 1000)} to ${dec((hiV / homes / nYears()) * 1000)} (projected range; map shows the low end)`;
   return ws.measure === "count" ? int(v) : dec((v / homes / nYears()) * 1000);
 }
 
@@ -158,14 +158,14 @@ function stateValue(ctx: Ctx): string {
 function legendTitle(ctx: Ctx): string {
   const y = ws.year === 2027 ? "2027" : `2027–${ws.year}`;
   if (ws.layer === "homes") return "Existing single-family homes (per area)";
-  const what = ws.layer === "baseline" ? `ADU permits without statewide reform (baseline growth), ${y}` : `ADU permits added by the law, ${y}, low end of the 90% range${forestOn(ctx) ? ", spread by the causal forest pattern" : ""}`;
+  const what = ws.layer === "baseline" ? `ADU permits without statewide reform (baseline growth), ${y}` : `ADU permits added by the law, ${y}, low end of the projected range${forestOn(ctx) ? ", spread by the causal forest pattern" : ""}`;
   return ws.measure === "rate" ? `${what}, per 1,000 single-family homes per year` : `${what} (per area)`;
 }
 
 function layerTitle(ctx: Ctx): string {
   const y = ws.year === 2027 ? "2027" : `2027–${ws.year}`;
   if (ws.layer === "homes") return isDistrict(ws.geo) ? "Existing single-family homes (ACS 2020–2024, placed in districts with 2020 census blocks)" : "Existing single-family homes (ACS 2020–2024)";
-  const what = ws.layer === "baseline" ? "Permits without statewide reform (baseline)" : `Permits added by statewide ADU reform: low end of the 90% range${forestOn(ctx) ? ", spread by the causal forest pattern" : ""}`;
+  const what = ws.layer === "baseline" ? "Permits without statewide reform (baseline)" : `Permits added by statewide ADU reform: low end of the projected range${forestOn(ctx) ? ", spread by the causal forest pattern" : ""}`;
   return ws.measure === "rate" ? `${what}, ${y}: per 1,000 single-family homes per year` : `${what}, ${y}`;
 }
 
@@ -175,7 +175,7 @@ export function renderWhere(ctx: Ctx, main: HTMLElement): void {
   main.innerHTML = `
   <h1>Where: counties, municipalities and legislative districts</h1>
   <p class="lede">The statewide result split across Wisconsin's 72 counties, 1,925 cities, villages and towns (census county subdivisions), 99 Assembly districts and 33 Senate districts. The map fills whole areas; it never marks a lot or a building. Smaller areas are rough shares of the statewide result, rounded.</p>
-  <p class="small" data-testid="where-range-note">Each area's 90% range is the statewide 90% range (${num(ctx.b.state.range90.low)} to ${num(ctx.b.state.range90.high)} ADU permits, 2027–2031) times the area's share, because the model spreads permits across places by fixed shares. The map colours, and sorts, by the range's low end; the high end is ${dec(ends(ctx).hi / ends(ctx).lo, 2)} times it in every area.</p>
+  <p class="small" data-testid="where-range-note">Each area's projected range is the statewide projected range (${num(ctx.b.state.range90.low)} to ${num(ctx.b.state.range90.high)} ADU permits, 2027–2031) times the area's share, because the model spreads permits across places by fixed shares. The map colours, and sorts, by the range's low end; the high end is ${dec(ends(ctx).hi / ends(ctx).lo, 2)} times it in every area.</p>
   <div class="controls card" role="group" aria-label="Map and table settings">
     <fieldset class="seg"><legend>Areas</legend>
       <label><input type="radio" name="geo" value="counties" ${ws.geo === "counties" ? "checked" : ""}> Counties</label>
@@ -329,7 +329,7 @@ function detail(ctx: Ctx, main: HTMLElement): void {
   const ss = stateSeries(ctx);
   if (!r) {
     el.innerHTML = `<h2 id="detail-h">Pick ${isDistrict(ws.geo) ? "a district" : "an area"}</h2><p>Click ${isDistrict(ws.geo) ? "a district" : "an area"} on the map, or choose <strong>Details</strong> in the table, to see its numbers.</p>
-    <p class="muted">Wisconsin through ${ws.year}: ${int(thru(ss.base))} baseline permits and ${int(thru(ss.add) * ends(ctx).lo)} to ${int(thru(ss.add) * ends(ctx).hi)} additional permits (90% range).</p>`;
+    <p class="muted">Wisconsin through ${ws.year}: ${int(thru(ss.base))} baseline permits and ${int(thru(ss.add) * ends(ctx).lo)} to ${int(thru(ss.add) * ends(ctx).hi)} additional permits (projected range).</p>`;
     return;
   }
   if (r.d) { districtDetail(ctx, el, r); return; }
@@ -349,7 +349,7 @@ function detail(ctx: Ctx, main: HTMLElement): void {
     <dl class="kv">
       <dt>Single-family homes</dt><dd>${int(r.homes)} ${pill("observed")}</dd>
       <dt>Without statewide reform (baseline), ${y}</dt><dd>${r.homes > 0 ? `${permitsText(thru(r.base))} ${pill("calculated")}` : missing(a?.missing_reason ?? "no homes")}</dd>
-      <dt>Added by statewide ADU reform, 90% range, ${y}</dt><dd data-testid="detail-range">${r.homes > 0 ? `<strong>${small(typ * E.lo)} to ${permitsText(typ * E.hi)}</strong> ${pill("calculated")}` : missing("no homes")}</dd>
+      <dt>Added by statewide ADU reform, projected range, ${y}</dt><dd data-testid="detail-range">${r.homes > 0 ? `<strong>${small(typ * E.lo)} to ${permitsText(typ * E.hi)}</strong> ${pill("calculated")}` : missing("no homes")}</dd>
       ${forestRows(ctx, r)}
       <dt>Rate with the law</dt><dd>${r.homes > 0 ? `${rate(thru(r.base) + typ * E.lo)} to ${rate(thru(r.base) + typ * E.hi)} per 1,000 homes per year (current law ${rate(thru(r.base))})` : "—"}</dd>
       ${a ? `<dt>Local ADU rules</dt><dd>${esc(ctx.b.areas.class_text[a.current_class] ?? a.current_class)} ${pill(a.rights_status === "assumed" ? "assumed" : "observed")}${a.rights_status === "source_lead" ? " <span class=\"muted\">(some provisions from a source lead)</span>" : ""}</dd>
@@ -377,8 +377,8 @@ function forestRows(ctx: Ctx, r: Row): string {
   const E = ends(ctx), typ = thru(r.add), share = typ / thru(stateSeries(ctx).add);
   if (forestOn(ctx)) {
     const m = thru(r.addModel);
-    return `<dt>90% range, spread by our model</dt><dd data-testid="detail-model-range">${small(m * E.lo)} to ${permitsText(m * E.hi)}</dd>
-      <dt>90% range, spread by the causal forest pattern</dt><dd data-testid="detail-forest-range">${small(typ * E.lo)} to ${permitsText(typ * E.hi)}</dd>`;
+    return `<dt>projected range, spread by our model</dt><dd data-testid="detail-model-range">${small(m * E.lo)} to ${permitsText(m * E.hi)}</dd>
+      <dt>projected range, spread by the causal forest pattern</dt><dd data-testid="detail-forest-range">${small(typ * E.lo)} to ${permitsText(typ * E.hi)}</dd>`;
   }
   const lines = ctx.b.state.side_lines.filter((x) => x.where === "chart" && x.value !== undefined);
   const fiveYr = ws.year === 2031;
@@ -396,8 +396,8 @@ function districtDetail(ctx: Ctx, el: HTMLElement, r: Row): void {
     <dl class="kv">
       <dt>Single-family homes (placed with 2020 census blocks)</dt><dd>${int(r.homes)} ${pill("calculated")}</dd>
       <dt>Without statewide reform (baseline), ${y}</dt><dd>${permitsText(thru(r.base))} ${pill("calculated")}</dd>
-      <dt>Added by statewide ADU reform, 90% range, ${y}</dt><dd data-testid="detail-range"><strong>${small(typ * E.lo)} to ${permitsText(typ * E.hi)}</strong> ${pill("calculated")}</dd>
-      ${d.range90 && !forestOn(ctx) ? `<dt>The district's 90% range, 2027–2031</dt><dd data-testid="detail-range90">${small(d.range90.low)} to ${permitsText(d.range90.high)}</dd>` : ""}
+      <dt>Added by statewide ADU reform, projected range, ${y}</dt><dd data-testid="detail-range"><strong>${small(typ * E.lo)} to ${permitsText(typ * E.hi)}</strong> ${pill("calculated")}</dd>
+      ${d.range90 && !forestOn(ctx) ? `<dt>The district's projected range, 2027–2031</dt><dd data-testid="detail-range90">${small(d.range90.low)} to ${permitsText(d.range90.high)}</dd>` : ""}
       ${forestRows(ctx, r)}
       <dt>Rate with the law</dt><dd>${rate(thru(r.base) + typ * E.lo)} to ${rate(thru(r.base) + typ * E.hi)} per 1,000 homes per year (current law ${rate(thru(r.base))})</dd>
     </dl>
@@ -435,13 +435,13 @@ function table(ctx: Ctx, main: HTMLElement): void {
   const ok = Math.abs(totAdd - stAdd) < 1 && Math.abs(totBase - stBase) < 1;
   const y = ws.year === 2027 ? "2027" : `2027–${ws.year}`;
   const what = un ? `${int(all.length)} ${GEO_PLURAL[ws.geo]} plus the "not allocated to a district" row (${dec(unAdd, 1)} permits)` : `${int(all.length)} ${GEO_PLURAL[ws.geo]}`;
-  main.querySelector("#reconcile")!.innerHTML = `<p data-testid="reconcile" class="${ok ? "ok" : "bad"}">${ok ? "Checked:" : "Check failed:"} All ${what} add up to <strong>${int(totAdd * E.lo)} to ${int(totAdd * E.hi)}</strong> additional (90% range) and <strong>${int(totBase)}</strong> baseline permits for ${y}${v.adopted ? "" : ` (uncoded places ${esc(v.label.toLowerCase())})`}${fo ? " (spread by the causal forest pattern)" : ""}; the statewide figures are ${int(stAdd * E.lo)} to ${int(stAdd * E.hi)} and ${int(stBase)}. ${int(totHomes)} single-family homes. Each row is rounded to whole permits for display; totals add the unrounded values, so rounded rows can differ from a total by a permit or two.</p>`;
+  main.querySelector("#reconcile")!.innerHTML = `<p data-testid="reconcile" class="${ok ? "ok" : "bad"}">${ok ? "Checked:" : "Check failed:"} All ${what} add up to <strong>${int(totAdd * E.lo)} to ${int(totAdd * E.hi)}</strong> additional (projected range) and <strong>${int(totBase)}</strong> baseline permits for ${y}${v.adopted ? "" : ` (uncoded places ${esc(v.label.toLowerCase())})`}${fo ? " (spread by the causal forest pattern)" : ""}; the statewide figures are ${int(stAdd * E.lo)} to ${int(stAdd * E.hi)} and ${int(stBase)}. ${int(totHomes)} single-family homes. Each row is rounded to whole permits for display; totals add the unrounded values, so rounded rows can differ from a total by a permit or two.</p>`;
   const limit = ws.showAll || ws.geo !== "munis" ? rs.length : 50;
   const shown = rs.slice(0, limit);
   const th = (k: string, label: string, num = true) => `<th scope="col" class="${num ? "num" : ""}" aria-sort="${ws.sort === k ? (ws.dir === 1 ? "ascending" : "descending") : "none"}"><button type="button" class="sort" data-k="${k}">${label}<span aria-hidden="true">${ws.sort === k ? (ws.dir === 1 ? " ▲" : " ▼") : " ↕"}</span></button></th>`;
   const mapCol = ws.layer === "homes" ? "Single-family homes (map)" : ws.measure === "rate" ? "Map value: per 1,000 homes per year" : "Map value: permits";
-  main.querySelector("#tbl")!.innerHTML = `<table class="data sortable" data-testid="where-table"><caption>${esc(layerTitle(ctx))}. ${rs.length === all.length ? "" : `Filtered: ${int(rs.length)} of ${int(all.length)} rows.`} Additional permits show each area's 90% range${fo ? ", spread by the causal forest pattern" : ""}; the map value uses its low end. "Small area": fewer than ${int(SMALL_AREA)} single-family homes.</caption>
-    <thead><tr>${th("name", "Name", false)}${ws.geo === "munis" ? th("county", "County", false) : ""}${th("homes", "Single-family homes")}${th("base", `Baseline, ${y}`)}${th("add", `Additional, ${y} (90% range)`)}${th("value", mapCol)}${ws.geo === "munis" ? `<th scope="col">Current-law rate basis</th>` : ""}<th scope="col"><span class="sr-only">Details</span></th></tr></thead>
+  main.querySelector("#tbl")!.innerHTML = `<table class="data sortable" data-testid="where-table"><caption>${esc(layerTitle(ctx))}. ${rs.length === all.length ? "" : `Filtered: ${int(rs.length)} of ${int(all.length)} rows.`} Additional permits show each area's projected range${fo ? ", spread by the causal forest pattern" : ""}; the map value uses its low end. "Small area": fewer than ${int(SMALL_AREA)} single-family homes.</caption>
+    <thead><tr>${th("name", "Name", false)}${ws.geo === "munis" ? th("county", "County", false) : ""}${th("homes", "Single-family homes")}${th("base", `Baseline, ${y}`)}${th("add", `Additional, ${y} (projected range)`)}${th("value", mapCol)}${ws.geo === "munis" ? `<th scope="col">Current-law rate basis</th>` : ""}<th scope="col"><span class="sr-only">Details</span></th></tr></thead>
     <tbody>${shown.map((r) => `<tr class="${r.id === ws.selected ? "sel" : ""}"><th scope="row">${esc(r.name)}${r.area?.pilot ? ` <a href="${ctx.link(`/pilot/${r.area.pilot}`)}" class="tag">pilot</a>` : ""}</th>${ws.geo === "munis" ? `<td>${esc(r.county)}</td>` : ""}<td class="num">${int(r.homes)}</td><td class="num">${r.homes ? small(thru(r.base)) : missing(noHomes(r))}</td><td class="num">${r.homes ? `${small(thru(r.add) * E.lo)} to ${small(thru(r.add) * E.hi)}` : missing(noHomes(r))}</td><td class="num">${r.homes ? fmtVal(value(ctx, r)) : "—"}${r.homes > 0 && r.homes < SMALL_AREA && ws.layer !== "homes" ? ` <span class="tag" title="Fewer than ${int(SMALL_AREA)} single-family homes: the rate can swing widely">small area</span>` : ""}</td>${ws.geo === "munis" ? `<td>${r.homes ? pill(r.area!.x_status) : `<span class="muted small">${r.area!.water ? "water area" : "no homes"}</span>`}</td>` : ""}<td><button type="button" class="linkish" data-sel="${r.id}" aria-label="Details for ${esc(r.name)}">Details</button></td></tr>`).join("")}</tbody>
     <tfoot>${un && rs.length === all.length ? `<tr data-testid="unallocated-row"><th scope="row">${esc(un.name)}</th><td class="num">${int(unHomes)}</td><td class="num">${dec(unBase, 1)}</td><td class="num">${dec(unAdd * E.lo, 1)} to ${dec(unAdd * E.hi, 1)}</td><td></td><td></td></tr>` : ""}<tr><th scope="row">${rs.length === all.length ? `Wisconsin (all rows${un ? ", with the not-allocated row" : ""})` : `Total of ${int(rs.length)} filtered rows`}</th>${ws.geo === "munis" ? "<td></td>" : ""}<td class="num">${int(rs.reduce((s, r) => s + r.homes, 0) + (un && rs.length === all.length ? unHomes : 0))}</td><td class="num">${int(rs.reduce((s, r) => s + thru(r.base), 0) + (un && rs.length === all.length ? unBase : 0))}</td><td class="num">${(() => { const t = rs.reduce((s, r) => s + thru(r.add), 0) + (un && rs.length === all.length ? unAdd : 0); return `${int(t * E.lo)} to ${int(t * E.hi)}`; })()}</td><td></td>${ws.geo === "munis" ? "<td></td>" : ""}<td></td></tr></tfoot></table>
     ${rs.length > limit ? `<p><button type="button" class="button" id="show-all">Show all ${int(rs.length)} rows</button></p>` : ""}`;

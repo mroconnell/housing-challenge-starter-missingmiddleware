@@ -119,8 +119,8 @@ export function renderSummary(main: HTMLElement, o: SummaryInput, env: ShellEnv,
   const fmt = (v: number) => (per ? dec2(v / k) : num(v));
   const homesTxt = `${int(o.homes.value)} homes, ${acsLabel(o.homes.vintage)}`;
   const unitLine = per
-    ? `extra ${o.unit} per 1,000 Wisconsin homes, 2027–2031 (90% range)`
-    : `extra ${o.unit}, Wisconsin, 2027–2031 (90% range)`;
+    ? `extra ${o.unit} per 1,000 Wisconsin homes, 2027–2031 (projected range, 90%)`
+    : `extra ${o.unit}, Wisconsin, 2027–2031 (projected range, 90%)`;
   const unitShort = per ? `extra ${o.unit} per 1,000 Wisconsin homes` : `extra ${o.unit}`;
   const yearUnit = per ? `${o.unit} per 1,000 Wisconsin homes in the year` : `${o.unit} in the year`;
   const signTxt = o.range.low > 0
@@ -156,7 +156,7 @@ export function renderSummary(main: HTMLElement, o: SummaryInput, env: ShellEnv,
     <div class="sum-key" role="group" aria-label="Chart key" data-testid="summary-legend${sfx}">
     <ul class="legend sum-legend">
       <li><svg class="key-sw" width="36" height="14" aria-hidden="true" focusable="false"><line x1="0" x2="36" y1="7" y2="7" stroke="${CURRENT_LAW_COLOR}" stroke-width="2" stroke-dasharray="7 5"/></svg>${esc(extra ? "Current law: the zero line" : o.currentLawLabel ?? `Current law (${o.baseName}; its range shaded grey)`)}</li>
-      <li><svg class="key-sw" width="36" height="14" aria-hidden="true" focusable="false"><rect x="0" y="2" width="36" height="10" fill="${BAND_COLOR}" opacity="0.28"/></svg>With the law: 90% range, ${esc(fmt(R.low))} to ${esc(fmt(R.high))} ${esc(unitShort)}${extra ? "" : " (on top of current law)"}</li>
+      <li><svg class="key-sw" width="36" height="14" aria-hidden="true" focusable="false"><rect x="0" y="2" width="36" height="10" fill="${BAND_COLOR}" opacity="0.28"/></svg>With the law: projected range, ${esc(fmt(R.low))} to ${esc(fmt(R.high))} ${esc(unitShort)}${extra ? "" : " (on top of current law)"}</li>
     </ul>
     ${drawn.length ? `<div class="sum-scen-head${big ? " sum-scen-head-big" : ""}"><h3 class="sum-scen-h" data-testid="summary-scenarios-h${sfx}">${esc(SCENARIOS_HEADING)}</h3>
     <p class="small muted sum-scen-note" data-testid="summary-scenarios-note${sfx}">${esc(SCENARIOS_NOTE)}</p></div>
@@ -190,7 +190,7 @@ export function renderSummary(main: HTMLElement, o: SummaryInput, env: ShellEnv,
   main.innerHTML = `
   <article class="summary-page" data-testid="summary" data-reform="${esc(o.id)}">
   <h1>${esc(o.title)}</h1>
-  ${o.sentence === false ? "" : `<p class="lede summary-sentence" data-testid="summary-sentence">If Wisconsin ${esc(o.law)} from 1 January 2027, the range below is our estimate of the extra ${esc(o.unit)} it would permit over the first five years; ${esc(signTxt)}.</p>`}
+  ${o.sentence === false ? "" : `<p class="lede summary-sentence" data-testid="summary-sentence">If Wisconsin ${esc(o.law)} from 1 January 2027, the range below is our projection of the extra ${esc(o.unit)} it would permit over the first five years; ${esc(signTxt)}.</p>`}
 
   ${o.policyBeside ? `<div class="summary-top summary-top-beside" data-testid="summary-top">` : ""}
   <section class="card summary-policy" aria-labelledby="sum-policy-h" data-testid="summary-policy">
@@ -200,7 +200,7 @@ export function renderSummary(main: HTMLElement, o: SummaryInput, env: ShellEnv,
   </section>
 
   <section class="card range-card summary-range" aria-labelledby="sum-range-h" data-testid="summary-range">
-    <p class="range-lead" id="sum-range-h">Our estimate is between:</p>
+    <p class="range-lead" id="sum-range-h">Projected range:</p>
     <p class="range-ends"><span class="range-end"><span class="range-end-label">Low end</span><span class="range-end-num" data-testid="range-low">${fmt(R.low)}</span></span>
       <span class="range-to" aria-hidden="true">to</span>
       <span class="range-end"><span class="range-end-label">High end</span><span class="range-end-num" data-testid="range-high">${fmt(R.high)}</span></span></p>
@@ -339,7 +339,7 @@ export function renderSummary(main: HTMLElement, o: SummaryInput, env: ShellEnv,
       pop.dataset.year = String(year);
       delete pop.dataset.side;
       pop.innerHTML = `<p class="sum-pop-h"><strong>${year}</strong></p><ul class="plain">
-        <li><span class="sw sw-band" aria-hidden="true"></span>With the law, 90% range: <strong data-testid="pop-low">${fmt(lo(i))}</strong> to <strong data-testid="pop-high">${fmt(hi(i))}</strong></li>
+        <li><span class="sw sw-band" aria-hidden="true"></span>With the law, projected range: <strong data-testid="pop-low">${fmt(lo(i))}</strong> to <strong data-testid="pop-high">${fmt(hi(i))}</strong></li>
         <li><span class="sw sw-law" aria-hidden="true"></span>Current law: <strong data-testid="pop-current-law">${fmt(extra ? 0 : o.base.central[i])}</strong>${extra ? " (the zero line)" : ""}</li>
         ${drawn.map((s, j) => `<li data-side="${esc(s.id)}"><span class="sw" style="background:${sideStyle(j).color}" aria-hidden="true"></span>${esc(s.label)}: <strong>${fmt(sideAt(s, i))}</strong></li>`).join("")}
       </ul><p class="small muted">${esc(extra ? `Extra ${yearUnit}` : yearUnit[0].toUpperCase() + yearUnit.slice(1))}.</p>`;

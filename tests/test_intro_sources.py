@@ -58,7 +58,7 @@ class TestIntroSources(unittest.TestCase):
 
     def test_estimate_card_on_every_brief(self):
         est = (ROOT / "ui" / "src" / "estimate.ts").read_text()
-        self.assertIn('ESTIMATE_TITLE = "The estimate, 2027–2031 (90% range)"', est)
+        self.assertIn('ESTIMATE_TITLE = "Projected range, 2027–2031 (90%)"', est)
         self.assertIn("HOW_WE_COUNT[id]", est)
         S = ROOT / "ui" / "src"
         calls = {

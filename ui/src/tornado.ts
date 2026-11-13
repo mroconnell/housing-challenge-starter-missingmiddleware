@@ -1,5 +1,5 @@
 // How sure's two what-if charts, shared by every reform (owner, 2026-11-11 23:41):
-//   1. "What moves the estimate: model inputs": a one-way sensitivity tornado. Each row changes one input of the main
+//   1. "What moves the projected range: model inputs": a one-way sensitivity tornado. Each row changes one input of the main
 //      model; its bar runs from the input's low setting to its high setting (or from the pivot to the one alternative),
 //      around the number the 90% range is built on. Rows are sorted by bar length, largest first.
 //   2. "Other ways to estimate it": alternative methods and robustness checks, each a dot at its own total against the
@@ -54,7 +54,7 @@ export function tornadoHTML(o: {
   const notes = shown.filter((b) => b.note);
   return `<div class="tn" data-testid="${esc(o.prefix)}-inputs">
     <p class="tn-pivot-label" data-testid="${esc(o.prefix)}-pivot" data-value="${o.pivot}"><span class="tn-key tn-key-pivot" aria-hidden="true"></span>${esc(o.pivotLabel)}</p>
-    <p class="small muted tn-legend"><span class="tn-key tn-key-band" aria-hidden="true"></span>Shaded: the 90% range, ${num(R.low)} to ${num(R.high)}. <span class="tn-key tn-key-down" aria-hidden="true"></span>Lowers the estimate. <span class="tn-key tn-key-up" aria-hidden="true"></span>Raises it.</p>
+    <p class="small muted tn-legend"><span class="tn-key tn-key-band" aria-hidden="true"></span>Shaded: the projected range, ${num(R.low)} to ${num(R.high)}. <span class="tn-key tn-key-down" aria-hidden="true"></span>Lowers the projected range. <span class="tn-key tn-key-up" aria-hidden="true"></span>Raises it.</p>
     ${shown.length ? `<ul class="tn-rows" aria-label="${esc(o.unit)}: ${shown.length} inputs, largest swing first">${shown.map(row).join("")}</ul>
     <p class="tn-axis small muted" aria-hidden="true"><span>${num(Math.round(min))}</span><span>${num(Math.round(max))}</span></p>` : `<p class="small">No input tested here moves the five-year total.</p>`}
     ${notes.length ? `<ul class="plain small muted tn-notes">${notes.map((b) => `<li><strong>${esc(b.label)}:</strong> ${esc(b.note!)}</li>`).join("")}</ul>` : ""}
@@ -75,15 +75,15 @@ export function otherWaysHTML(o: { prefix: string; rows: OtherRow[]; range: Rang
       <span class="vs-track" aria-hidden="true"><span class="vs-band-fill" style="left:${P(R.low)}%;width:${P(R.high) - P(R.low)}%"></span><span class="vs-zero" style="left:${P(0)}%"></span>${r.value !== undefined
         ? `<span class="vs-bar" style="left:${Math.min(P(0), P(r.value))}%;width:${Math.abs(P(r.value) - P(0))}%"></span><span class="vs-dot${inside(r) ? "" : " out"}" style="left:${P(r.value)}%"></span>`
         : `<span class="vs-span${inside(r) ? "" : " out"}" style="left:${P(r.low!)}%;width:${P(r.high!) - P(r.low!)}%"></span>`}</span>
-      <span class="vs-val"><span class="sr-only">${esc(r.label)}: </span>${txt(r)}${inside(r) ? "" : ` <span class="vs-out">outside<span class="sr-only"> the 90% range</span></span>`}</span>
+      <span class="vs-val"><span class="sr-only">${esc(r.label)}: </span>${txt(r)}${inside(r) ? "" : ` <span class="vs-out">outside<span class="sr-only"> the projected range</span></span>`}</span>
     </li>`;
   const groups = [...new Set(o.rows.map((r) => r.group ?? ""))];
   const list = (rs: OtherRow[]) => `<ul class="vs-band ow-rows" aria-label="${esc(o.unit)}">${rs.map(row).join("")}</ul>`;
-  const table = `<div class="table-wrap"><table class="data" data-testid="${esc(o.prefix)}-other-table"><caption>${esc(o.unit)}: other ways to estimate it, against the 90% range ${num(R.low)} to ${num(R.high)}</caption>
-    <thead><tr><th scope="col">Other way</th><th scope="col" class="num">Total, 2027–2031</th><th scope="col">Against the 90% range</th></tr></thead>
+  const table = `<div class="table-wrap"><table class="data" data-testid="${esc(o.prefix)}-other-table"><caption>${esc(o.unit)}: other ways to estimate it, against the projected range ${num(R.low)} to ${num(R.high)}</caption>
+    <thead><tr><th scope="col">Other way</th><th scope="col" class="num">Total, 2027–2031</th><th scope="col">Against the projected range</th></tr></thead>
     <tbody>${o.rows.map((r) => `<tr><th scope="row">${esc(r.label)}${r.note ? `<br><span class="small muted">${esc(r.note)}</span>` : ""}</th><td class="num">${txt(r)}</td><td>${inside(r) ? "inside" : "outside"}</td></tr>`).join("")}</tbody></table></div>`;
   return `<div class="ow" data-testid="${esc(o.prefix)}-other">
-    <p class="small muted tn-legend"><span class="tn-key tn-key-band" aria-hidden="true"></span>Shaded: the 90% range, ${num(R.low)} to ${num(R.high)}. A hollow dot sits outside it. The thin line is zero.</p>
+    <p class="small muted tn-legend"><span class="tn-key tn-key-band" aria-hidden="true"></span>Shaded: the projected range, ${num(R.low)} to ${num(R.high)}. A hollow dot sits outside it. The thin line is zero.</p>
     ${groups.map((g) => `${g ? `<h3 class="ow-group">${esc(g)}</h3>` : ""}${list(o.rows.filter((r) => (r.group ?? "") === g))}`).join("")}
     <p class="tn-axis small muted" aria-hidden="true"><span>${num(Math.round(min))}</span><span>${num(Math.round(max))}</span></p>
     ${o.note ? `<p class="small muted">${esc(o.note)}</p>` : ""}
@@ -98,11 +98,11 @@ export function howSureChartsHTML(o: {
   others: OtherRow[]; othersNote?: string;
 }): string {
   return `<section class="card" aria-labelledby="h-${esc(o.prefix)}-inputs" data-testid="${esc(o.prefix)}-whatifs">
-    <h2 id="h-${esc(o.prefix)}-inputs">What moves the estimate: model inputs</h2>
-    <p>Each bar changes one input of the main model, holding everything else fixed: it runs from the estimate at the input's low setting to the estimate at its high setting, and the biggest swing is at the top.${o.inputsNote ? ` ${esc(o.inputsNote)}` : ""}</p>
+    <h2 id="h-${esc(o.prefix)}-inputs">What moves the projected range: model inputs</h2>
+    <p>Each bar changes one input of the main model, holding everything else fixed: it runs from the projection at the input's low setting to the projection at its high setting, and the biggest swing is at the top.${o.inputsNote ? ` ${esc(o.inputsNote)}` : ""}</p>
     ${tornadoHTML({ prefix: o.prefix, rows: o.inputs, pivot: o.pivot, pivotName: o.pivotName, pivotLabel: o.pivotLabel, range: o.range, unit: o.unit })}
     <h2 class="tn-h2-second" id="h-${esc(o.prefix)}-other">Other ways to estimate it</h2>
-    <p>Each row is a different method or a robustness check, with its own total drawn against the 90% range; none of them changes the range.</p>
+    <p>Each row is a different method or a robustness check, with its own total drawn against the projected range; none of them changes the range.</p>
     ${otherWaysHTML({ prefix: o.prefix, rows: o.others, range: o.range, unit: o.unit, note: o.othersNote })}
   </section>`;
 }

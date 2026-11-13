@@ -38,7 +38,7 @@ for (const c of CASES) {
     const card = page.getByTestId("brief-estimate");
     await expect(card).toHaveCount(1);
     await expect(card).toHaveAttribute("data-reform", c.id);
-    await expect(card.getByRole("heading", { name: "The estimate, 2027–2031 (90% range)", exact: true })).toBeVisible();
+    await expect(card.getByRole("heading", { name: "Projected range, 2027–2031 (90%)", exact: true })).toBeVisible();
     const b = await bundle(page, c.root, c.file);
     const [lo, hi] = c.ends(b);
     const f = lo < 0 ? signed : fmt;

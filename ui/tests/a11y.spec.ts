@@ -98,7 +98,7 @@ test("a11y: switches announce the new numbers in a polite live region", async ({
   const live = page.getByTestId("announce");
   await page.goto("#/where");
   await page.getByRole("radio", { name: "Per 1,000 homes per year" }).check();
-  await expect(live).toContainText("low end of the 90% range");
+  await expect(live).toContainText("low end of the projected range");
   await expect(live).toContainText("per 1,000 single-family homes per year");
   await page.goto("#/summary");
   await page.getByRole("radio", { name: "Per 1,000 Wisconsin homes" }).check();
@@ -108,7 +108,7 @@ test("a11y: switches announce the new numbers in a polite live region", async ({
   await page.getByRole("radio", { name: "Like places that prohibit ADUs" }).check();
   const ad = unk.variants.find((v: { adopted: boolean }) => v.adopted).additional_total.central;
   const lo = state.range90.low / ad, hi = state.range90.high / ad, prA = pr.additional_total.central;
-  await expect(live).toContainText(`the law adds ${fmt(prA * lo)} to ${fmt(prA * hi)} permits (90% range)`);
+  await expect(live).toContainText(`the law adds ${fmt(prA * lo)} to ${fmt(prA * hi)} permits (projected range)`);
   await expect(live).toContainText(`${fmt(pr.baseline_total + prA * lo)} to ${fmt(pr.baseline_total + prA * hi)} permits in total with the law`);
   await page.goto("#/where");
   await page.getByRole("radio", { name: "Senate districts" }).check();

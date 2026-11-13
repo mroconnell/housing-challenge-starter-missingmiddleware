@@ -56,10 +56,10 @@ test("middle Summary: current law is homes in 2–4 unit buildings, with the own
   await page.goto("#/middle/summary?show=totals");
   await expect(page.getByTestId("summary-legend").locator("li")).toHaveText([
     "Current law (homes in 2–4 unit buildings without the reform; its range shaded grey)",
-    `With the law: 90% range, ${num(s.range90.low)} to ${num(s.range90.high)} extra homes in 2–4 unit buildings (on top of current law)`,
+    `With the law: projected range, ${num(s.range90.low)} to ${num(s.range90.high)} extra homes in 2–4 unit buildings (on top of current law)`,
     `Four-state measured result: ${num(side("four_state"))}`,
-    `All 1–4 unit buildings: ${num(side("1_4"))} (adds 1-unit homes such as split-lot homes and townhouses. Too noisy to include in predicted range because Census mixes them with ordinary single-family homes.)`,
-    `Adding 5 and 6 unit buildings: ${num(side("1_6"))} (the 1–4 unit figure plus our estimate for 5 and 6 unit buildings. Too noisy to include in predicted range because Census mixes 5 and 6 unit projects with all 5+ unit projects.)`,
+    `All 1–4 unit buildings: ${num(side("1_4"))} (adds 1-unit homes such as split-lot homes and townhouses. Too noisy to include in projected range because Census mixes them with ordinary single-family homes.)`,
+    `Adding 5 and 6 unit buildings: ${num(side("1_6"))} (the 1–4 unit figure plus our estimate for 5 and 6 unit buildings. Too noisy to include in projected range because Census mixes 5 and 6 unit projects with all 5+ unit projects.)`,
   ]);
   expect([num(s.range90.low), num(s.range90.high), num(side("four_state")), num(side("1_4")), num(side("1_6"))]).toEqual(["−482", "4,515", "1,570", "3,905", "4,226"]);
   // the table: current law per year and in all, and the band on top of it
@@ -89,7 +89,7 @@ test("middle Summary: current law is homes in 2–4 unit buildings, with the own
   await page.goto("#/middle/summary");
   await expect(page.getByTestId("summary-legend").locator("li").first()).toHaveText("Current law: the zero line");
   await expect(page.locator('[data-testid="summary-legend"] [data-side="all"]')).toHaveCount(0);
-  await expect(page.locator('[data-testid="summary-legend"] [data-side="1_4"]')).toContainText("Too noisy to include in predicted range");
+  await expect(page.locator('[data-testid="summary-legend"] [data-side="1_4"]')).toContainText("Too noisy to include in projected range");
   // the building-count note lives on How sure, not under the chart key (owner 2026-11-11 23:33)
   await expect(page.getByTestId("summary-legend-note")).toHaveCount(0);
   await page.goto("#/middle/how-sure");

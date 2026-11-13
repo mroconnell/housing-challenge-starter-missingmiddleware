@@ -27,16 +27,16 @@ const COPY = [
 ];
 const STEPS = [
   "Pick a state. Wisconsin",
-  "Set a baseline in Wisconsin. We estimate what the state would permit under current law. For Wisconsin that is about 124,000 homes over 2027–2031 (90% range 56,500 to 218,865). Wisconsin Today",
+  "Set a baseline in Wisconsin. We estimate what the state would permit under current law. For Wisconsin that is about 124,000 homes over 2027–2031 (projected range, 90%: 56,500 to 218,865). Wisconsin Today",
   "Define the proposed policies. ADU reform: the modelled law and what it adds Middle housing reform: what the modelled law adds TOD reform: the modelled law and the homes near transit today",
   "Look at cities and states outside Wisconsin to measure the effect of each proposed policy. Compare places where the reforms passed, and places that did not reform.",
   "Carry the effect to Wisconsin. We apply each measured effect to Wisconsin, producing a range of new permits we expect to see from each policy.",
 ];
 const SEE = [
   "How many permits we expect from each reform, with a low and high end.",
-  "Comparison scenarios plotted across the timeline, in addition to our estimate.",
+  "Comparison scenarios plotted across the timeline, in addition to our projected range.",
   "A map showing where the extra homes might go across Wisconsin.",
-  "Sensitivity charts that show the biggest factors in our estimate, and charts that show how other ways of estimating compare.",
+  "Sensitivity charts that show the biggest factors in our projected range, and charts that show how other ways of estimating compare.",
 ];
 const LINKS: [string, string, RegExp][] = [
   ["intro-link-adu", "ADU reform: the modelled law and what it adds", /#\/summary$/],
@@ -103,7 +103,7 @@ test("step 3's links, in order, word for word, each open that reform's Summary d
   const step3 = page.getByTestId("intro-step-3");
   expect((await step3.locator("a").allTextContents()).map((t) => t.trim())).toEqual(LINKS.map((l) => l[1]));
   const cases: Record<string, [string, string]> = {
-    "intro-link-adu": ["Accessory dwelling units", "Allowing one 600+ sq. ft. ADU (detached or semi-detached) on parcels with existing single-family buildings."],
+    "intro-link-adu": ["Accessory dwelling units", "Allowing one ADU (detached or semi-detached) on parcels with existing single-family buildings."],
     "intro-link-middle": ["Missing middle housing", "Allowing 2–6 homes, up to three stories, on parcels now limited to one single-family home."],
     "intro-link-tod": ["Transit-oriented density", "for apartments by right"],
   };

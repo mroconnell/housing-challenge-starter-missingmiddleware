@@ -53,12 +53,12 @@ export function renderWisconsinToday(main: HTMLElement, d: TodayData, envFor: (i
   <section class="card range-card" aria-labelledby="wt-base-h" data-testid="wt-baseline">
     <h2 id="wt-base-h">Homes permitted under current law, 2027–2031</h2>
     <p class="range-ends"><span class="range-end"><span class="range-end-label">About</span><span class="range-end-num" data-testid="wt-baseline-total">${int(b.central)}</span></span></p>
-    <p class="range-unit">homes of all kinds permitted in Wisconsin over 2027–2031 under current law (90% range <span data-testid="wt-baseline-range">${int(b.low)} to ${int(b.high)}</span>)</p>
-    <p class="small">This is the shared baseline every reform is compared with. It holds each place at its 2023–2025 average. Its 90% range comes from how far five-year totals strayed from such forecasts in the other 50 states, 1992–2020. ${pill("calculated")}</p>
+    <p class="range-unit">homes of all kinds permitted in Wisconsin over 2027–2031 under current law (projected range, 90%: <span data-testid="wt-baseline-range">${int(b.low)} to ${int(b.high)}</span>)</p>
+    <p class="small">This is the shared baseline every reform is compared with. It holds each place at its 2023–2025 average. Its projected range comes from how far five-year totals strayed from such forecasts in the other 50 states, 1992–2020. ${pill("calculated")}</p>
     <div class="chart-box" id="wt-base-chart"></div>
-    ${legendHTML([{ name: "Observed homes permitted (Milwaukee's apartments estimated)", color: "#4b5450", width: 2 }, { name: "Current law (90% range shaded)", color: "#17644f", dash: "7 5" }])}
+    ${legendHTML([{ name: "Observed homes permitted (Milwaukee's apartments estimated)", color: "#4b5450", width: 2 }, { name: "Current law (projected range shaded)", color: "#17644f", dash: "7 5" }])}
     <details><summary>Show the data</summary>
-      <div class="table-wrap"><table class="data" data-testid="wt-baseline-table"><caption>Homes permitted in Wisconsin, all sizes: observed, then current law with its 90% range</caption>
+      <div class="table-wrap"><table class="data" data-testid="wt-baseline-table"><caption>Homes permitted in Wisconsin, all sizes: observed, then current law with its projected range</caption>
         <thead><tr><th scope="col">Year</th><th scope="col">Kind</th><th scope="col" class="num">Homes permitted</th><th scope="col" class="num">Low end</th><th scope="col" class="num">High end</th></tr></thead>
         <tbody>${by.observed.map((r) => `<tr><th scope="row">${r.year}</th><td>Observed</td><td class="num">${int(r.value)}</td><td class="num">—</td><td class="num">—</td></tr>`).join("")}
         ${by.projected.map((r) => `<tr><th scope="row">${r.year}</th><td>${r.bridge ? "Current law (bridge year)" : "Current law"}</td><td class="num">${int(r.central)}</td><td class="num">${int(r.low)}</td><td class="num">${int(r.high)}</td></tr>`).join("")}
@@ -82,7 +82,7 @@ export function renderWisconsinToday(main: HTMLElement, d: TodayData, envFor: (i
   const proj6 = by.projected;
   xyChart(main.querySelector<HTMLElement>("#wt-base-chart")!, {
     title: `Homes permitted in Wisconsin each year, ${by.observed[0].year} to ${proj[proj.length - 1].year}: observed, then current law`,
-    desc: `Observed ${by.observed[0].year}–${lastObs.year}: from ${int(Math.min(...by.observed.map((r) => r.value)))} to ${int(Math.max(...by.observed.map((r) => r.value)))} homes a year (${int(lastObs.value)} in ${lastObs.year}). Current law: about ${int(proj[0].central)} a year (90% range ${int(proj[0].low)} to ${int(proj[0].high)}), ${int(b.central)} over 2027–2031. The table below has every value.`,
+    desc: `Observed ${by.observed[0].year}–${lastObs.year}: from ${int(Math.min(...by.observed.map((r) => r.value)))} to ${int(Math.max(...by.observed.map((r) => r.value)))} homes a year (${int(lastObs.value)} in ${lastObs.year}). Current law: about ${int(proj[0].central)} a year (projected range ${int(proj[0].low)} to ${int(proj[0].high)}), ${int(b.central)} over 2027–2031. The table below has every value.`,
     yLabel: "Homes permitted per year", xTicks: [...by.observed.map((r) => r.year), ...proj6.map((r) => r.year)],
     xFormat: (x: number) => (window.innerWidth < 600 && (x - by.observed[0].year) % 4 !== 0 ? "" : String(x)),
     series: [

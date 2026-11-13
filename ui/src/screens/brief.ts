@@ -21,7 +21,7 @@ export function renderBrief(ctx: Ctx, main: HTMLElement): void {
   <article class="brief" aria-labelledby="brief-h">
     <header class="brief-head">
       <p class="eyebrow">Policy brief · Wisconsin · accessory dwelling units</p>
-      <h1 id="brief-h" data-testid="brief-headline">A statewide ADU law could add ${num(s.range90.low)} to ${num(s.range90.high)} second-home (ADU) permits over 2027–2031 (90% range)</h1>
+      <h1 id="brief-h" data-testid="brief-headline">A statewide ADU law could add ${num(s.range90.low)} to ${num(s.range90.high)} second-home (ADU) permits over 2027–2031 (projected range, 90%)</h1>
       <p class="brief-sub">On top of about ${int(s.baseline.total)} without statewide reform. Comparison scenarios: ${s.side_lines.filter((x) => x.where === "chart").map((x) => `${esc(x.label.charAt(0).toLowerCase() + x.label.slice(1))}, ${sideValue(x)}`).join("; ")}. ${esc(s.range90.caveat ?? "")}</p>
     </header>
     ${estimateCardHTML("adu", s.range90, "extra ADU permits")}
