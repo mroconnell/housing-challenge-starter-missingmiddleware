@@ -83,6 +83,8 @@ test("TOD headline numbers equal the bundle", async ({ page }) => {
   await expect(page.getByTestId("where-table").locator("tbody tr").first()).toContainText(`of ${fmt(top.all_baseline / 5)}`);
   // the intro names the law's 15% and the scenarios are numbered 1–3 with their totals from the bundle (owner, 2026-11-13)
   await expect(page.getByTestId("where-intro")).toContainText("15% of the land within ¼ mile");
+  // the metro table says how many places have land where the law applies (owner, 2026-11-13)
+  await expect(page.getByTestId("metro-table")).toContainText("17 places near major transit stops; 2 with land within ¼ mile of rail or rapid stops, where the law applies");
   const scen = page.getByTestId("where-scenarios");
   await expect(scen.locator("label")).toHaveText([
     `Scenario 1 (${fmt(sc("little").additional_total)} extra homes)`,
