@@ -81,8 +81,16 @@ test("TOD headline numbers equal the bundle", async ({ page }) => {
   await expect(page.getByTestId("where-table").locator("tbody tr").first()).toContainText(fmt(top.add.typical));
   for (const m of b.areas.metros) await expect(page.getByTestId("metro-table")).toContainText(fmt(m.add.typical));
   await expect(page.getByTestId("where-table").locator("tbody tr").first()).toContainText(`of ${fmt(top.all_baseline / 5)}`);
+  // the intro names the law's 15% and the scenarios are numbered 1–3 with their totals from the bundle (owner, 2026-11-13)
+  await expect(page.getByTestId("where-intro")).toContainText("15% of the land within ¼ mile");
+  const scen = page.getByTestId("where-scenarios");
+  await expect(scen.locator("label")).toHaveText([
+    `Scenario 1 (${fmt(sc("little").additional_total)} extra homes)`,
+    `Scenario 2 (${fmt(sc("typical").additional_total)} extra homes)`,
+    `Scenario 3 (${fmt(sc("strong").additional_total)} extra homes)`,
+  ]);
   // switching the scenario changes the table and announces it
-  await page.getByRole("radio", { name: sc("strong").label }).check();
+  await page.getByRole("radio", { name: `Scenario 3, scaled to 15%: ${fmt(sc("strong").additional_total)} extra homes` }).check();
   await expect(page.getByTestId("where-table")).toContainText(`statewide total ${fmt(sc("strong").additional_total)}`);
   await expect(page.getByTestId("announce")).toContainText(fmt(sc("strong").additional_total));
   // sorting by name puts the alphabetically first place on top
