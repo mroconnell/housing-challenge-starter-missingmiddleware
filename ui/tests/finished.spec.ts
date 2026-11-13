@@ -92,6 +92,8 @@ test("direct addresses of greyed pages show the coming-soon note with links to t
     await expect(note.getByTestId("coming-soon-summary")).toHaveAttribute("href", /\/summary$/);
   }
   await page.goto("#/tod/brief");
+  // a hash change keeps the previous greyed page on screen until the router redraws: wait for the TOD link before clicking
+  await expect(page.getByTestId("coming-soon-summary")).toHaveAttribute("href", "#/tod/summary");
   await page.getByTestId("coming-soon-summary").click();
   await expect(page).toHaveURL(/#\/tod\/summary$/);
   await expect(page.getByTestId("summary")).toHaveAttribute("data-reform", "tod");
