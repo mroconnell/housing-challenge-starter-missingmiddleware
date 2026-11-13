@@ -250,6 +250,8 @@ test("TOD How sure: the district-share tornado and the other ways against the 90
   expect(current.length).toBe(13);
   expect(earlier.length).toBe(7);
   await page.goto("#/tod/how-sure?preview=1");
+  // the study stops are all rail; Wisconsin's are mostly bus rapid transit (owner, 2026-11-13)
+  await expect(page.getByTestId("stop-types")).toContainText("No measured bus rapid transit case can check that yet.");
   await expect(page.getByTestId("range-card").getByTestId("range-low")).toHaveText(fmt(R.low));
   await expect(page.getByTestId("range-card").getByTestId("range-high")).toHaveText(fmt(R.high));
   await expect(page.getByTestId("range-card").getByTestId("range-coverage")).toContainText("84.5%");
