@@ -179,7 +179,7 @@ def survival(t: pd.DataFrame) -> pd.DataFrame:
     for f in sorted(RAW.glob("sf3_2000_h032_*.json")):
         r = json.loads(f.read_text())
         h = pd.DataFrame(r[1:], columns=r[0])
-        h["t00"] = h["state"] + h["county"] + h["tract"]
+        h["t00"] = h["state"] + h["county"] + h["tract"].where(h["tract"].str.len() == 6, h["tract"].str.ljust(6, "0"))
         h["v"] = sum(pd.to_numeric(h[c], errors="coerce").fillna(0) for c in ("H032005", "H032006", "H032016", "H032017"))
         rows.append(h[["t00", "v"]])
     h = pd.concat(rows)
@@ -193,6 +193,7 @@ def survival(t: pd.DataFrame) -> pd.DataFrame:
     y = r20.assign(v=r20["GEOID_TRACT_10"].map(x).fillna(0) * r20["w"]).groupby("GEOID_TRACT_20")["v"].sum()
     s = pd.DataFrame({"y2000": y}).join(t[["pre2000_24"]], how="inner")
     s["state"] = s.index.str[:2]
+    s = s[s["state"].isin(set(f.stem[-2:] for f in RAW.glob("sf3_2000_h032_*.json")))]
     g = s.groupby("state")[["y2000", "pre2000_24"]].sum()
     g["loss_share"] = 1 - g["pre2000_24"] / g["y2000"]
     big = s[s["y2000"] >= 20]
@@ -247,10 +248,11 @@ def main() -> None:
                 r[f"{m.TREATED[s]}_unmatched_high_low"] = f"{v['unmatched_high']:.0%}/{v['unmatched_low']:.0%}"
         rows.append(r)
         fails_all.append(fl_)
+        pd.DataFrame(rows).to_csv(OUT / "middle_test8_summary.csv", index=False)  # saved as it goes
         print(name, {k: (round(v, 3) if isinstance(v, float) else v) for k, v in r.items() if k in ("real_log", "point_log", "range_log_low", "range_log_high", "reading", "dropped")}, flush=True)
     # size check: contrast within population terciles (main thresholds), real and fakes
     score = ps
-    tert = info.groupby("state_fips")["pop"].transform(lambda x: pd.qcut(x.rank(method="first"), 3, labels=False))
+    tert = info.groupby("state_fips")["pop"].transform(lambda x: np.minimum((x.rank(method="first", pct=True) * 3).apply(np.ceil) - 1, 2))
     sz = []
     for k in range(3):
         sub_info_ok = tert == k

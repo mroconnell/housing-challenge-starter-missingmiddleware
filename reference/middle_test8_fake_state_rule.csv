@@ -1,0 +1,793 @@
+windows,windows_of,fake_state,passed
+fake years,Oregon,01,False
+fake years,Oregon,02,False
+fake years,Oregon,05,False
+fake years,Oregon,10,False
+fake years,Oregon,13,False
+fake years,Oregon,16,False
+fake years,Oregon,17,True
+fake years,Oregon,18,False
+fake years,Oregon,19,False
+fake years,Oregon,20,False
+fake years,Oregon,21,False
+fake years,Oregon,22,False
+fake years,Oregon,26,True
+fake years,Oregon,27,False
+fake years,Oregon,28,False
+fake years,Oregon,29,False
+fake years,Oregon,31,False
+fake years,Oregon,32,False
+fake years,Oregon,34,True
+fake years,Oregon,35,False
+fake years,Oregon,36,True
+fake years,Oregon,37,False
+fake years,Oregon,38,False
+fake years,Oregon,39,True
+fake years,Oregon,40,False
+fake years,Oregon,42,True
+fake years,Oregon,45,False
+fake years,Oregon,46,False
+fake years,Oregon,47,False
+fake years,Oregon,51,False
+fake years,Oregon,54,False
+fake years,Oregon,55,True
+fake years,Oregon,56,False
+fake years,California,01,False
+fake years,California,02,False
+fake years,California,05,False
+fake years,California,10,False
+fake years,California,13,False
+fake years,California,16,False
+fake years,California,17,True
+fake years,California,18,False
+fake years,California,19,False
+fake years,California,20,False
+fake years,California,21,False
+fake years,California,22,False
+fake years,California,26,True
+fake years,California,27,False
+fake years,California,28,False
+fake years,California,29,False
+fake years,California,31,False
+fake years,California,32,False
+fake years,California,34,True
+fake years,California,35,False
+fake years,California,36,True
+fake years,California,37,False
+fake years,California,38,False
+fake years,California,39,True
+fake years,California,40,False
+fake years,California,42,True
+fake years,California,45,False
+fake years,California,46,False
+fake years,California,47,False
+fake years,California,51,False
+fake years,California,54,False
+fake years,California,55,True
+fake years,California,56,False
+fake years,Maine,01,False
+fake years,Maine,02,False
+fake years,Maine,05,False
+fake years,Maine,10,False
+fake years,Maine,13,False
+fake years,Maine,16,False
+fake years,Maine,17,True
+fake years,Maine,18,False
+fake years,Maine,19,False
+fake years,Maine,20,False
+fake years,Maine,21,False
+fake years,Maine,22,False
+fake years,Maine,26,True
+fake years,Maine,27,False
+fake years,Maine,28,False
+fake years,Maine,29,False
+fake years,Maine,31,False
+fake years,Maine,32,False
+fake years,Maine,34,True
+fake years,Maine,35,False
+fake years,Maine,36,True
+fake years,Maine,37,False
+fake years,Maine,38,False
+fake years,Maine,39,True
+fake years,Maine,40,False
+fake years,Maine,42,True
+fake years,Maine,45,False
+fake years,Maine,46,False
+fake years,Maine,47,False
+fake years,Maine,51,False
+fake years,Maine,54,False
+fake years,Maine,55,True
+fake years,Maine,56,False
+fake years,Vermont,01,False
+fake years,Vermont,02,False
+fake years,Vermont,05,False
+fake years,Vermont,10,False
+fake years,Vermont,13,False
+fake years,Vermont,16,False
+fake years,Vermont,17,True
+fake years,Vermont,18,False
+fake years,Vermont,19,False
+fake years,Vermont,20,False
+fake years,Vermont,21,False
+fake years,Vermont,22,False
+fake years,Vermont,26,True
+fake years,Vermont,27,False
+fake years,Vermont,28,False
+fake years,Vermont,29,False
+fake years,Vermont,31,False
+fake years,Vermont,32,False
+fake years,Vermont,34,True
+fake years,Vermont,35,False
+fake years,Vermont,36,True
+fake years,Vermont,37,False
+fake years,Vermont,38,False
+fake years,Vermont,39,True
+fake years,Vermont,40,False
+fake years,Vermont,42,True
+fake years,Vermont,45,False
+fake years,Vermont,46,False
+fake years,Vermont,47,False
+fake years,Vermont,51,False
+fake years,Vermont,54,False
+fake years,Vermont,55,True
+fake years,Vermont,56,False
+real,Oregon,01,False
+real,Oregon,02,False
+real,Oregon,05,False
+real,Oregon,10,False
+real,Oregon,13,False
+real,Oregon,16,False
+real,Oregon,17,True
+real,Oregon,18,False
+real,Oregon,19,False
+real,Oregon,20,False
+real,Oregon,21,False
+real,Oregon,22,False
+real,Oregon,26,True
+real,Oregon,27,False
+real,Oregon,28,False
+real,Oregon,29,False
+real,Oregon,31,False
+real,Oregon,32,False
+real,Oregon,34,True
+real,Oregon,35,False
+real,Oregon,36,True
+real,Oregon,37,False
+real,Oregon,38,False
+real,Oregon,39,True
+real,Oregon,40,False
+real,Oregon,42,True
+real,Oregon,45,False
+real,Oregon,46,False
+real,Oregon,47,False
+real,Oregon,51,False
+real,Oregon,54,False
+real,Oregon,55,True
+real,Oregon,56,False
+real,California,01,False
+real,California,02,False
+real,California,05,False
+real,California,10,False
+real,California,13,False
+real,California,16,False
+real,California,17,True
+real,California,18,False
+real,California,19,False
+real,California,20,False
+real,California,21,False
+real,California,22,False
+real,California,26,True
+real,California,27,False
+real,California,28,False
+real,California,29,False
+real,California,31,False
+real,California,32,False
+real,California,34,True
+real,California,35,False
+real,California,36,True
+real,California,37,False
+real,California,38,False
+real,California,39,True
+real,California,40,False
+real,California,42,True
+real,California,45,False
+real,California,46,False
+real,California,47,False
+real,California,51,False
+real,California,54,False
+real,California,55,True
+real,California,56,False
+real,Maine,01,False
+real,Maine,02,False
+real,Maine,05,False
+real,Maine,10,False
+real,Maine,13,False
+real,Maine,16,False
+real,Maine,17,True
+real,Maine,18,False
+real,Maine,19,False
+real,Maine,20,False
+real,Maine,21,False
+real,Maine,22,False
+real,Maine,26,True
+real,Maine,27,False
+real,Maine,28,False
+real,Maine,29,False
+real,Maine,31,False
+real,Maine,32,False
+real,Maine,34,True
+real,Maine,35,False
+real,Maine,36,True
+real,Maine,37,False
+real,Maine,38,False
+real,Maine,39,True
+real,Maine,40,False
+real,Maine,42,True
+real,Maine,45,False
+real,Maine,46,False
+real,Maine,47,False
+real,Maine,51,False
+real,Maine,54,False
+real,Maine,55,True
+real,Maine,56,False
+real,Vermont,01,False
+real,Vermont,02,False
+real,Vermont,05,False
+real,Vermont,10,False
+real,Vermont,13,False
+real,Vermont,16,False
+real,Vermont,17,True
+real,Vermont,18,False
+real,Vermont,19,False
+real,Vermont,20,False
+real,Vermont,21,False
+real,Vermont,22,False
+real,Vermont,26,True
+real,Vermont,27,False
+real,Vermont,28,False
+real,Vermont,29,False
+real,Vermont,31,False
+real,Vermont,32,False
+real,Vermont,34,True
+real,Vermont,35,False
+real,Vermont,36,True
+real,Vermont,37,False
+real,Vermont,38,False
+real,Vermont,39,True
+real,Vermont,40,False
+real,Vermont,42,True
+real,Vermont,45,False
+real,Vermont,46,False
+real,Vermont,47,False
+real,Vermont,51,False
+real,Vermont,54,False
+real,Vermont,55,True
+real,Vermont,56,False
+real,Oregon,01,False
+real,Oregon,02,False
+real,Oregon,05,False
+real,Oregon,10,False
+real,Oregon,13,False
+real,Oregon,16,False
+real,Oregon,17,True
+real,Oregon,18,False
+real,Oregon,19,True
+real,Oregon,20,False
+real,Oregon,21,False
+real,Oregon,22,False
+real,Oregon,26,True
+real,Oregon,27,True
+real,Oregon,28,False
+real,Oregon,29,True
+real,Oregon,31,False
+real,Oregon,32,False
+real,Oregon,34,True
+real,Oregon,35,False
+real,Oregon,36,True
+real,Oregon,37,False
+real,Oregon,38,False
+real,Oregon,39,True
+real,Oregon,40,False
+real,Oregon,42,True
+real,Oregon,45,False
+real,Oregon,46,False
+real,Oregon,47,False
+real,Oregon,51,False
+real,Oregon,54,False
+real,Oregon,55,True
+real,Oregon,56,False
+real,California,01,False
+real,California,02,False
+real,California,05,False
+real,California,10,False
+real,California,13,False
+real,California,16,False
+real,California,17,True
+real,California,18,True
+real,California,19,True
+real,California,20,False
+real,California,21,False
+real,California,22,False
+real,California,26,True
+real,California,27,True
+real,California,28,False
+real,California,29,True
+real,California,31,False
+real,California,32,False
+real,California,34,True
+real,California,35,False
+real,California,36,True
+real,California,37,False
+real,California,38,False
+real,California,39,True
+real,California,40,False
+real,California,42,True
+real,California,45,False
+real,California,46,False
+real,California,47,False
+real,California,51,False
+real,California,54,False
+real,California,55,True
+real,California,56,False
+real,Maine,01,True
+real,Maine,02,False
+real,Maine,05,False
+real,Maine,10,False
+real,Maine,13,False
+real,Maine,16,False
+real,Maine,17,True
+real,Maine,18,True
+real,Maine,19,True
+real,Maine,20,False
+real,Maine,21,False
+real,Maine,22,False
+real,Maine,26,True
+real,Maine,27,True
+real,Maine,28,False
+real,Maine,29,True
+real,Maine,31,False
+real,Maine,32,False
+real,Maine,34,True
+real,Maine,35,False
+real,Maine,36,True
+real,Maine,37,False
+real,Maine,38,False
+real,Maine,39,True
+real,Maine,40,False
+real,Maine,42,True
+real,Maine,45,False
+real,Maine,46,False
+real,Maine,47,False
+real,Maine,51,False
+real,Maine,54,False
+real,Maine,55,True
+real,Maine,56,False
+real,Vermont,01,True
+real,Vermont,02,False
+real,Vermont,05,False
+real,Vermont,10,False
+real,Vermont,13,False
+real,Vermont,16,False
+real,Vermont,17,True
+real,Vermont,18,True
+real,Vermont,19,True
+real,Vermont,20,False
+real,Vermont,21,False
+real,Vermont,22,False
+real,Vermont,26,True
+real,Vermont,27,True
+real,Vermont,28,False
+real,Vermont,29,True
+real,Vermont,31,False
+real,Vermont,32,False
+real,Vermont,34,True
+real,Vermont,35,False
+real,Vermont,36,True
+real,Vermont,37,False
+real,Vermont,38,False
+real,Vermont,39,True
+real,Vermont,40,False
+real,Vermont,42,True
+real,Vermont,45,False
+real,Vermont,46,False
+real,Vermont,47,False
+real,Vermont,51,False
+real,Vermont,54,False
+real,Vermont,55,True
+real,Vermont,56,False
+real,Oregon,01,False
+real,Oregon,02,False
+real,Oregon,05,False
+real,Oregon,10,False
+real,Oregon,13,False
+real,Oregon,16,False
+real,Oregon,17,False
+real,Oregon,18,False
+real,Oregon,19,False
+real,Oregon,20,False
+real,Oregon,21,False
+real,Oregon,22,False
+real,Oregon,26,False
+real,Oregon,27,False
+real,Oregon,28,False
+real,Oregon,29,False
+real,Oregon,31,False
+real,Oregon,32,False
+real,Oregon,34,False
+real,Oregon,35,False
+real,Oregon,36,True
+real,Oregon,37,False
+real,Oregon,38,False
+real,Oregon,39,False
+real,Oregon,40,False
+real,Oregon,42,True
+real,Oregon,45,False
+real,Oregon,46,False
+real,Oregon,47,False
+real,Oregon,51,False
+real,Oregon,54,False
+real,Oregon,55,False
+real,Oregon,56,False
+real,California,01,False
+real,California,02,False
+real,California,05,False
+real,California,10,False
+real,California,13,False
+real,California,16,False
+real,California,17,False
+real,California,18,False
+real,California,19,False
+real,California,20,False
+real,California,21,False
+real,California,22,False
+real,California,26,False
+real,California,27,False
+real,California,28,False
+real,California,29,False
+real,California,31,False
+real,California,32,False
+real,California,34,False
+real,California,35,False
+real,California,36,True
+real,California,37,False
+real,California,38,False
+real,California,39,False
+real,California,40,False
+real,California,42,False
+real,California,45,False
+real,California,46,False
+real,California,47,False
+real,California,51,False
+real,California,54,False
+real,California,55,False
+real,California,56,False
+real,Maine,01,False
+real,Maine,02,False
+real,Maine,05,False
+real,Maine,10,False
+real,Maine,13,False
+real,Maine,16,False
+real,Maine,17,False
+real,Maine,18,False
+real,Maine,19,False
+real,Maine,20,False
+real,Maine,21,False
+real,Maine,22,False
+real,Maine,26,False
+real,Maine,27,False
+real,Maine,28,False
+real,Maine,29,False
+real,Maine,31,False
+real,Maine,32,False
+real,Maine,34,True
+real,Maine,35,False
+real,Maine,36,True
+real,Maine,37,False
+real,Maine,38,False
+real,Maine,39,False
+real,Maine,40,False
+real,Maine,42,True
+real,Maine,45,False
+real,Maine,46,False
+real,Maine,47,False
+real,Maine,51,False
+real,Maine,54,False
+real,Maine,55,False
+real,Maine,56,False
+real,Vermont,01,False
+real,Vermont,02,False
+real,Vermont,05,False
+real,Vermont,10,False
+real,Vermont,13,False
+real,Vermont,16,False
+real,Vermont,17,False
+real,Vermont,18,False
+real,Vermont,19,False
+real,Vermont,20,False
+real,Vermont,21,False
+real,Vermont,22,False
+real,Vermont,26,False
+real,Vermont,27,False
+real,Vermont,28,False
+real,Vermont,29,False
+real,Vermont,31,False
+real,Vermont,32,False
+real,Vermont,34,True
+real,Vermont,35,False
+real,Vermont,36,True
+real,Vermont,37,False
+real,Vermont,38,False
+real,Vermont,39,False
+real,Vermont,40,False
+real,Vermont,42,True
+real,Vermont,45,False
+real,Vermont,46,False
+real,Vermont,47,False
+real,Vermont,51,False
+real,Vermont,54,False
+real,Vermont,55,False
+real,Vermont,56,False
+real,Oregon,01,False
+real,Oregon,02,False
+real,Oregon,05,False
+real,Oregon,10,False
+real,Oregon,13,False
+real,Oregon,16,False
+real,Oregon,17,True
+real,Oregon,18,False
+real,Oregon,19,False
+real,Oregon,20,False
+real,Oregon,21,False
+real,Oregon,22,False
+real,Oregon,26,True
+real,Oregon,27,False
+real,Oregon,28,False
+real,Oregon,29,False
+real,Oregon,31,False
+real,Oregon,32,False
+real,Oregon,34,True
+real,Oregon,35,False
+real,Oregon,36,True
+real,Oregon,37,False
+real,Oregon,38,False
+real,Oregon,39,True
+real,Oregon,40,False
+real,Oregon,42,True
+real,Oregon,45,False
+real,Oregon,46,False
+real,Oregon,47,False
+real,Oregon,51,False
+real,Oregon,54,False
+real,Oregon,55,True
+real,Oregon,56,False
+real,California,01,False
+real,California,02,False
+real,California,05,False
+real,California,10,False
+real,California,13,False
+real,California,16,False
+real,California,17,True
+real,California,18,False
+real,California,19,False
+real,California,20,False
+real,California,21,False
+real,California,22,False
+real,California,26,True
+real,California,27,False
+real,California,28,False
+real,California,29,False
+real,California,31,False
+real,California,32,False
+real,California,34,True
+real,California,35,False
+real,California,36,True
+real,California,37,False
+real,California,38,False
+real,California,39,True
+real,California,40,False
+real,California,42,True
+real,California,45,False
+real,California,46,False
+real,California,47,False
+real,California,51,False
+real,California,54,False
+real,California,55,True
+real,California,56,False
+real,Maine,01,False
+real,Maine,02,False
+real,Maine,05,False
+real,Maine,10,False
+real,Maine,13,False
+real,Maine,16,False
+real,Maine,17,True
+real,Maine,18,False
+real,Maine,19,False
+real,Maine,20,False
+real,Maine,21,False
+real,Maine,22,False
+real,Maine,26,True
+real,Maine,27,False
+real,Maine,28,False
+real,Maine,29,False
+real,Maine,31,False
+real,Maine,32,False
+real,Maine,34,True
+real,Maine,35,False
+real,Maine,36,True
+real,Maine,37,False
+real,Maine,38,False
+real,Maine,39,True
+real,Maine,40,False
+real,Maine,42,True
+real,Maine,45,False
+real,Maine,46,False
+real,Maine,47,False
+real,Maine,51,False
+real,Maine,54,False
+real,Maine,55,True
+real,Maine,56,False
+real,Vermont,01,False
+real,Vermont,02,False
+real,Vermont,05,False
+real,Vermont,10,False
+real,Vermont,13,False
+real,Vermont,16,False
+real,Vermont,17,True
+real,Vermont,18,False
+real,Vermont,19,False
+real,Vermont,20,False
+real,Vermont,21,False
+real,Vermont,22,False
+real,Vermont,26,True
+real,Vermont,27,False
+real,Vermont,28,False
+real,Vermont,29,False
+real,Vermont,31,False
+real,Vermont,32,False
+real,Vermont,34,True
+real,Vermont,35,False
+real,Vermont,36,True
+real,Vermont,37,False
+real,Vermont,38,False
+real,Vermont,39,True
+real,Vermont,40,False
+real,Vermont,42,True
+real,Vermont,45,False
+real,Vermont,46,False
+real,Vermont,47,False
+real,Vermont,51,False
+real,Vermont,54,False
+real,Vermont,55,True
+real,Vermont,56,False
+real,Oregon,01,False
+real,Oregon,02,False
+real,Oregon,05,False
+real,Oregon,10,False
+real,Oregon,13,False
+real,Oregon,16,False
+real,Oregon,17,True
+real,Oregon,18,False
+real,Oregon,19,False
+real,Oregon,20,False
+real,Oregon,21,False
+real,Oregon,22,False
+real,Oregon,26,True
+real,Oregon,27,False
+real,Oregon,28,False
+real,Oregon,29,True
+real,Oregon,31,False
+real,Oregon,32,False
+real,Oregon,34,True
+real,Oregon,35,False
+real,Oregon,36,True
+real,Oregon,37,False
+real,Oregon,38,False
+real,Oregon,39,True
+real,Oregon,40,False
+real,Oregon,42,True
+real,Oregon,45,False
+real,Oregon,46,False
+real,Oregon,47,False
+real,Oregon,51,False
+real,Oregon,54,False
+real,Oregon,55,True
+real,Oregon,56,False
+real,California,01,False
+real,California,02,False
+real,California,05,False
+real,California,10,False
+real,California,13,False
+real,California,16,False
+real,California,17,True
+real,California,18,False
+real,California,19,False
+real,California,20,False
+real,California,21,False
+real,California,22,False
+real,California,26,True
+real,California,27,False
+real,California,28,False
+real,California,29,True
+real,California,31,False
+real,California,32,False
+real,California,34,True
+real,California,35,False
+real,California,36,True
+real,California,37,False
+real,California,38,False
+real,California,39,True
+real,California,40,False
+real,California,42,True
+real,California,45,False
+real,California,46,False
+real,California,47,False
+real,California,51,False
+real,California,54,False
+real,California,55,True
+real,California,56,False
+real,Maine,01,False
+real,Maine,02,False
+real,Maine,05,False
+real,Maine,10,False
+real,Maine,13,False
+real,Maine,16,False
+real,Maine,17,True
+real,Maine,18,False
+real,Maine,19,False
+real,Maine,20,False
+real,Maine,21,False
+real,Maine,22,False
+real,Maine,26,True
+real,Maine,27,False
+real,Maine,28,False
+real,Maine,29,True
+real,Maine,31,False
+real,Maine,32,False
+real,Maine,34,True
+real,Maine,35,False
+real,Maine,36,True
+real,Maine,37,False
+real,Maine,38,False
+real,Maine,39,True
+real,Maine,40,False
+real,Maine,42,True
+real,Maine,45,False
+real,Maine,46,False
+real,Maine,47,False
+real,Maine,51,False
+real,Maine,54,False
+real,Maine,55,True
+real,Maine,56,False
+real,Vermont,01,False
+real,Vermont,02,False
+real,Vermont,05,False
+real,Vermont,10,False
+real,Vermont,13,False
+real,Vermont,16,False
+real,Vermont,17,True
+real,Vermont,18,False
+real,Vermont,19,False
+real,Vermont,20,False
+real,Vermont,21,False
+real,Vermont,22,False
+real,Vermont,26,True
+real,Vermont,27,False
+real,Vermont,28,False
+real,Vermont,29,True
+real,Vermont,31,False
+real,Vermont,32,False
+real,Vermont,34,True
+real,Vermont,35,False
+real,Vermont,36,True
+real,Vermont,37,False
+real,Vermont,38,False
+real,Vermont,39,True
+real,Vermont,40,False
+real,Vermont,42,True
+real,Vermont,45,False
+real,Vermont,46,False
+real,Vermont,47,False
+real,Vermont,51,False
+real,Vermont,54,False
+real,Vermont,55,True
+real,Vermont,56,False
