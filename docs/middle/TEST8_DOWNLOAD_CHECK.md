@@ -32,3 +32,17 @@ village, Rib Mountain village, Silver Lake village, Vernon village, Waukesha vil
 
 **Not yet checked:** whether each linked unit's housing total matches its 2020 count; whether the 2000 → 2020 tract
 links lose homes. The audit is asked to look at both.
+
+## Housing-total checks (audit, 2026-11-14)
+
+- **A. Towns:** 4,742 of 4,754 town files match their 2020 town housing total exactly (Census 2020 DHC H1); 0 short.
+  The 12 empty files are town codes with no 2020 town (merged, dissolved or county-level units); two 2020 towns have
+  0 homes. No refetch needed.
+- **B. Blocks:** 6,147,279 blocks in the block-assignment files; 0 without a PL housing count. Every state's block
+  total equals its PL state total.
+- **C. New York:** the 14 tracts missing from ACS are all in Suffolk County (36103) and hold about 18,600 homes in
+  2020, not 0. ACS 2020–24 has no row for them. Towns that include them score only their other tracts. New York is a
+  comparison and fake state only; it does not enter the California result.
+- **Order:** these checks ran after the first Test 8 results had been computed (the audit's request arrived during the
+  run). They found nothing that changes the inputs, so the run stands. The optional code fixes (Indianapolis,
+  Macon-Bibb, Mount Lebanon, Penn Hills, Enosburgh) were not made; none is in California.

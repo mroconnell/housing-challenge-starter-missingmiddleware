@@ -49,7 +49,7 @@ Run 2026-11-14 by the [locked plan](TEST8_PLAN_LOCKED.md). **Post hoc:** added a
 ## Disclosures
 
 - Post hoc (added after Test 1). Town links by DHC tract parts were logged after lock, before any count was read.
-- 36 of 16,017 permit units could not be linked to tracts (4 in law states, all small Maine and Vermont towns).
+- 36 of 16,017 permit units could not be linked to tracts (4 in law states, all small Maine and Vermont towns). The audit's housing-total checks (towns, blocks, New York tracts) ran after these results were computed; all passed except 14 Suffolk County, NY tracts with no ACS row (fake states only). See the download check.
 - A bug in the size-tercile check stopped the first run before any result was printed; fixed (rank-based terciles) and
   rerun. A tract-code padding bug in the survival check (2000 codes without the "00" suffix) was found from impossible
   results and fixed; it did not touch the main test.
