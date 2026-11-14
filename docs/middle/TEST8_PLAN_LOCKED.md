@@ -102,3 +102,10 @@ In Oregon, California, Maine and Vermont, did places with more "stopped" middle 
 ## Changes before lock
 
 - 2026-11-13: ACS vintage set to 2020–2024 (table-based summary file; the API needs a key per call); county-subdivision link added for the five states whose permit places are towns. No tract counts read yet.
+
+## Changes after lock (before any count was read)
+
+- 2026-11-14: Census block files carry no town (county subdivision) code, so towns are linked to tracts with 2020
+  housing units by tract part within each town (Census 2020 DHC, H1, summary level 080), fetched by
+  `scripts/fetch_middle_towns.py`. Places still use blocks (block assignment files plus PL 94-171 H1). Same rule:
+  housing units by permit unit and tract. No tract count, score or outcome had been read.
