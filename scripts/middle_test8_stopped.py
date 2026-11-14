@@ -238,7 +238,7 @@ def main() -> None:
             # pre-trend: law states on the fake windows
             realp, _, _ = run_windows(d, homes, info, pool_ok, score, m.FAKE_WINDOWS, "fake years")
             rows.append(summarize("pre-trend: law states on fake years", realp, fkp, np.random.default_rng(SEED)))
-            fails_all.append(flp)
+            fails_all.append(flp.assign(variant=name))
         real, fk, fl_ = run_windows(d, homes, info, pool_ok, score, m.REAL_WINDOWS, "real")
         r = summarize(name, real, fk, np.random.default_rng(SEED))
         r["fake_state_fail_share"] = float(1 - fl_["passed"].mean()) if len(fl_) else np.nan
@@ -247,7 +247,7 @@ def main() -> None:
                 r[f"{m.TREATED[s]}_log"] = v["log"]; r[f"{m.TREATED[s]}_high_low"] = f"{v['n_high']}/{v['n_low']}"
                 r[f"{m.TREATED[s]}_unmatched_high_low"] = f"{v['unmatched_high']:.0%}/{v['unmatched_low']:.0%}"
         rows.append(r)
-        fails_all.append(fl_)
+        fails_all.append(fl_.assign(variant=name))
         pd.DataFrame(rows).to_csv(OUT / "middle_test8_summary.csv", index=False)  # saved as it goes
         print(name, {k: (round(v, 3) if isinstance(v, float) else v) for k, v in r.items() if k in ("real_log", "point_log", "range_log_low", "range_log_high", "reading", "dropped")}, flush=True)
     # size check: contrast within population terciles (main thresholds), real and fakes

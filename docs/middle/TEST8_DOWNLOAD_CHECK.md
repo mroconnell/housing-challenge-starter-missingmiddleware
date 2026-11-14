@@ -42,7 +42,9 @@ links lose homes. The audit is asked to look at both.
   total equals its PL state total.
 - **C. New York:** the 14 tracts missing from ACS are all in Suffolk County (36103) and hold about 18,600 homes in
   2020, not 0. ACS 2020–24 has no row for them. Towns that include them score only their other tracts. New York is a
-  comparison and fake state only; it does not enter the California result.
+  comparison and fake state only. Why this cannot change the reading (audit): the Suffolk tracts count as "not stopped";
+  New York is one of the 7 fake values behind California's range; moving one value shifts the percentile by one step
+  at most (to 43 or 71), still "we do not know"; and the real California contrast does not use New York.
 - **Order:** these checks ran after the first Test 8 results had been computed (the audit's request arrived during the
   run). They found nothing that changes the inputs, so the run stands. The optional code fixes (Indianapolis,
   Macon-Bibb, Mount Lebanon, Penn Hills, Enosburgh) were not made; none is in California.

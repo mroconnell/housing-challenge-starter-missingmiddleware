@@ -11,7 +11,10 @@ Run 2026-11-14 by the [locked plan](TEST8_PLAN_LOCKED.md). **Post hoc:** added a
 - **Only California passed the size rule** (at least 10 "high" and 10 "low" places with full reporting). Oregon, Maine
   and Vermont have too few places with any stopped tract: 14 of 132, 25 of 388 and 24 of 204 permit places score above
   0, so their high half falls under 10 once the reporting rule is applied. Their slots were dropped from the fakes too.
-- **79% of fake states also failed the size rule** (main thresholds), so the fake sets draw from few states.
+- **79% of fake states also failed the size rule** (main thresholds). With California's windows, only 7 fake states
+  pass: Illinois, Michigan, New Jersey, New York, Ohio, Pennsylvania and Wisconsin, none in the West (audit). The
+  10,000 sets therefore draw from 7 numbers: the percentile moves in steps of about 14 points (57 = 4 of 7), and the
+  range ends sit near the smallest and largest of 7 values.
 
 | Version | States | High / low places (CA) | Point, log ratio (real − fake median) | 90% range, log | Same as % | Percentile | Reading |
 | --- | --- | --- | ---: | --- | --- | ---: | --- |
@@ -23,7 +26,7 @@ Run 2026-11-14 by the [locked plan](TEST8_PLAN_LOCKED.md). **Post hoc:** added a
 
 - **Rate difference (second unit), main:** real −0.19 extra 2–4 unit homes per 1,000 single-family homes per year,
   high minus low; point −0.15 (range −0.75 to −0.03). The rate range excludes 0 while the log-ratio range (primary)
-  does not; by the plan the log ratio governs. With one state and few fake states, neither is read as a finding.
+  does not; by the plan the log ratio governs. Both ranges rest on the same 7 fake values (audit). With one state and 7 fake states, neither is read as a finding.
 - **Unmatched homes (California):** 59% of single-family homes in the high group had no comparison place at ½–2× their
   size (big older cities); 0% in the low group. The high group's comparison is thin.
 
